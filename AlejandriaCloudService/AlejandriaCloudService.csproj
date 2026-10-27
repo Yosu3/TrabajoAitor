@@ -66,8 +66,22 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Ficheros\Usuarios.json" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiAsset Include="Ficheros\Usuarios.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Vista\NewPage1.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>

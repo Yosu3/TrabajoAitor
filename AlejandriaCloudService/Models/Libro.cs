@@ -1,10 +1,15 @@
-﻿namespace BibliotecaAlejandria.Models
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace BibliotecaAlejandria.Models
 {
-    public class Prestamo
+    public class Libro
     {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
-        public string LibroId { get; set; } = string.Empty;  
-        public string Username { get; set; } = string.Empty;  
-        public DateTime FechaPrestamo { get; set; } = DateTime.Now;
+        public int Id { get; set; }
+        public string Titulo { get; set; } = string.Empty;
+        public string Autor { get; set; } = string.Empty;
+        public string Isbn { get; set; } = string.Empty;
+        public bool IsDisponible { get; set; } = true;
     }
 }

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="AlejandriaCloudService.Vista.NewPage1"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="NewPage1"
+    Shell.NavBarIsVisible="False">
+
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Offset="0.0" Color="#0F2027" />
+            <GradientStop Offset="0.5" Color="#203A43" />
+            <GradientStop Offset="1.0" Color="#2C5364" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <ScrollView Padding="20" VerticalOptions="Center">
+        <VerticalStackLayout HorizontalOptions="Center" Spacing="25">
+
+            <Image
+                Margin="0,0,0,10"
+                HeightRequest="100"
+                HorizontalOptions="Center"
+                Source="library_logo.png"
+                WidthRequest="100" />
+
+            <VerticalStackLayout HorizontalOptions="Center" Spacing="5">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="32"
+                    HorizontalOptions="Center"
+                    Text="Alejandría Cloud"
+                    TextColor="White" />
+                <Label
+                    FontSize="16"
+                    HorizontalOptions="Center"
+                    Text="Gestión de Biblioteca"
+                    TextColor="#A0AAB2" />
+            </VerticalStackLayout>
+
+            <Border
+                Margin="0,10"
+                Padding="24"
+                Background="White"
+                StrokeShape="RoundRectangle 16"
+                StrokeThickness="0"
+                WidthRequest="360">
+                <Border.Shadow>
+                    <Shadow
+                        Brush="Black"
+                        Opacity="0.3"
+                        Radius="15"
+                        Offset="0,10" />
+                </Border.Shadow>
+
+                <VerticalStackLayout Spacing="20">
+
+                    <VerticalStackLayout Spacing="5">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Text="Nombre de Usuario"
+                            TextColor="#2C5364" />
+                        <Border
+                            Padding="10,2"
+                            Stroke="#E0E6ED"
+                            StrokeShape="RoundRectangle 8">
+                            <Entry
+                                x:Name="txtUsername"
+                                Keyboard="Text"
+                                Placeholder="ej. jdoe"
+                                PlaceholderColor="#99AAB5"
+                                TextColor="#203A43" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="5">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Text="Contraseña"
+                            TextColor="#2C5364" />
+                        <Border
+                            Padding="10,2"
+                            Stroke="#E0E6ED"
+                            StrokeShape="RoundRectangle 8">
+                            <Grid ColumnDefinitions="*, Auto">
+                                <Entry
+                                    x:Name="txtPassword"
+                                    Grid.Column="0"
+                                    IsPassword="True"
+                                    Placeholder="••••••••"
+                                    PlaceholderColor="#99AAB5"
+                                    TextColor="#203A43"
+                                    VerticalOptions="Center" />
+
+                                <Button
+                                    x:Name="btnTogglePassword"
+                                    Grid.Column="1"
+                                    Padding="0"
+                                    BackgroundColor="Transparent"
+                                    Clicked="OnTogglePasswordClicked"
+                                    HeightRequest="40"
+                                    Text="👁️"
+                                    TextColor="#2C5364"
+                                    VerticalOptions="Center"
+                                    WidthRequest="40" />
+                            </Grid>
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <Button
+                        Margin="0,10,0,0"
+                        BackgroundColor="#2C5364"
+                        Clicked="OnLoginClicked"
+                        CornerRadius="8"
+                        FontAttributes="Bold"
+                        HeightRequest="50"
+                        Text="Iniciar Sesión"
+                        TextColor="White" />
+
+                </VerticalStackLayout>
+            </Border>
+
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+                <Label
+                    FontSize="14"
+                    Text="¿No tienes cuenta?"
+                    TextColor="#A0AAB2" />
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="14"
+                    Text="Regístrate aquí"
+                    TextColor="#4CA1AF">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnRegisterTapped" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
