@@ -1,0 +1,57 @@
+[
+  {
+    "idLibro": 1,
+    "titulo": "Don Quijote de la Mancha",
+    "autor": "Miguel de Cervantes",
+    "isbn": "9788424116605",
+    "categoria": "Clásicos",
+    "ubicacion": "Estantería A-03",
+    "estado": "Disponible",
+    "fechaPublicacion": "1605-01-16T00:00:00",
+    "imagenPortada": "quijote.jpg"
+  },
+  {
+    "idLibro": 2,
+    "titulo": "Cien años de soledad",
+    "autor": "Gabriel García Márquez",
+    "isbn": "9780307474728",
+    "categoria": "Realismo Mágico",
+    "ubicacion": "Estantería B-01",
+    "estado": "Disponible",
+    "fechaPublicacion": "1967-05-30T00:00:00",
+    "imagenPortada": "cien_anos.jpg"
+  },
+  {
+    "idLibro": 3,
+    "titulo": "1984",
+    "autor": "George Orwell",
+    "isbn": "9780451524935",
+    "categoria": "Distopía",
+    "ubicacion": "Estantería C-02",
+    "estado": "Prestado",
+    "fechaPublicacion": "1949-06-08T00:00:00",
+    "imagenPortada": "1984.jpg"
+  },
+  {
+    "idLibro": 4,
+    "titulo": "El principito",
+    "autor": "Antoine de Saint-Exupéry",
+    "isbn": "9782070612758",
+    "categoria": "Infantil",
+    "ubicacion": "Estantería D-05",
+    "estado": "Disponible",
+    "fechaPublicacion": "1943-04-06T00:00:00",
+    "imagenPortada": "principito.jpg"
+  },
+  {
+    "idLibro": 5,
+    "titulo": "Crónica de una muerte anunciada",
+    "autor": "Gabriel García Márquez",
+    "isbn": "9788420471778",
+    "categoria": "Realismo Mágico",
+    "ubicacion": "Estantería B-02",
+    "estado": "Disponible",
+    "fechaPublicacion": "1981-01-01T00:00:00",
+    "imagenPortada": "cronica.jpg"
+  }
+]

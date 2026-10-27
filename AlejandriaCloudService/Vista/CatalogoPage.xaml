@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="AlejandriaCloudService.Vista.CatalogoPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Catálogo de Libros">
+
+    <VerticalStackLayout Padding="15" Spacing="10">
+
+        <SearchBar
+            x:Name="BuscadorLibros"
+            Placeholder="Buscar por título, autor o categoría..."
+            TextChanged="OnBuscarTextChanged" />
+
+        <CollectionView x:Name="ListaLibros">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="10" ColumnDefinitions="*, Auto">
+                        <VerticalStackLayout Grid.Column="0" Spacing="2">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="16"
+                                Text="{Binding titulo}" />
+                            <Label
+                                FontSize="14"
+                                Text="{Binding autor}"
+                                TextColor="Gray" />
+                            <Label
+                                FontAttributes="Italic"
+                                FontSize="12"
+                                Text="{Binding categoria}"
+                                TextColor="DimGray" />
+                        </VerticalStackLayout>
+                        <Label
+                            Grid.Column="1"
+                            FontAttributes="Bold"
+                            Text="{Binding estado}"
+                            VerticalOptions="Center" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </VerticalStackLayout>
+</ContentPage>
