@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net10.0-android</TargetFrameworks>
@@ -67,6 +67,7 @@
 
 	<ItemGroup>
 	  <None Remove="Ficheros\Usuarios.json" />
+	  <None Remove="Ficheros\Libros.json" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -76,6 +77,7 @@
 
 	<ItemGroup>
 	  <MauiAsset Include="Ficheros\Usuarios.json" />
+	  <MauiAsset Include="Ficheros\Libros.json" />
 	</ItemGroup>
 
 	<ItemGroup>

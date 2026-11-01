@@ -5,14 +5,23 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="Catálogo de Libros">
 
-    <VerticalStackLayout Padding="15" Spacing="10">
+    <Grid
+        Padding="15"
+        RowDefinitions="Auto, *"
+        RowSpacing="10">
 
         <SearchBar
             x:Name="BuscadorLibros"
+            Grid.Row="0"
             Placeholder="Buscar por título, autor o categoría..."
             TextChanged="OnBuscarTextChanged" />
 
-        <CollectionView x:Name="ListaLibros">
+        <CollectionView
+            x:Name="ListaLibros"
+            Grid.Row="1"
+            EmptyView="No se han encontrado libros"
+            SelectionChanged="OnLibroSeleccionado"
+            SelectionMode="Single">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Grid Padding="10" ColumnDefinitions="*, Auto">
@@ -40,6 +49,5 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-
-    </VerticalStackLayout>
+    </Grid>
 </ContentPage>

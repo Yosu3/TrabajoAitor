@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="AlejandriaCloudService.Vista.DetalleLibroPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Detalle del libro">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="12">
+
+            <Label
+                x:Name="TituloLabel"
+                FontAttributes="Bold"
+                FontSize="26"
+                TextColor="#1B5E20" />
+
+            <Label x:Name="AutorLabel" FontSize="18" />
+            <Label x:Name="CategoriaLabel" />
+            <Label x:Name="IsbnLabel" />
+            <Label x:Name="UbicacionLabel" />
+            <Label x:Name="PublicacionLabel" />
+
+            <Label
+                x:Name="EstadoLabel"
+                FontAttributes="Bold"
+                FontSize="20" />
+            <Label x:Name="DisponibilidadLabel" />
+
+            <Button
+                BackgroundColor="#1B5E20"
+                Clicked="VolverClicked"
+                FontAttributes="Bold"
+                Text="Volver al catálogo"
+                TextColor="White" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
