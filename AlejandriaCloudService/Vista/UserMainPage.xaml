@@ -1,12 +1,352 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="AlejandriaCloudService.Vista.UserMainPage"
-             Title="UserMainPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+<ContentPage
+    x:Class="AlejandriaCloudService.Vista.UserMainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="UserMainPage"
+    Shell.NavBarIsVisible="False">
+
+
+
+
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Offset="0.0" Color="#0F2027" />
+            <GradientStop Offset="0.5" Color="#203A43" />
+            <GradientStop Offset="1.0" Color="#2C5364" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <Grid RowDefinitions="Auto, *, Auto">
+
+        <!--  1. BARRA SUPERIOR: Perfil y Bienvenida  -->
+        <Grid
+            Grid.Row="0"
+            Padding="20,15"
+            ColumnDefinitions="*, Auto"
+            VerticalOptions="Start">
+            <VerticalStackLayout Grid.Column="0" Spacing="2">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="22"
+                    Text="Hola, Juan Carlos 👋"
+                    TextColor="White" />
+                <Label
+                    FontSize="14"
+                    Text="¿Qué vas a leer hoy?"
+                    TextColor="#A0AAB2" />
+            </VerticalStackLayout>
+
+            <Image
+                Grid.Column="1"
+                HeightRequest="45"
+                Source="library_logo.png"
+                VerticalOptions="Center"
+                WidthRequest="45" />
+        </Grid>
+
+        <!--  2. CONTENIDO PRINCIPAL SCROLLABLE  -->
+        <ScrollView Grid.Row="1" Padding="20,0,20,10">
+            <VerticalStackLayout Spacing="25">
+
+                <!--  Buscador de Libros  -->
+                <Border
+                    Padding="12,2"
+                    Background="White"
+                    StrokeShape="RoundRectangle 12"
+                    StrokeThickness="0">
+                    <Border.Shadow>
+                        <Shadow
+                            Brush="Black"
+                            Opacity="0.15"
+                            Radius="10"
+                            Offset="0,4" />
+                    </Border.Shadow>
+                    <Grid ColumnDefinitions="Auto, *">
+                        <Button
+                            Grid.Column="0"
+                            Margin="5,0,10,0"
+                            Text="🔍"
+                            VerticalOptions="Center" />
+                        <Entry
+                            Grid.Column="1"
+                            FontSize="15"
+                            Placeholder="Buscar libros, autores, géneros..."
+                            PlaceholderColor="#99AAB5"
+                            TextColor="#203A43" />
+                    </Grid>
+                </Border>
+
+                <!--  Tarjeta de Resumen: Préstamos Activos  -->
+                <Border
+                    Padding="20"
+                    Background="White"
+                    StrokeShape="RoundRectangle 16"
+                    StrokeThickness="0">
+                    <Border.Shadow>
+                        <Shadow
+                            Brush="Black"
+                            Opacity="0.2"
+                            Radius="12"
+                            Offset="0,6" />
+                    </Border.Shadow>
+                    <Grid ColumnDefinitions="*, Auto">
+                        <VerticalStackLayout Grid.Column="0" Spacing="5">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="16"
+                                Text="Tienes 2 libros pendientes"
+                                TextColor="#2C5364" />
+                            <Label
+                                FontSize="13"
+                                Text="Próxima devolución: 12 de Nov"
+                                TextColor="#A0AAB2" />
+                        </VerticalStackLayout>
+                        <Button
+                            Grid.Column="1"
+                            BackgroundColor="#4CA1AF"
+                            CornerRadius="8"
+                            FontAttributes="Bold"
+                            FontSize="12"
+                            HeightRequest="38"
+                            Text="Ver mis libros"
+                            TextColor="White" />
+                    </Grid>
+                </Border>
+
+                <!--  Sección: Libros Recomendados  -->
+                <VerticalStackLayout Spacing="12">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        Text="Recomendados para ti"
+                        TextColor="White" />
+
+                    <!--  Carrusel Horizontal de Libros  -->
+                    <ScrollView HorizontalScrollBarVisibility="Never" Orientation="Horizontal">
+                        <HorizontalStackLayout Spacing="15">
+
+                            <!--  Libro 1  -->
+                            <VerticalStackLayout Spacing="5" WidthRequest="110">
+                                <Border
+                                    HeightRequest="150"
+                                    StrokeShape="RoundRectangle 8"
+                                    StrokeThickness="0"
+                                    WidthRequest="110">
+                                    <Image
+                                        Aspect="AspectFill"
+                                        BackgroundColor="#2C5364"
+                                        Source="book_cover_placeholder.png" />
+                                </Border>
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="14"
+                                    LineBreakMode="TailTruncation"
+                                    Text="El Quijote"
+                                    TextColor="White" />
+                                <Label
+                                    FontSize="12"
+                                    LineBreakMode="TailTruncation"
+                                    Text="M. Cervantes"
+                                    TextColor="#A0AAB2" />
+                            </VerticalStackLayout>
+
+                            <!--  Libro 2  -->
+                            <VerticalStackLayout Spacing="5" WidthRequest="110">
+                                <Border
+                                    HeightRequest="150"
+                                    StrokeShape="RoundRectangle 8"
+                                    StrokeThickness="0"
+                                    WidthRequest="110">
+                                    <Image
+                                        Aspect="AspectFill"
+                                        BackgroundColor="#2C5364"
+                                        Source="book_cover_placeholder.png" />
+                                </Border>
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="14"
+                                    LineBreakMode="TailTruncation"
+                                    Text="Cien Años de Soledad"
+                                    TextColor="White" />
+                                <Label
+                                    FontSize="12"
+                                    LineBreakMode="TailTruncation"
+                                    Text="G. García Márquez"
+                                    TextColor="#A0AAB2" />
+                            </VerticalStackLayout>
+
+                            <!--  Libro 3  -->
+                            <VerticalStackLayout Spacing="5" WidthRequest="110">
+                                <Border
+                                    HeightRequest="150"
+                                    StrokeShape="RoundRectangle 8"
+                                    StrokeThickness="0"
+                                    WidthRequest="110">
+                                    <Image
+                                        Aspect="AspectFill"
+                                        BackgroundColor="#2C5364"
+                                        Source="book_cover_placeholder.png" />
+                                </Border>
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="14"
+                                    LineBreakMode="TailTruncation"
+                                    Text="1984"
+                                    TextColor="White" />
+                                <Label
+                                    FontSize="12"
+                                    LineBreakMode="TailTruncation"
+                                    Text="George Orwell"
+                                    TextColor="#A0AAB2" />
+                            </VerticalStackLayout>
+
+                        </HorizontalStackLayout>
+                    </ScrollView>
+                </VerticalStackLayout>
+
+                <!--  Sección: Categorías Populares  -->
+                <VerticalStackLayout Spacing="12">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        Text="Explorar Categorías"
+                        TextColor="White" />
+
+                    <Grid
+                        ColumnDefinitions="*, *"
+                        ColumnSpacing="10"
+                        RowDefinitions="Auto, Auto"
+                        RowSpacing="10">
+                        <!--  Categoría Ficcion  -->
+                        <Border
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Padding="15"
+                            Background="White"
+                            StrokeShape="RoundRectangle 12"
+                            StrokeThickness="0">
+                            <Label
+                                FontAttributes="Bold"
+                                HorizontalOptions="Center"
+                                Text="📘 Ficción"
+                                TextColor="#203A43" />
+                        </Border>
+                        <!--  Categoría Ciencia  -->
+                        <Border
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Padding="15"
+                            Background="White"
+                            StrokeShape="RoundRectangle 12"
+                            StrokeThickness="0">
+                            <Label
+                                FontAttributes="Bold"
+                                HorizontalOptions="Center"
+                                Text="🔬 Ciencia"
+                                TextColor="#203A43" />
+                        </Border>
+                        <!--  Categoría Historia  -->
+                        <Border
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Padding="15"
+                            Background="White"
+                            StrokeShape="RoundRectangle 12"
+                            StrokeThickness="0">
+                            <Label
+                                FontAttributes="Bold"
+                                HorizontalOptions="Center"
+                                Text="📜 Historia"
+                                TextColor="#203A43" />
+                        </Border>
+                        <!--  Categoría Tecnología  -->
+                        <Border
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Padding="15"
+                            Background="White"
+                            StrokeShape="RoundRectangle 12"
+                            StrokeThickness="0">
+                            <Label
+                                FontAttributes="Bold"
+                                HorizontalOptions="Center"
+                                Text="💻 Tecnología"
+                                TextColor="#203A43" />
+                        </Border>
+                    </Grid>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!--  3. BARRA DE NAVEGACIÓN INFERIOR (Tab-bar simulado para consistencia de diseño)  -->
+        <Border
+            Grid.Row="2"
+            Padding="10,5"
+            Background="White"
+            HeightRequest="65"
+            StrokeShape="RoundRectangle 24,24,0,0"
+            StrokeThickness="0">
+            <Border.Shadow>
+                <Shadow
+                    Brush="Black"
+                    Opacity="0.2"
+                    Radius="10"
+                    Offset="0,-4" />
+            </Border.Shadow>
+            <Grid ColumnDefinitions="*, *, *">
+                <!--  Botón Inicio  -->
+                <VerticalStackLayout
+                    Grid.Column="0"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
+                    <Label
+                        FontSize="20"
+                        HorizontalOptions="Center"
+                        Text="🏠" />
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="11"
+                        HorizontalOptions="Center"
+                        Text="Inicio"
+                        TextColor="#2C5364" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout
+                    Grid.Column="1"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
+                    <Label
+                        FontSize="20"
+                        HorizontalOptions="Center"
+                        Text="📚" />
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="11"
+                        HorizontalOptions="Center"
+                        Text="Biblioteca"
+                        TextColor="#2C5364" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout
+                    Grid.Column="2"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
+                    <Label
+                        FontSize="20"
+                        HorizontalOptions="Center"
+                        Text="📁" />
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="11"
+                        HorizontalOptions="Center"
+                        Text="Prestamos"
+                        TextColor="#2C5364" />
+                </VerticalStackLayout>
+
+
+            </Grid>
+        </Border>
+    </Grid>
 </ContentPage>

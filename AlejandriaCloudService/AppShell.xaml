@@ -9,7 +9,7 @@
 
     <ShellContent
         Title="Login"
-        ContentTemplate="{DataTemplate vista:NewPage1}"
+        ContentTemplate="{DataTemplate vista:prestamosPage}"
         Route="LoginPage" />
 
 </Shell>

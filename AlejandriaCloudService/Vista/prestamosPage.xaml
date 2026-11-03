@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="AlejandriaCloudService.Vista.prestamosPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Préstamos"
+    Shell.NavBarIsVisible="False">
+
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Offset="0.0" Color="#0F2027" />
+            <GradientStop Offset="0.5" Color="#203A43" />
+            <GradientStop Offset="1.0" Color="#2C5364" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="25">
+
+            <!--  Cabecera  -->
+            <Grid ColumnDefinitions="*, Auto">
+                <VerticalStackLayout Grid.Column="0" Spacing="2">
+                    <Label
+                        x:Name="TxtBienvenida"
+                        FontAttributes="Bold"
+                        FontSize="22"
+                        Text="¡Hola, Lector! 👋"
+                        TextColor="White" />
+                    <Label
+                        FontSize="14"
+                        Text="Gestión de préstamos y devoluciones"
+                        TextColor="#A0AAB2" />
+                </VerticalStackLayout>
+                <Image
+                    Grid.Column="1"
+                    HeightRequest="45"
+                    Source="library_logo.png"
+                    VerticalOptions="Center"
+                    WidthRequest="45" />
+            </Grid>
+
+            <!--  Solicitar préstamo  -->
+            <VerticalStackLayout Spacing="12">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    Text="Solicitar un préstamo"
+                    TextColor="White" />
+
+                <Border
+                    Padding="20"
+                    Background="White"
+                    StrokeShape="RoundRectangle 16"
+                    StrokeThickness="0">
+                    <Border.Shadow>
+                        <Shadow
+                            Brush="Black"
+                            Opacity="0.2"
+                            Radius="12"
+                            Offset="0,6" />
+                    </Border.Shadow>
+
+                    <VerticalStackLayout Spacing="14">
+                        <Label
+                            FontSize="13"
+                            Text="Elige un ejemplar disponible del catálogo:"
+                            TextColor="#2C5364" />
+
+                        <Border
+                            Padding="10,2"
+                            Stroke="#E0E6ED"
+                            StrokeShape="RoundRectangle 8">
+                            <Picker
+                                x:Name="PkrLibrosDisponibles"
+                                Title="Toca para desplegar los libros"
+                                ItemDisplayBinding="{Binding titulo}"
+                                TextColor="#203A43"
+                                TitleColor="#99AAB5" />
+                        </Border>
+
+                        <Button
+                            BackgroundColor="#2C5364"
+                            Clicked="OnSolicitarPrestamoClicked"
+                            CornerRadius="8"
+                            FontAttributes="Bold"
+                            HeightRequest="48"
+                            Text="Confirmar préstamo"
+                            TextColor="White" />
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+
+            <!--  Préstamos activos  -->
+            <VerticalStackLayout Spacing="12">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    Text="Mis préstamos activos"
+                    TextColor="White" />
+
+                <CollectionView x:Name="ListadoPrestamos">
+                    <CollectionView.EmptyView>
+                        <Label
+                            Margin="0,10"
+                            FontSize="14"
+                            HorizontalOptions="Center"
+                            Text="No tienes libros prestados en este momento."
+                            TextColor="#A0AAB2" />
+                    </CollectionView.EmptyView>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Margin="0,0,0,12"
+                                Padding="16"
+                                Background="White"
+                                StrokeShape="RoundRectangle 16"
+                                StrokeThickness="0">
+                                <Border.Shadow>
+                                    <Shadow
+                                        Brush="Black"
+                                        Opacity="0.15"
+                                        Radius="10"
+                                        Offset="0,4" />
+                                </Border.Shadow>
+
+                                <Grid ColumnDefinitions="*, Auto" ColumnSpacing="10">
+                                    <VerticalStackLayout Grid.Column="0" Spacing="3">
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="16"
+                                            LineBreakMode="TailTruncation"
+                                            Text="{Binding Libro.titulo}"
+                                            TextColor="#203A43" />
+                                        <Label
+                                            FontSize="13"
+                                            Text="{Binding Libro.autor}"
+                                            TextColor="#6B7C88" />
+                                        <Label
+                                            FontSize="12"
+                                            Text="{Binding FechaLimite, StringFormat='Devolver antes del {0:dd/MM/yyyy}'}"
+                                            TextColor="#4CA1AF" />
+                                    </VerticalStackLayout>
+
+                                    <Button
+                                        Grid.Column="1"
+                                        BackgroundColor="#E55353"
+                                        Clicked="OnDevolverLibroClicked"
+                                        CommandParameter="{Binding LibroId}"
+                                        CornerRadius="8"
+                                        FontAttributes="Bold"
+                                        FontSize="12"
+                                        HeightRequest="38"
+                                        Text="Devolver"
+                                        TextColor="White"
+                                        VerticalOptions="Center" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
