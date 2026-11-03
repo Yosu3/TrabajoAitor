@@ -4,7 +4,7 @@
     "IsAdmin": true,
     "Apellido": "DOOR",
     "Email": "admin@alejandria.com",
-    "Password": "Password123!",
+    "Password": "1234",
     "Dni": "12345678A"
   },
   {
@@ -78,5 +78,17 @@
     "Email": "vtorres@biblioteca.net",
     "Password": "VictorT_123!",
     "Dni": "90123456J"
+  },
+
+  {
+    "Username": "diego",
+    "IsAdmin": false,
+    "Apellido": "patiño",
+    "Email": "digpatino@gmail.com",
+    "Password": "mondongo",
+    "Dni": "90123456J"
   }
+
+
+
 ]

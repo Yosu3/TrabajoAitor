@@ -73,10 +73,14 @@ public partial class NewPage1 : ContentPage
         if (usuarioEncontrado.IsAdmin)
         {
             await DisplayAlertAsync("¡Bienvenido Panel de Control!", $"Administrador: {usuarioEncontrado.Username}", "Ingresar");
+            Application.Current.MainPage = new AdminMainPage();
         }
         else
         {
             await DisplayAlertAsync("¡Bienvenido de vuelta!", $"Hola {usuarioEncontrado.Username}, que pases una excelente lectura.", "Entrar");
+
+            Application.Current.MainPage = new UserMainPage();
+
         }
     }
 
