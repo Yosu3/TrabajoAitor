@@ -37,20 +37,40 @@ public partial class CatalogoPage : ContentPage
         ActualizarLista();
     }
 
-    private async void OnLibroSeleccionado(object? sender, SelectionChangedEventArgs e)
+    private async void OnVerDetalleTapped(object? sender, TappedEventArgs e)
     {
-        if (e.CurrentSelection.Count == 0)
+        if (e.Parameter is Libro libro)
+        {
+            await Navigation.PushAsync(new DetalleLibroPage(libro));
+        }
+    }
+
+    private async void OnEliminarClicked(object? sender, EventArgs e)
+    {
+        if (sender is not Button boton || boton.CommandParameter is not Libro libro)
         {
             return;
         }
 
-        Libro? libro = e.CurrentSelection[0] as Libro;
-        if (libro is null)
+        bool confirmar = await DisplayAlertAsync(
+            "Eliminar libro",
+            $"¿Seguro que deseas eliminar el libro \"{libro.titulo}\"?",
+            "Eliminar", "Cancelar");
+
+        if (!confirmar)
         {
             return;
         }
 
-        ListaLibros.SelectedItem = null;   
-        await Navigation.PushAsync(new DetalleLibroPage(libro));
+        bool eliminado = await AdminLibrosService.EliminarLibroAsync(libro);
+        if (eliminado)
+        {
+            await DisplayAlertAsync("Eliminado", $"\"{libro.titulo}\" ha sido eliminado del catálogo.", "OK");
+            ActualizarLista();
+        }
+        else
+        {
+            await DisplayAlertAsync("Error", "No se encontró el libro para eliminar.", "OK");
+        }
     }
 }

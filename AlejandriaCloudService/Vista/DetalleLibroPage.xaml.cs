@@ -1,12 +1,16 @@
+using AlejandriaCloudService.Funcionalidades;
 using AlejandriaCloudService.Models;
 
 namespace AlejandriaCloudService.Vista;
 
 public partial class DetalleLibroPage : ContentPage
 {
+    private readonly Libro _libro;
+
     public DetalleLibroPage(Libro libro)
     {
         InitializeComponent();
+        _libro = libro;
 
         TituloLabel.Text = libro.titulo;
         AutorLabel.Text = $"Autor: {libro.autor}";
@@ -30,6 +34,30 @@ public partial class DetalleLibroPage : ContentPage
         {
             EstadoLabel.TextColor = Colors.Orange;
             DisponibilidadLabel.Text = "Este libro está reservado.";
+        }
+    }
+
+    private async void EliminarClicked(object? sender, EventArgs e)
+    {
+        bool confirmar = await DisplayAlertAsync(
+            "Eliminar libro",
+            $"¿Seguro que deseas eliminar el libro \"{_libro.titulo}\"?",
+            "Eliminar", "Cancelar");
+
+        if (!confirmar)
+        {
+            return;
+        }
+
+        bool eliminado = await AdminLibrosService.EliminarLibroAsync(_libro);
+        if (eliminado)
+        {
+            await DisplayAlertAsync("Eliminado", $"\"{_libro.titulo}\" ha sido eliminado del catálogo.", "OK");
+            await Navigation.PopAsync();
+        }
+        else
+        {
+            await DisplayAlertAsync("Error", "No se pudo eliminar el libro.", "OK");
         }
     }
 

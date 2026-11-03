@@ -47,36 +47,43 @@ public partial class AnadirLibroPage : ContentPage
             return;
         }
 
+        // Bloqueamos el botón para evitar que se pulse dos veces 
+        GuardarButton.IsEnabled = false;
+
         try
         {
             await CatalogoService.CargarLibrosAsync();
+
+            if (isbn != "" && AdminLibrosService.ExisteIsbn(isbn))
+            {
+                await DisplayAlertAsync("Error", "Ya existe un libro con ese ISBN.", "OK");
+                return;
+            }
+
+            Libro nuevo = new Libro
+            {
+                titulo = titulo,
+                autor = autor,
+                categoria = categoria,
+                ubicacion = ubicacion,
+                isbn = isbn,
+                estado = "Disponible",
+                fechaPublicacion = FechaPicker.Date ?? DateTime.Today
+            };
+
+            await AdminLibrosService.AnadirLibroAsync(nuevo);
+
+            await DisplayAlertAsync("Libro añadido", $"\"{titulo}\" se ha añadido con el id #{nuevo.idLibro}.", "OK");
+            LimpiarFormulario();
         }
         catch (Exception ex)
         {
-            await DisplayAlertAsync("Error de carga", $"No se pudo leer el archivo: {ex.Message}", "OK");
-            return;
+            await DisplayAlertAsync("Error", $"No se pudo guardar el libro: {ex.Message}", "OK");
         }
-
-        if (isbn != "" && AdminLibrosService.ExisteIsbn(isbn))
+        finally
         {
-            await DisplayAlertAsync("Error", "Ya existe un libro con ese ISBN.", "OK");
-            return;
+            GuardarButton.IsEnabled = true;
         }
-
-        Libro nuevo = new Libro
-        {
-            titulo = titulo,
-            autor = autor,
-            categoria = categoria,
-            ubicacion = ubicacion,
-            isbn = isbn,
-            estado = "Disponible",
-            fechaPublicacion = FechaPicker.Date ?? DateTime.Today
-        };
-        AdminLibrosService.AnadirLibro(nuevo);
-
-        await DisplayAlertAsync("Libro añadido", $"\"{titulo}\" se ha añadido con el id {nuevo.idLibro}.", "OK");
-        LimpiarFormulario();
     }
 
     private void LimpiarFormulario()

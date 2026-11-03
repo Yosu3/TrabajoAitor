@@ -30,10 +30,27 @@ namespace AlejandriaCloudService.Funcionalidades
             return false;
         }
 
-        public static void AnadirLibro(Libro libro)
+        public static async Task AnadirLibroAsync(Libro libro)
         {
+            await CatalogoService.CargarLibrosAsync();
             libro.idLibro = SiguienteId();
             CatalogoService.Libros.Add(libro);
+            await CatalogoService.GuardarLibrosAsync(); // Persistencia como los apuntes de Aitor con misioens
+        }
+
+        public static async Task<bool> EliminarLibroAsync(Libro libro)
+        {
+            await CatalogoService.CargarLibrosAsync();
+
+            Libro? aBorrar = CatalogoService.Libros.FirstOrDefault(l => l.idLibro == libro.idLibro) ?? libro;
+            bool eliminado = CatalogoService.Libros.Remove(aBorrar);
+
+            if (eliminado)
+            {
+                await CatalogoService.GuardarLibrosAsync(); 
+            }
+
+            return eliminado;
         }
     }
 }
