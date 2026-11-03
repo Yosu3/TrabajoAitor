@@ -27,6 +27,7 @@ public partial class RegistroPage : ContentPage
         }
 
         string usernameNuevo = txtUsername.Text.Trim();
+        string apellidoNuevo = txtApellido.Text.Trim();
         string dniNuevo = txtDni.Text.Trim().ToUpper();
         string emailNuevo = txtEmail.Text.Trim().ToLower();
         string passwordNueva = txtPassword.Text;
@@ -73,10 +74,11 @@ public partial class RegistroPage : ContentPage
             Usuario nuevoUsuario = new Usuario
             {
                 Username = usernameNuevo,
-                Apellido = txtApellido.Text.Trim(),
+                Apellido = apellidoNuevo,
                 Dni = dniNuevo,
-                Email = txtEmail.Text.Trim(),
-                Password = NewPage1.EncriptarContrasena(passwordNueva),
+                Email = emailNuevo,
+                // CORRECCIÓN: Se cambió 'Login' por 'LoginPage'
+                Password = LoginPage.EncriptarContrasena(passwordNueva),
                 IsAdmin = false
             };
 
@@ -105,6 +107,7 @@ public partial class RegistroPage : ContentPage
         if (!Regex.IsMatch(cadenaDni, @"^[0-9]{8}[A-Z]$")) return false;
 
         string numeros = cadenaDni.Substring(0, 8);
+        // CORRECCIÓN: Se extrae el char en la posición de la letra en lugar de asignar el string completo
         char letra = dni[8];
 
         if (!int.TryParse(numeros, out int numeroDni)) return false;

@@ -5,11 +5,11 @@ using System.Text;
 
 namespace AlejandriaCloudService.Vista;
 
-public partial class NewPage1 : ContentPage
+public partial class LoginPage : ContentPage
 {
     private readonly string _filePath;
 
-    public NewPage1()
+    public LoginPage()
     {
         InitializeComponent();
         _filePath = Path.Combine(FileSystem.AppDataDirectory, "Usuarios.json");
@@ -56,6 +56,12 @@ public partial class NewPage1 : ContentPage
             return;
         }
 
+        if (usernameInput.Length < 4)
+        {
+            await DisplayAlert("Usuario no válido", "El nombre de usuario debe contener al menos 4 caracteres.", "OK");
+            return;
+        }
+
         try
         {
             if (!File.Exists(_filePath))
@@ -75,7 +81,16 @@ public partial class NewPage1 : ContentPage
 
             if (usuarioValido != null)
             {
-                await DisplayAlert("Bienvenido", $"Inicio de sesión exitoso como: {usuarioValido.Username}", "OK");
+                if (usuarioValido.IsAdmin)
+                {
+                    await DisplayAlert("¡Bienvenido Panel de Control!", $"Administrador: {usuarioValido.Username}", "Ingresar");
+                    Application.Current.MainPage = new AdminMainPage();
+                }
+                else
+                {
+                    await DisplayAlert("¡Bienvenido de vuelta!", $"Hola {usuarioValido.Username}, que pases una excelente lectura.", "Entrar");
+                    Application.Current.MainPage = new UserMainPage();
+                }
             }
             else
             {
@@ -91,13 +106,14 @@ public partial class NewPage1 : ContentPage
     private void OnTogglePasswordClicked(object sender, EventArgs e)
     {
         txtPassword.IsPassword = !txtPassword.IsPassword;
-        btnTogglePassword.Text = txtPassword.IsPassword ? "Mostrar" : "Ocultar";
+        btnTogglePassword.Text = txtPassword.IsPassword ? "👁️" : "🙈";
     }
 
     private async void OnRegisterTapped(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(new RegistroPage());
+        await Shell.Current.GoToAsync("RegistroPage");
     }
+
 
     private async void OnVerJsonClicked(object sender, EventArgs e)
     {
@@ -105,7 +121,6 @@ public partial class NewPage1 : ContentPage
 
         if (File.Exists(filePath))
         {
-            // Esto le dice a Windows que abra directamente tu archivo con el Bloc de notas
             await Launcher.Default.OpenAsync(new OpenFileRequest
             {
                 File = new ReadOnlyFile(filePath)
@@ -116,7 +131,6 @@ public partial class NewPage1 : ContentPage
             await DisplayAlert("Error", "El archivo de usuarios modificado aún no se ha creado.", "OK");
         }
     }
-
 
     public static string EncriptarContrasena(string contrasena)
     {
