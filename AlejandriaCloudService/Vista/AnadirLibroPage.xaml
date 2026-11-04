@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="AlejandriaCloudService.Vista.AnadirLibroPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Añadir libro">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="10">
+
+            <Label
+                FontAttributes="Bold"
+                FontSize="24"
+                Text="Nuevo libro"
+                TextColor="#1B5E20" />
+
+            <Label Text="Título *" />
+            <Entry x:Name="TituloEntry" Placeholder="Ej: Don Quijote de la Mancha" />
+
+            <Label Text="Autor *" />
+            <Entry x:Name="AutorEntry" Placeholder="Ej: Miguel de Cervantes" />
+
+            <Label Text="Categoría *" />
+            <Picker x:Name="CategoriaPicker" Title="Elige una categoría" />
+
+            <Label Text="Ubicación *" />
+            <Entry x:Name="UbicacionEntry" Placeholder="Ej: Estantería A-03" />
+
+            <Label Text="ISBN (opcional)" />
+            <Entry
+                x:Name="IsbnEntry"
+                Keyboard="Numeric"
+                Placeholder="Ej: 9788424116605" />
+
+            <Label Text="Fecha de publicación" />
+            <DatePicker x:Name="FechaPicker" />
+
+            <Button
+                x:Name="GuardarButton"
+                Margin="0,10,0,0"
+                BackgroundColor="#1B5E20"
+                Clicked="GuardarClicked"
+                FontAttributes="Bold"
+                Text="Guardar libro"
+                TextColor="White" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

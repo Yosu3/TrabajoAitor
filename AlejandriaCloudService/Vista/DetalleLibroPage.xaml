@@ -30,7 +30,15 @@
                 BackgroundColor="#1B5E20"
                 Clicked="VolverClicked"
                 FontAttributes="Bold"
+                Margin="0,15,0,0"
                 Text="Volver al catálogo"
+                TextColor="White" />
+
+            <Button
+                BackgroundColor="#C62828"
+                Clicked="EliminarClicked"
+                FontAttributes="Bold"
+                Text="Eliminar este libro"
                 TextColor="White" />
         </VerticalStackLayout>
     </ScrollView>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="AlejandriaCloudService.Vista.NewPage1"
+    x:Class="AlejandriaCloudService.Vista.LoginPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="NewPage1"
+    Title="Login"
     Shell.NavBarIsVisible="False">
 
     <ContentPage.Background>
@@ -117,6 +117,16 @@
                         FontAttributes="Bold"
                         HeightRequest="50"
                         Text="Iniciar Sesión"
+                        TextColor="White" />
+
+                    <Button
+                        Margin="0,5,0,0"
+                        BackgroundColor="#4CA1AF"
+                        Clicked="OnVerJsonClicked"
+                        CornerRadius="8"
+                        FontAttributes="Bold"
+                        HeightRequest="45"
+                        Text="📂 Abrir Archivo Usuarios"
                         TextColor="White" />
 
                 </VerticalStackLayout>

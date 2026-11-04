@@ -6,11 +6,11 @@ public partial class UserMainPage : ContentPage
     private Entry PasswordEntry;
     private Button TogglePasswordButton;
     public UserMainPage()
-    {
-        InitializeComponent();
-    }
+	{
+		InitializeComponent();
+	}
 
-
+	
 
 
 }
