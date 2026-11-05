@@ -66,8 +66,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Ficheros\Usuarios.json" />
-	  <None Remove="Ficheros\Libros.json" />
+	  <None Remove="Resources\raw\Ficheros\Usuarios.json" />
+	  <None Remove="Resources\raw\Ficheros\Libros.json" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -76,26 +76,24 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiAsset Include="Ficheros\Usuarios.json" />
-	  <MauiAsset Include="Ficheros\Libros.json" />
+		<Compile Update="Vista\Login.xaml.cs">
+			<DependentUpon>Login.xaml</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Vista\Login.xaml.cs">
-	    <DependentUpon>Login.xaml</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <MauiXaml Update="Vista\CatalogoPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Vista\Login.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Vista\Registro.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
+		<MauiXaml Update="Vista\CatalogoPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Vista\Login.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Vista\Registro.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Vista\prestamosPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 	</ItemGroup>
 
 </Project>
