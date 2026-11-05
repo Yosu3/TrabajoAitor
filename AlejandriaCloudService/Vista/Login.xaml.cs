@@ -111,7 +111,7 @@ public partial class LoginPage : ContentPage
 
     private async void OnRegisterTapped(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("RegistroPage");
+        await Shell.Current.GoToAsync("Registro");
     }
 
 
