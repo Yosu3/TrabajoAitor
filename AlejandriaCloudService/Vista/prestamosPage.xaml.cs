@@ -55,7 +55,7 @@ public partial class prestamosPage : ContentPage
             return;
         }
 
-        bool exito = UsuarioService.SolicitarPrestamo(libroSeleccionado.idLibro);
+         bool exito = await UsuarioService.SolicitarPrestamoAsync(libroSeleccionado.idLibro);
 
         if (exito)
         {
@@ -74,12 +74,12 @@ public partial class prestamosPage : ContentPage
 
         if (boton?.CommandParameter is int idLibro)
         {
-            // RESTAURADO: Usando tu método obligatorio del proyecto
+            
             bool confirmar = await DisplayAlertAsync("Devolución", "¿Deseas devolver este ejemplar a la colección?", "Sí, Confirmar", "Cancelar");
 
             if (!confirmar) return;
 
-            bool exito = UsuarioService.DevolverLibro(idLibro);
+             bool exito = await UsuarioService.DevolverLibroAsync(idLibro);
 
             if (exito)
             {
