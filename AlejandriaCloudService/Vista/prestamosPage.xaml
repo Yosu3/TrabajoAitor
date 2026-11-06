@@ -4,7 +4,8 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="Préstamos"
-    Shell.NavBarIsVisible="False">
+    Shell.NavBarIsVisible="False"
+    BackgroundColor="{StaticResource LibraryNavy}">
 
     <ContentPage.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -47,11 +48,7 @@
                     Text="Solicitar un préstamo"
                     TextColor="White" />
 
-                <Border
-                    Padding="20"
-                    Background="White"
-                    StrokeShape="RoundRectangle 16"
-                    StrokeThickness="0">
+                <Border Padding="20" Style="{StaticResource LibraryCard}">
                     <Border.Shadow>
                         <Shadow
                             Brush="Black"
@@ -79,7 +76,8 @@
                         </Border>
 
                         <Button
-                            BackgroundColor="#2C5364"
+                            Style="{StaticResource LibraryPrimaryButton}"
+                            BackgroundColor="{StaticResource LibraryNavy}"
                             Clicked="OnSolicitarPrestamoClicked"
                             CornerRadius="8"
                             FontAttributes="Bold"

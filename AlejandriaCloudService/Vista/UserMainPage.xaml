@@ -40,31 +40,25 @@
 
         <!-- 2. CONTENIDO PRINCIPAL SCROLLABLE -->
         <ScrollView Grid.Row="1" Padding="20,0,20,10">
-            <VerticalStackLayout Spacing="25">
+            <VerticalStackLayout Spacing="18">
 
                 <!-- Buscador de Libros -->
-                <Border Padding="12,2" 
-                        Background="White" 
-                        StrokeShape="RoundRectangle 12" 
-                        StrokeThickness="0">
+                <Border Padding="10,2" BackgroundColor="#496B74" Stroke="#6E929A" StrokeShape="RoundRectangle 12">
                     <Border.Shadow>
                         <Shadow Brush="Black" Opacity="0.15" Radius="10" Offset="0,4" />
                     </Border.Shadow>
                     <Grid ColumnDefinitions="Auto, *">
-                        <Button Grid.Column="0" Text="🔍" VerticalOptions="Center" Margin="5,0,10,0" />
+                        <Label Grid.Column="0" Text="🔍" FontSize="18" VerticalOptions="Center" Margin="5,0,10,0" />
                         <Entry Grid.Column="1" 
                                Placeholder="Buscar libros, autores, géneros..." 
-                               PlaceholderColor="#99AAB5" 
-                               TextColor="#203A43" 
+                               PlaceholderColor="#C8D9DD" 
+                               TextColor="White" 
                                FontSize="15" />
                     </Grid>
                 </Border>
 
                 <!-- Tarjeta de Resumen: Préstamos Activos -->
-                <Border Padding="20" 
-                        Background="White" 
-                        StrokeShape="RoundRectangle 16" 
-                        StrokeThickness="0">
+                <Border Padding="20" Style="{StaticResource LibraryCard}">
                     <Border.Shadow>
                         <Shadow Brush="Black" Opacity="0.2" Radius="12" Offset="0,6" />
                     </Border.Shadow>
@@ -80,7 +74,8 @@
                         </VerticalStackLayout>
                         <Button Grid.Column="1" 
                                 Text="Ver mis libros" 
-                                BackgroundColor="#4CA1AF" 
+                                Clicked="OnVerMisLibrosClicked"
+                                 BackgroundColor="{StaticResource LibraryTeal}" 
                                 TextColor="White" 
                                 FontSize="12" 
                                 FontAttributes="Bold"
@@ -91,41 +86,47 @@
 
                 <!-- Sección: Libros Recomendados -->
                 <VerticalStackLayout Spacing="12">
-                    <Label Text="Recomendados para ti" 
-                           TextColor="White" 
-                           FontSize="18" 
-                           FontAttributes="Bold" />
+                     <Label Style="{StaticResource LibrarySectionTitle}" Text="Recomendados para ti" />
 
                     <!-- Carrusel Horizontal de Libros -->
                     <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
-                        <HorizontalStackLayout Spacing="15">
+                        <HorizontalStackLayout Spacing="18">
 
                             <!-- Libro 1 -->
-                            <VerticalStackLayout WidthRequest="110" Spacing="5">
-                                <Border StrokeShape="RoundRectangle 8" StrokeThickness="0" HeightRequest="150" WidthRequest="110">
-                                    <Image Source="book_cover_placeholder.png" Aspect="AspectFill" BackgroundColor="#2C5364"/>
-                                </Border>
-                                <Label Text="El Quijote" TextColor="White" FontSize="14" FontAttributes="Bold" LineBreakMode="TailTruncation" />
-                                <Label Text="M. Cervantes" TextColor="#A0AAB2" FontSize="12" LineBreakMode="TailTruncation" />
-                            </VerticalStackLayout>
+                            <Border Padding="8" BackgroundColor="#46616A" Stroke="#5E7E85" StrokeShape="RoundRectangle 10" WidthRequest="185">
+                                <Grid ColumnDefinitions="70,*" ColumnSpacing="8">
+                                    <Image Grid.Column="0" Source="book_cover_placeholder.png" Aspect="AspectFill" BackgroundColor="#2C5364" HeightRequest="112" WidthRequest="70"/>
+                                    <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                                        <Label Text="El Quijote" TextColor="White" FontSize="13" FontAttributes="Bold" LineBreakMode="TailTruncation" />
+                                        <Label Text="M. Cervantes" TextColor="#C8D9DD" FontSize="11" LineBreakMode="TailTruncation" MaxLines="2" />
+                                        <Label Text="★★★★★" TextColor="#FFD166" FontSize="14" />
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Border>
 
                             <!-- Libro 2 -->
-                            <VerticalStackLayout WidthRequest="110" Spacing="5">
-                                <Border StrokeShape="RoundRectangle 8" StrokeThickness="0" HeightRequest="150" WidthRequest="110">
-                                    <Image Source="book_cover_placeholder.png" Aspect="AspectFill" BackgroundColor="#2C5364"/>
-                                </Border>
-                                <Label Text="Cien Años de Soledad" TextColor="White" FontSize="14" FontAttributes="Bold" LineBreakMode="TailTruncation" />
-                                <Label Text="G. García Márquez" TextColor="#A0AAB2" FontSize="12" LineBreakMode="TailTruncation" />
-                            </VerticalStackLayout>
+                            <Border Padding="8" BackgroundColor="#46616A" Stroke="#5E7E85" StrokeShape="RoundRectangle 10" WidthRequest="185">
+                                <Grid ColumnDefinitions="70,*" ColumnSpacing="8">
+                                    <Image Grid.Column="0" Source="book_cover_placeholder.png" Aspect="AspectFill" BackgroundColor="#2C5364" HeightRequest="112" WidthRequest="70"/>
+                                    <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                                        <Label Text="Cien Años de Soledad" TextColor="White" FontSize="13" FontAttributes="Bold" LineBreakMode="TailTruncation" />
+                                        <Label Text="G. García Márquez" TextColor="#C8D9DD" FontSize="11" LineBreakMode="TailTruncation" MaxLines="2" />
+                                        <Label Text="★★★★★" TextColor="#FFD166" FontSize="14" />
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Border>
 
                             <!-- Libro 3 -->
-                            <VerticalStackLayout WidthRequest="110" Spacing="5">
-                                <Border StrokeShape="RoundRectangle 8" StrokeThickness="0" HeightRequest="150" WidthRequest="110">
-                                    <Image Source="book_cover_placeholder.png" Aspect="AspectFill" BackgroundColor="#2C5364"/>
-                                </Border>
-                                <Label Text="1984" TextColor="White" FontSize="14" FontAttributes="Bold" LineBreakMode="TailTruncation" />
-                                <Label Text="George Orwell" TextColor="#A0AAB2" FontSize="12" LineBreakMode="TailTruncation" />
-                            </VerticalStackLayout>
+                            <Border Padding="8" BackgroundColor="#46616A" Stroke="#5E7E85" StrokeShape="RoundRectangle 10" WidthRequest="185">
+                                <Grid ColumnDefinitions="70,*" ColumnSpacing="8">
+                                    <Image Grid.Column="0" Source="book_cover_placeholder.png" Aspect="AspectFill" BackgroundColor="#2C5364" HeightRequest="112" WidthRequest="70"/>
+                                    <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                                        <Label Text="1984" TextColor="White" FontSize="13" FontAttributes="Bold" LineBreakMode="TailTruncation" />
+                                        <Label Text="George Orwell" TextColor="#C8D9DD" FontSize="11" LineBreakMode="TailTruncation" MaxLines="2" />
+                                        <Label Text="★★★★★" TextColor="#FFD166" FontSize="14" />
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Border>
 
                         </HorizontalStackLayout>
                     </ScrollView>
@@ -133,27 +134,24 @@
 
                 <!-- Sección: Categorías Populares -->
                 <VerticalStackLayout Spacing="12">
-                    <Label Text="Explorar Categorías" 
-                           TextColor="White" 
-                           FontSize="18" 
-                           FontAttributes="Bold" />
+                     <Label Style="{StaticResource LibrarySectionTitle}" Text="Explorar Categorías" />
 
                     <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*, *" RowSpacing="10" ColumnSpacing="10">
                         <!-- Categoría Ficcion -->
-                        <Border Grid.Row="0" Grid.Column="0" Padding="15" Background="White" StrokeShape="RoundRectangle 12" StrokeThickness="0">
-                            <Label Text="📘 Ficción" TextColor="#203A43" FontAttributes="Bold" HorizontalOptions="Center" />
+                        <Border Grid.Row="0" Grid.Column="0" Padding="15" BackgroundColor="#CDECF5" StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                            <VerticalStackLayout Spacing="6"><Label Text="📘" FontSize="28" HorizontalOptions="Center"/><Label Text="Ficción" TextColor="#203A43" FontAttributes="Bold" HorizontalOptions="Center" /></VerticalStackLayout>
                         </Border>
                         <!-- Categoría Ciencia -->
-                        <Border Grid.Row="0" Grid.Column="1" Padding="15" Background="White" StrokeShape="RoundRectangle 12" StrokeThickness="0">
-                            <Label Text="🔬 Ciencia" TextColor="#203A43" FontAttributes="Bold" HorizontalOptions="Center" />
+                        <Border Grid.Row="0" Grid.Column="1" Padding="15" BackgroundColor="#D8F3DC" StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                            <VerticalStackLayout Spacing="6"><Label Text="🔬" FontSize="28" HorizontalOptions="Center"/><Label Text="Ciencia" TextColor="#203A43" FontAttributes="Bold" HorizontalOptions="Center" /></VerticalStackLayout>
                         </Border>
                         <!-- Categoría Historia -->
-                        <Border Grid.Row="1" Grid.Column="0" Padding="15" Background="White" StrokeShape="RoundRectangle 12" StrokeThickness="0">
-                            <Label Text="📜 Historia" TextColor="#203A43" FontAttributes="Bold" HorizontalOptions="Center" />
+                        <Border Grid.Row="1" Grid.Column="0" Padding="15" BackgroundColor="#FFF0C2" StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                            <VerticalStackLayout Spacing="6"><Label Text="📜" FontSize="28" HorizontalOptions="Center"/><Label Text="Historia" TextColor="#203A43" FontAttributes="Bold" HorizontalOptions="Center" /></VerticalStackLayout>
                         </Border>
                         <!-- Categoría Tecnología -->
-                        <Border Grid.Row="1" Grid.Column="1" Padding="15" Background="White" StrokeShape="RoundRectangle 12" StrokeThickness="0">
-                            <Label Text="💻 Tecnología" TextColor="#203A43" FontAttributes="Bold" HorizontalOptions="Center" />
+                        <Border Grid.Row="1" Grid.Column="1" Padding="15" BackgroundColor="#EBD9F7" StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                            <VerticalStackLayout Spacing="6"><Label Text="💻" FontSize="28" HorizontalOptions="Center"/><Label Text="Tecnología" TextColor="#203A43" FontAttributes="Bold" HorizontalOptions="Center" /></VerticalStackLayout>
                         </Border>
                     </Grid>
                 </VerticalStackLayout>
@@ -167,6 +165,7 @@
                 Background="White" 
                 StrokeShape="RoundRectangle 24,24,0,0" 
                 StrokeThickness="0"
+                Stroke="#DCE8EC"
                 HeightRequest="65">
             <Border.Shadow>
                 <Shadow Brush="Black" Opacity="0.2" Radius="10" Offset="0,-4" />

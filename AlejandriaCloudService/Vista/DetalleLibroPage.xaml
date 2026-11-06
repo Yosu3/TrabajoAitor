@@ -3,6 +3,7 @@
     x:Class="AlejandriaCloudService.Vista.DetalleLibroPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BackgroundColor="{StaticResource LibrarySurface}"
     Title="Detalle del libro"
      NavigationPage.HasNavigationBar="False">
 
@@ -11,9 +12,10 @@
 
             <Label
                 x:Name="TituloLabel"
+                Style="{StaticResource LibraryPageTitle}"
                 FontAttributes="Bold"
                 FontSize="26"
-                TextColor="#1B5E20" />
+                TextColor="{StaticResource LibraryGreen}" />
 
             <Label x:Name="AutorLabel" FontSize="18" />
             <Label x:Name="CategoriaLabel" />
@@ -28,7 +30,8 @@
             <Label x:Name="DisponibilidadLabel" />
 
             <Button
-                BackgroundColor="#1B5E20"
+                Style="{StaticResource LibraryPrimaryButton}"
+                BackgroundColor="{StaticResource LibraryGreen}"
                 Clicked="VolverClicked"
                 FontAttributes="Bold"
                 Margin="0,15,0,0"
@@ -37,8 +40,9 @@
 
             <Button
                 BackgroundColor="#C62828"
-                Clicked="EliminarClicked"
+                CornerRadius="10"
                 FontAttributes="Bold"
+                Clicked="EliminarClicked"
                 Text="Eliminar este libro"
                 TextColor="White" />
 

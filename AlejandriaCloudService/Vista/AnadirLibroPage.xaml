@@ -4,16 +4,16 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     NavigationPage.HasNavigationBar="False"
+    BackgroundColor="{StaticResource LibrarySurface}"
     Title="Añadir libro">
 
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="10">
 
             <Label
-                FontAttributes="Bold"
-                FontSize="24"
+                Style="{StaticResource LibraryPageTitle}"
                 Text="Nuevo libro"
-                TextColor="#1B5E20" />
+                TextColor="{StaticResource LibraryGreen}" />
 
             <Label Text="Título *" />
             <Entry x:Name="TituloEntry" Placeholder="Ej: Don Quijote de la Mancha" />
@@ -38,15 +38,17 @@
 
             <Button
                 x:Name="GuardarButton"
+                Style="{StaticResource LibraryPrimaryButton}"
                 Margin="0,10,0,0"
-                BackgroundColor="#1B5E20"
+                BackgroundColor="{StaticResource LibraryGreen}"
                 Clicked="GuardarClicked"
                 FontAttributes="Bold"
                 Text="Guardar libro"
                 TextColor="White" />
 
             <Button
-                BackgroundColor="#4CA1AF"
+                Style="{StaticResource LibrarySecondaryButton}"
+                BackgroundColor="{StaticResource LibraryTeal}"
                 Clicked="OnVolverInicioClicked"
                 CornerRadius="8"
                 FontAttributes="Bold"

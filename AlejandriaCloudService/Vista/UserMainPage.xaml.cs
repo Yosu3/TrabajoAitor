@@ -20,6 +20,11 @@ public partial class UserMainPage : ContentPage
         await Navigation.PushAsync(new prestamosPage());
     }
 
+    private async void OnVerMisLibrosClicked(object? sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new prestamosPage());
+    }
+
     private void OnCambiarAreaTapped(object? sender, TappedEventArgs e)
     {
         Application.Current!.MainPage = new NavigationPage(new LoginPage());
