@@ -2,6 +2,7 @@
 <ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:AlejandriaCloudService.Models"
              x:Class="AlejandriaCloudService.Vista.UserMainPage"
              Title="UserMainPage"
               NavigationPage.HasNavigationBar="False">
@@ -22,7 +23,7 @@
         <!-- 1. BARRA SUPERIOR: Perfil y Bienvenida -->
         <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Padding="20,15" VerticalOptions="Start">
             <VerticalStackLayout Grid.Column="0" Spacing="2">
-                <Label Text="Hola, Juan Carlos 👋" 
+                <Label x:Name="TxtBienvenida" Text="Hola, lector 👋" 
                        TextColor="White" 
                        FontSize="22" 
                        FontAttributes="Bold" />
@@ -89,47 +90,43 @@
                      <Label Style="{StaticResource LibrarySectionTitle}" Text="Recomendados para ti" />
 
                     <!-- Carrusel Horizontal de Libros -->
-                    <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
-                        <HorizontalStackLayout Spacing="18">
-
-                            <!-- Libro 1 -->
-                            <Border Padding="8" BackgroundColor="#46616A" Stroke="#5E7E85" StrokeShape="RoundRectangle 10" WidthRequest="185">
-                                <Grid ColumnDefinitions="70,*" ColumnSpacing="8">
-                                    <Image Grid.Column="0" Source="book_cover_placeholder.png" Aspect="AspectFill" BackgroundColor="#2C5364" HeightRequest="112" WidthRequest="70"/>
-                                    <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
-                                        <Label Text="El Quijote" TextColor="White" FontSize="13" FontAttributes="Bold" LineBreakMode="TailTruncation" />
-                                        <Label Text="M. Cervantes" TextColor="#C8D9DD" FontSize="11" LineBreakMode="TailTruncation" MaxLines="2" />
-                                        <Label Text="★★★★★" TextColor="#FFD166" FontSize="14" />
-                                    </VerticalStackLayout>
-                                </Grid>
-                            </Border>
-
-                            <!-- Libro 2 -->
-                            <Border Padding="8" BackgroundColor="#46616A" Stroke="#5E7E85" StrokeShape="RoundRectangle 10" WidthRequest="185">
-                                <Grid ColumnDefinitions="70,*" ColumnSpacing="8">
-                                    <Image Grid.Column="0" Source="book_cover_placeholder.png" Aspect="AspectFill" BackgroundColor="#2C5364" HeightRequest="112" WidthRequest="70"/>
-                                    <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
-                                        <Label Text="Cien Años de Soledad" TextColor="White" FontSize="13" FontAttributes="Bold" LineBreakMode="TailTruncation" />
-                                        <Label Text="G. García Márquez" TextColor="#C8D9DD" FontSize="11" LineBreakMode="TailTruncation" MaxLines="2" />
-                                        <Label Text="★★★★★" TextColor="#FFD166" FontSize="14" />
-                                    </VerticalStackLayout>
-                                </Grid>
-                            </Border>
-
-                            <!-- Libro 3 -->
-                            <Border Padding="8" BackgroundColor="#46616A" Stroke="#5E7E85" StrokeShape="RoundRectangle 10" WidthRequest="185">
-                                <Grid ColumnDefinitions="70,*" ColumnSpacing="8">
-                                    <Image Grid.Column="0" Source="book_cover_placeholder.png" Aspect="AspectFill" BackgroundColor="#2C5364" HeightRequest="112" WidthRequest="70"/>
-                                    <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
-                                        <Label Text="1984" TextColor="White" FontSize="13" FontAttributes="Bold" LineBreakMode="TailTruncation" />
-                                        <Label Text="George Orwell" TextColor="#C8D9DD" FontSize="11" LineBreakMode="TailTruncation" MaxLines="2" />
-                                        <Label Text="★★★★★" TextColor="#FFD166" FontSize="14" />
-                                    </VerticalStackLayout>
-                                </Grid>
-                            </Border>
-
-                        </HorizontalStackLayout>
-                    </ScrollView>
+                    <CollectionView
+                        x:Name="LibrosRecomendados"
+                        HeightRequest="142"
+                        ItemsLayout="HorizontalList"
+                        SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Libro">
+                                <Border
+                                    Margin="0,0,25,0"
+                                    Padding="10"
+                                    BackgroundColor="#46616A"
+                                    Stroke="#5E7E85"
+                                    StrokeShape="RoundRectangle 10"
+                                    WidthRequest="185"
+                                    HeightRequest="128">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            CommandParameter="{Binding .}"
+                                            Tapped="OnDetalleLibroTapped" />
+                                    </Border.GestureRecognizers>
+                                    <Grid ColumnDefinitions="70,*" ColumnSpacing="8">
+                                        <Image Grid.Column="0"
+                                               Source="book_cover_placeholder.png"
+                                               Aspect="AspectFill"
+                                               BackgroundColor="#2C5364"
+                                               HeightRequest="112"
+                                               WidthRequest="70" />
+                                        <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                                            <Label Text="{Binding titulo}" TextColor="White" FontSize="13" FontAttributes="Bold" LineBreakMode="TailTruncation" />
+                                            <Label Text="{Binding autor}" TextColor="#C8D9DD" FontSize="11" LineBreakMode="TailTruncation" MaxLines="2" />
+                                            <Label Text="★★★★★" TextColor="#FFD166" FontSize="14" />
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
                 </VerticalStackLayout>
 
                 <!-- Sección: Categorías Populares -->
@@ -139,18 +136,30 @@
                     <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*, *" RowSpacing="10" ColumnSpacing="10">
                         <!-- Categoría Ficcion -->
                         <Border Grid.Row="0" Grid.Column="0" Padding="15" BackgroundColor="#CDECF5" StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnCatalogoTapped" />
+                            </Border.GestureRecognizers>
                             <VerticalStackLayout Spacing="6"><Label Text="📘" FontSize="28" HorizontalOptions="Center"/><Label Text="Ficción" TextColor="#203A43" FontAttributes="Bold" HorizontalOptions="Center" /></VerticalStackLayout>
                         </Border>
                         <!-- Categoría Ciencia -->
                         <Border Grid.Row="0" Grid.Column="1" Padding="15" BackgroundColor="#D8F3DC" StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnCatalogoTapped" />
+                            </Border.GestureRecognizers>
                             <VerticalStackLayout Spacing="6"><Label Text="🔬" FontSize="28" HorizontalOptions="Center"/><Label Text="Ciencia" TextColor="#203A43" FontAttributes="Bold" HorizontalOptions="Center" /></VerticalStackLayout>
                         </Border>
                         <!-- Categoría Historia -->
                         <Border Grid.Row="1" Grid.Column="0" Padding="15" BackgroundColor="#FFF0C2" StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnCatalogoTapped" />
+                            </Border.GestureRecognizers>
                             <VerticalStackLayout Spacing="6"><Label Text="📜" FontSize="28" HorizontalOptions="Center"/><Label Text="Historia" TextColor="#203A43" FontAttributes="Bold" HorizontalOptions="Center" /></VerticalStackLayout>
                         </Border>
                         <!-- Categoría Tecnología -->
                         <Border Grid.Row="1" Grid.Column="1" Padding="15" BackgroundColor="#EBD9F7" StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnCatalogoTapped" />
+                            </Border.GestureRecognizers>
                             <VerticalStackLayout Spacing="6"><Label Text="💻" FontSize="28" HorizontalOptions="Center"/><Label Text="Tecnología" TextColor="#203A43" FontAttributes="Bold" HorizontalOptions="Center" /></VerticalStackLayout>
                         </Border>
                     </Grid>

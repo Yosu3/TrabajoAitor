@@ -20,7 +20,7 @@
         <!-- 1. BARRA SUPERIOR: Perfil y Bienvenida -->
         <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Padding="20,15" VerticalOptions="Start">
             <VerticalStackLayout Grid.Column="0" Spacing="2">
-                <Label Text="Hola, Admin 'Nombre' 👋" 
+                <Label x:Name="TxtBienvenida" Text="Hola, administrador 👋" 
                        TextColor="White" 
                        FontSize="22" 
                        FontAttributes="Bold" />
@@ -96,8 +96,8 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="models:Libro">
                                 <Border
-                                    Margin="0,0,18,0"
-                                    Padding="8"
+                                    Margin="0,0,25,0"
+                                    Padding="10"
                                     BackgroundColor="#46616A"
                                     Stroke="#5E7E85"
                                     StrokeShape="RoundRectangle 10"
@@ -135,6 +135,9 @@
                     <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*, *" RowSpacing="10" ColumnSpacing="10">
                         <!-- Categoría Ficcion -->
                         <Border Grid.Row="0" Grid.Column="0" Padding="15" BackgroundColor="#CDECF5" StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnCatalogoTapped" />
+                            </Border.GestureRecognizers>
                             <VerticalStackLayout Spacing="6">
                                 <Label Text="📘" FontSize="28" HorizontalOptions="Center" />
                                 <Label Text="Ficción" TextColor="#203A43" FontAttributes="Bold" HorizontalOptions="Center" />
@@ -142,6 +145,9 @@
                         </Border>
                         <!-- Categoría Ciencia -->
                         <Border Grid.Row="0" Grid.Column="1" Padding="15" BackgroundColor="#D8F3DC" StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnCatalogoTapped" />
+                            </Border.GestureRecognizers>
                             <VerticalStackLayout Spacing="6">
                                 <Label Text="🔬" FontSize="28" HorizontalOptions="Center" />
                                 <Label Text="Ciencia" TextColor="#203A43" FontAttributes="Bold" HorizontalOptions="Center" />
@@ -149,6 +155,9 @@
                         </Border>
                         <!-- Categoría Historia -->
                         <Border Grid.Row="1" Grid.Column="0" Padding="15" BackgroundColor="#FFF0C2" StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnCatalogoTapped" />
+                            </Border.GestureRecognizers>
                             <VerticalStackLayout Spacing="6">
                                 <Label Text="📜" FontSize="28" HorizontalOptions="Center" />
                                 <Label Text="Historia" TextColor="#203A43" FontAttributes="Bold" HorizontalOptions="Center" />
@@ -156,6 +165,9 @@
                         </Border>
                         <!-- Categoría Tecnología -->
                         <Border Grid.Row="1" Grid.Column="1" Padding="15" BackgroundColor="#EBD9F7" StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnCatalogoTapped" />
+                            </Border.GestureRecognizers>
                             <VerticalStackLayout Spacing="6">
                                 <Label Text="💻" FontSize="28" HorizontalOptions="Center" />
                                 <Label Text="Tecnología" TextColor="#203A43" FontAttributes="Bold" HorizontalOptions="Center" />

@@ -87,13 +87,13 @@ public partial class LoginPage : ContentPage
                 if (usuarioValido.IsAdmin)
                 {
                     await DisplayAlert("¡Bienvenido Panel de Control!", $"Administrador: {usuarioValido.Username}", "Ingresar");
-                    await Navigation.PushAsync(new AdminMainPage());
+                    await Navigation.PushAsync(new AdminMainPage(usuarioValido.Username));
                     Navigation.RemovePage(this);
                 }
                 else
                 {
                     await DisplayAlert("¡Bienvenido de vuelta!", $"Hola {usuarioValido.Username}, que pases una excelente lectura.", "Entrar");
-                    await Navigation.PushAsync(new UserMainPage());
+                    await Navigation.PushAsync(new UserMainPage(usuarioValido.Username));
                     Navigation.RemovePage(this);
                 }
             }

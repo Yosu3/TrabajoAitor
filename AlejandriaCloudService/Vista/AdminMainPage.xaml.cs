@@ -6,9 +6,10 @@ namespace AlejandriaCloudService.Vista;
 
 public partial class AdminMainPage : ContentPage
 {
-	public AdminMainPage()
+	public AdminMainPage(string username)
 	{
 		InitializeComponent();
+		TxtBienvenida.Text = $"Hola, {username} 👋";
 	}
 
 	protected override async void OnAppearing()
