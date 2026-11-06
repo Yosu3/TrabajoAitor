@@ -1,0 +1,1744 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+</head>
+<body>
+<title>Guía PMDM 1.ª evaluación</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: índice lateral fijo + una única columna de lectura; solo se muestra una sección cada vez para no saturar */
+:root{
+  --bg:#f7f9f8; --surface:#ffffff; --side:#eff3f0; --ink:#17201b; --muted:#56645c; --faint:#86938b; --line:#dce4df;
+  --accent:#2e7d5b; --accent-ink:#1d5a40; --accent-soft:#e2efe7;
+  --warn:#835400; --warn-soft:#f8eed6;
+  --code-bg:#f1f4f2; --code-ink:#1c2721;
+  --tk-kw:#2a5d9b; --tk-str:#2b7553; --tk-type:#8a5600; --tk-com:#7a877f; --tk-num:#a3443a;
+  --sd-m:#e3e9e5; --sd-p:#c9e3d3; --sd-s:#f1d995;
+  --scrim:rgba(10,16,13,.42);
+  --f-sans:"IBM Plex Sans","Segoe UI",system-ui,-apple-system,sans-serif;
+  --f-mono:"JetBrains Mono",Consolas,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1311; --surface:#141b17; --side:#111815; --ink:#e2eae5; --muted:#9eaca4; --faint:#6e7c74; --line:#243029;
+    --accent:#6cc196; --accent-ink:#8fd5af; --accent-soft:#18281f;
+    --warn:#e3b860; --warn-soft:#272112;
+    --code-bg:#111915; --code-ink:#d9e4dd;
+    --tk-kw:#82b4ef; --tk-str:#7fcfa2; --tk-type:#e2b76a; --tk-com:#728178; --tk-num:#ec9286;
+    --sd-m:#1b231f; --sd-p:#21463a; --sd-s:#5b4a1d;
+    --scrim:rgba(0,0,0,.55);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1311; --surface:#141b17; --side:#111815; --ink:#e2eae5; --muted:#9eaca4; --faint:#6e7c74; --line:#243029;
+  --accent:#6cc196; --accent-ink:#8fd5af; --accent-soft:#18281f;
+  --warn:#e3b860; --warn-soft:#272112;
+  --code-bg:#111915; --code-ink:#d9e4dd;
+  --tk-kw:#82b4ef; --tk-str:#7fcfa2; --tk-type:#e2b76a; --tk-com:#728178; --tk-num:#ec9286;
+  --sd-m:#1b231f; --sd-p:#21463a; --sd-s:#5b4a1d;
+  --scrim:rgba(0,0,0,.55);
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-sans);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+a{color:var(--accent-ink)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+code,kbd{font-family:var(--f-mono)}
+p code,li code,td code,dd code,.lead code,summary code{font-size:.86em;background:var(--code-bg);border:1px solid var(--line);padding:.05em .38em;border-radius:5px;white-space:nowrap}
+td code{white-space:normal;overflow-wrap:anywhere}
+
+/* ---------- Estructura ---------- */
+.app{display:grid;grid-template-columns:284px minmax(0,1fr);min-height:100vh}
+.side{position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--side);border-right:1px solid var(--line)}
+.side-in{padding-block:28px 32px;padding-left:max(22px,env(safe-area-inset-left,0px));padding-right:22px;display:flex;flex-direction:column;gap:22px}
+.brand{display:flex;flex-direction:column;gap:4px;text-decoration:none;color:var(--ink)}
+.brand-k{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-ink)}
+.brand-t{font-size:18px;font-weight:600;line-height:1.3;letter-spacing:-.01em}
+.brand-s{font-size:13.5px;color:var(--muted);line-height:1.45}
+
+.search{position:relative}
+.search input{width:100%;font:inherit;font-size:14.5px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:9px 34px 9px 12px;outline:none}
+.search input::placeholder{color:var(--faint)}
+.search input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.kbd{position:absolute;right:9px;top:9px;font-size:11px;color:var(--faint);border:1px solid var(--line);border-radius:4px;padding:0 5px;line-height:18px;background:var(--side)}
+.search input:not(:placeholder-shown) ~ .kbd{display:none}
+.results{list-style:none;margin:8px 0 0;padding:4px;background:var(--surface);border:1px solid var(--line);border-radius:8px;max-height:52vh;overflow-y:auto}
+.results li a{display:flex;flex-direction:column;gap:1px;padding:7px 9px;border-radius:6px;text-decoration:none;color:var(--ink)}
+.results li a:hover,.results li a:focus-visible{background:var(--accent-soft)}
+.r-key{font-family:var(--f-mono);font-size:13px;font-weight:500}
+.r-where{font-size:12.5px;color:var(--muted)}
+.results .none{padding:8px 10px;font-size:13px;color:var(--muted)}
+
+.nav{display:flex;flex-direction:column;gap:2px}
+.grp{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin:14px 0 4px 10px}
+.grp:first-child{margin-top:0}
+.nav a{display:flex;gap:10px;align-items:baseline;padding:6px 10px;border-radius:7px;text-decoration:none;color:var(--muted);font-size:14.5px;line-height:1.4}
+.nav a .n{font-family:var(--f-mono);font-size:11.5px;color:var(--faint);min-width:18px}
+.nav a:hover{color:var(--ink);background:var(--surface)}
+.nav a.active{color:var(--accent-ink);background:var(--accent-soft);font-weight:500}
+.nav a.active .n{color:var(--accent-ink)}
+.side-foot{font-size:12.5px;color:var(--faint);line-height:1.5;margin:0}
+
+.content{min-width:0}
+.topbar{display:none;position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.topbar-in{display:flex;align-items:center;gap:12px;padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.menu-btn{font:inherit;font-size:14px;font-weight:500;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:6px 12px;display:inline-flex;gap:8px;align-items:center;cursor:pointer}
+.menu-btn svg{width:16px;height:16px}
+.top-title{font-size:14px;color:var(--muted);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.scrim{display:none}
+
+main{padding-block:56px 96px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+@media (min-width:901px){ main{padding-left:max(48px,env(safe-area-inset-left,0px));padding-right:max(48px,env(safe-area-inset-right,0px))} }
+
+/* ---------- Sección ---------- */
+.sec{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:44px}
+.sec-head{display:flex;flex-direction:column;gap:12px}
+.eyebrow{margin:0;font-family:var(--f-mono);font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--accent-ink)}
+h1{margin:0;font-size:clamp(28px,4.2vw,38px);line-height:1.15;font-weight:600;letter-spacing:-.022em;text-wrap:balance}
+.lead{margin:0;font-size:18px;line-height:1.6;color:var(--muted);max-width:64ch}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.toc a{font-size:13px;text-decoration:none;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:3px 11px;background:var(--surface)}
+.toc a:hover{color:var(--accent-ink);border-color:var(--accent)}
+
+.concept{display:flex;flex-direction:column;gap:14px;scroll-margin-top:28px;min-width:0}
+.concept > *{margin:0}
+h2{font-size:21px;line-height:1.3;font-weight:600;letter-spacing:-.012em;text-wrap:balance;padding-top:26px;border-top:1px solid var(--line);transition:background-color .9s ease,box-shadow .9s ease;border-radius:2px}
+.sec-head + .toc + .concept h2,.sec-head + .concept h2{border-top:0;padding-top:0}
+.concept.flash h2{background:var(--accent-soft);box-shadow:0 0 0 8px var(--accent-soft)}
+h3{font-size:16px;font-weight:600;margin:0}
+p{max-width:68ch}
+.concept ul,.concept ol{padding-left:1.3em;display:flex;flex-direction:column;gap:6px}
+.concept li{max-width:66ch}
+.concept li::marker{color:var(--faint)}
+
+/* Tablas */
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px;line-height:1.5}
+th{font-family:var(--f-mono);font-weight:500;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td:first-child{white-space:nowrap}
+td.wrap{white-space:normal}
+td .k{font-family:var(--f-mono);font-size:13.5px;color:var(--accent-ink);font-weight:500}
+
+/* Código */
+.code{margin:0;border:1px solid var(--line);border-radius:10px;background:var(--code-bg);overflow:hidden;min-width:0}
+.code figcaption{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:7px 8px 7px 14px;border-bottom:1px solid var(--line);font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.code .file{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cap-r{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.lang{color:var(--faint);font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+.copy{font:inherit;font-size:11.5px;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:2px 9px;cursor:pointer}
+.copy:hover{color:var(--accent-ink);border-color:var(--accent)}
+.code pre{margin:0;padding:14px 16px;overflow-x:auto;font-family:var(--f-mono);font-size:13.3px;line-height:1.62;color:var(--code-ink);tab-size:4}
+.code pre code{font-family:inherit;background:none;border:0;padding:0}
+.hljs-keyword,.hljs-built_in,.hljs-name,.hljs-literal.hljs-keyword{color:var(--tk-kw)}
+.hljs-string,.hljs-subst .hljs-string{color:var(--tk-str)}
+.hljs-title,.hljs-title.class_,.hljs-title.function_,.hljs-type,.hljs-attr,.hljs-attribute{color:var(--tk-type)}
+.hljs-comment{color:var(--tk-com);font-style:italic}
+.hljs-number,.hljs-literal{color:var(--tk-num)}
+.hljs-tag,.hljs-punctuation,.hljs-meta,.hljs-operator{color:var(--code-ink)}
+.hljs-tag .hljs-name{color:var(--tk-kw)}
+.hljs-tag .hljs-attr{color:var(--tk-type)}
+.hljs-tag .hljs-string{color:var(--tk-str)}
+
+/* Notas */
+.note{border-radius:10px;padding:14px 16px;background:var(--code-bg);display:flex;flex-direction:column;gap:6px}
+.note > *{margin:0}
+.note .lbl{font-family:var(--f-mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--faint)}
+.note.warn{background:var(--warn-soft)}
+.note.warn .lbl{color:var(--warn)}
+.apply{border-radius:12px;padding:18px 20px;background:var(--accent-soft);display:flex;flex-direction:column;gap:8px}
+.apply > *{margin:0}
+.apply .lbl{font-family:var(--f-mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--accent-ink)}
+
+/* Flujos */
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.flow .nd{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:7px 12px;font-size:14px;font-weight:500;line-height:1.35}
+.flow .nd small{display:block;font-weight:400;color:var(--muted);font-size:12.5px}
+.flow .ar{color:var(--faint);font-size:14px}
+.flow .lab{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);min-width:64px}
+
+/* Pares */
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pair > *{min-width:0}
+.pane{border:1px solid var(--line);border-radius:10px;padding:16px;background:var(--surface);display:flex;flex-direction:column;gap:6px}
+.pane > *{margin:0}
+.pane .tag{font-family:var(--f-mono);font-size:12px;color:var(--accent-ink)}
+.pane p{font-size:15px;color:var(--muted)}
+
+/* Pantallas de la app (inicio) */
+.screens{list-style:none;padding:0!important;margin:0;display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px!important;counter-reset:scr}
+.screens li{counter-increment:scr;border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:14px;display:flex;flex-direction:column;gap:6px;max-width:none}
+.screens li::before{content:counter(scr);font-family:var(--f-mono);font-size:11px;color:var(--accent-ink);background:var(--accent-soft);width:22px;height:22px;border-radius:6px;display:grid;place-items:center}
+.screens .nm{font-family:var(--f-mono);font-size:13.5px;font-weight:500}
+.screens p{margin:0;font-size:14px;line-height:1.5;color:var(--muted)}
+.screens a{margin-top:auto;font-size:13px;text-decoration:none}
+.screens a:hover{text-decoration:underline}
+
+/* Pila de navegación */
+.stacks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.stk{margin:0;display:flex;flex-direction:column;gap:10px;min-width:0}
+.stk figcaption{display:flex;flex-direction:column;gap:2px;font-size:13px;color:var(--muted)}
+.stk figcaption code{font-size:11.5px;color:var(--accent-ink);overflow-wrap:anywhere;white-space:normal;background:none;border:0;padding:0}
+.stk ol{list-style:none;margin:0;padding:10px!important;display:flex!important;flex-direction:column-reverse;justify-content:flex-start;gap:5px!important;min-height:132px;border:1px dashed var(--line);border-radius:10px}
+.stk li{font-family:var(--f-mono);font-size:12px;padding:6px 8px;border-radius:6px;background:var(--code-bg);color:var(--muted);border:1px solid var(--line);overflow-wrap:anywhere}
+.stk li.top{background:var(--accent-soft);color:var(--accent-ink);border-color:var(--accent);font-weight:500}
+
+/* Demo Padding / Spacing / Margin */
+.sd{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:16px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:18px;align-items:start}
+.sd-stage{--mm:16px;--pp:20px;--ss:12px;background:var(--sd-m);background-image:repeating-linear-gradient(45deg,transparent 0 6px,color-mix(in srgb,var(--line) 70%,transparent) 6px 7px);border-radius:8px;padding:var(--mm);transition:padding .15s ease}
+.sd-border{background:var(--sd-p);border:2px solid var(--accent);border-radius:12px;padding:var(--pp);transition:padding .15s ease}
+.sd-stack{display:flex;flex-direction:column;gap:var(--ss);background:var(--sd-s);transition:gap .15s ease}
+.sd-ctl{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:7px 10px;font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.sd-ctl b{color:var(--ink);font-weight:500}
+.sd-ctl.btn{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.sd-ctl.btn b{color:var(--surface)}
+.sd-panel{display:flex;flex-direction:column;gap:12px}
+.sd-row{display:grid;grid-template-columns:auto 1fr 3.2ch;align-items:center;gap:10px;font-size:14px}
+.sd-row label{display:flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:13px;min-width:80px}
+.sw{width:12px;height:12px;border-radius:3px;border:1px solid var(--line)}
+.sd-row input{width:100%;accent-color:var(--accent)}
+.sd-row output{font-family:var(--f-mono);font-size:13px;text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
+.sd-out{margin:0;font-family:var(--f-mono);font-size:12.5px;line-height:1.6;background:var(--code-bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;overflow-x:auto;white-space:pre;color:var(--code-ink)}
+.sd-out .v{color:var(--tk-str)}
+
+/* Síntomas */
+.faq{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow:hidden}
+.faq details{border-bottom:1px solid var(--line)}
+.faq details:last-child{border-bottom:0}
+.faq summary{cursor:pointer;list-style:none;padding:12px 44px 12px 16px;font-size:15px;font-weight:500;position:relative;line-height:1.45}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";position:absolute;right:16px;top:10px;font-family:var(--f-mono);font-size:16px;color:var(--faint)}
+.faq details[open] summary::after{content:"−"}
+.faq summary:hover{background:var(--code-bg)}
+.faq .body{padding:0 16px 14px;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:14.5px}
+.faq .body dt{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);padding-top:3px}
+.faq .body dd{margin:0;color:var(--muted)}
+
+/* Checklist */
+.checks{display:flex;flex-direction:column;gap:2px}
+.checks h3{font-size:13px;font-family:var(--f-mono);font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin:10px 0 6px}
+.check{display:flex;gap:12px;align-items:flex-start;padding:8px 10px;border-radius:8px;cursor:pointer;font-size:15px;line-height:1.45}
+.check:hover{background:var(--code-bg)}
+.check input{margin-top:3px;width:17px;height:17px;accent-color:var(--accent);flex-shrink:0}
+.check input:checked + span{color:var(--faint);text-decoration:line-through;text-decoration-color:var(--faint)}
+.check-meta{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:8px}
+.check-meta button{font:inherit;font-size:13px;color:var(--muted);background:none;border:0;padding:0;text-decoration:underline;cursor:pointer}
+.progress{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+
+/* Paginador */
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding-top:28px;border-top:1px solid var(--line)}
+.pager a{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;text-decoration:none;color:var(--ink);background:var(--surface)}
+.pager a:hover{border-color:var(--accent)}
+.pager small{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.pager span{font-weight:500;font-size:15px}
+.pager .next{text-align:right;grid-column:2}
+
+/* ---------- Móvil ---------- */
+@media (max-width:900px){
+  .app{display:block}
+  .side{position:fixed;top:0;bottom:0;left:0;height:auto;width:min(320px,86vw);transform:translateX(-102%);transition:transform .22s ease;z-index:40;box-shadow:0 0 40px var(--scrim)}
+  .side-in{padding-top:calc(24px + env(safe-area-inset-top,0px));padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+  .drawer-open .side{transform:none}
+  .scrim{display:block;position:fixed;inset:0;background:var(--scrim);opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:35}
+  .drawer-open .scrim{opacity:1;pointer-events:auto}
+  .topbar{display:block}
+  main{padding-block:32px 72px}
+  .concept{scroll-margin-top:72px}
+  .kbd{display:none}
+  .screens{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stacks{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .sd{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .pair{grid-template-columns:1fr}
+  .screens{grid-template-columns:1fr}
+  .pager{grid-template-columns:1fr}
+  .pager .next{grid-column:1}
+  .lead{font-size:17px}
+  .faq .body{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+}
+</style>
+
+<div class="app">
+
+<aside class="side" id="side" aria-label="Índice de la guía">
+  <div class="side-in">
+    <a class="brand" href="#inicio">
+      <span class="brand-k">PMDM · 2.º DAM</span>
+      <span class="brand-t">Guía de la 1.ª evaluación</span>
+      <span class="brand-s">.NET MAUI, XAML y C# con la app Agencia Secreta</span>
+    </a>
+
+    <div class="search" role="search">
+      <label for="q" class="sr">Buscar en la guía</label>
+      <input id="q" type="search" placeholder="Buscar: Padding, Binding…" autocomplete="off" spellcheck="false">
+      <kbd class="kbd" aria-hidden="true">/</kbd>
+      <ul id="results" class="results" hidden></ul>
+    </div>
+
+    <nav class="nav" aria-label="Secciones">
+      <p class="grp">Empezar</p>
+      <a href="#inicio" data-sec="inicio"><span class="n">01</span>Mapa del trimestre</a>
+      <a href="#entorno" data-sec="entorno"><span class="n">02</span>Entorno y proyecto</a>
+      <p class="grp">Interfaz</p>
+      <a href="#maquetacion" data-sec="maquetacion"><span class="n">03</span>Diseño con XAML</a>
+      <a href="#controles" data-sec="controles"><span class="n">04</span>Controles y propiedades</a>
+      <a href="#eventos" data-sec="eventos"><span class="n">05</span>Eventos: XAML y C#</a>
+      <p class="grp">Lógica</p>
+      <a href="#csharp" data-sec="csharp"><span class="n">06</span>C# que hemos usado</a>
+      <a href="#navegacion" data-sec="navegacion"><span class="n">07</span>Navegación entre páginas</a>
+      <p class="grp">Datos</p>
+      <a href="#colecciones" data-sec="colecciones"><span class="n">08</span>Clases y colecciones</a>
+      <a href="#borrado" data-sec="borrado"><span class="n">09</span>Eliminar elementos</a>
+      <a href="#persistencia" data-sec="persistencia"><span class="n">10</span>Guardar con JSON</a>
+      <p class="grp">Proyecto</p>
+      <a href="#equipo" data-sec="equipo"><span class="n">11</span>Aplicarlo en el equipo</a>
+      <a href="#errores" data-sec="errores"><span class="n">12</span>Cuando algo falla</a>
+    </nav>
+
+    <p class="side-foot">Recoge lo trabajado hasta la persistencia JSON. HTTP, APIs, multimedia, SQLite, MVVM y videojuegos llegarán más adelante.</p>
+  </div>
+</aside>
+<div class="scrim" id="scrim"></div>
+
+<div class="content">
+<header class="topbar">
+  <div class="topbar-in">
+    <button class="menu-btn" id="menuBtn" type="button" aria-controls="side" aria-expanded="false">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M2.5 4h11M2.5 8h11M2.5 12h11"/></svg>
+      Índice
+    </button>
+    <span class="top-title" id="topTitle">Guía PMDM · 1.ª evaluación</span>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============================ 01 INICIO ============================ -->
+<section class="sec" id="inicio" data-num="01" data-title="Mapa del trimestre">
+  <header class="sec-head">
+    <p class="eyebrow">01 · Empezar</p>
+    <h1>Lo que hemos construido este trimestre</h1>
+    <p class="lead">Todo lo trabajado gira alrededor de una misma aplicación: <strong>Agencia Secreta</strong>. La guía recorre sus piezas en el orden en que las hemos ido añadiendo, con su código y con indicaciones para llevar cada pieza a vuestro proyecto.</p>
+  </header>
+
+  <article class="concept" id="app-referencia" data-k="Agencia Secreta, páginas, flujo de la app, LoginPage, MainPage, MisionPage, HistorialPage">
+    <h2>La aplicación de referencia</h2>
+    <p>Cuatro páginas conectadas. Cada una incorporó algo nuevo.</p>
+    <ol class="screens">
+      <li><span class="nm">LoginPage</span><p>Nombre y contraseña. Validación y primera navegación.</p><a href="#navegacion">07 · Navegación →</a></li>
+      <li><span class="nm">MainPage</span><p>Especialidad, dificultad y generación aleatoria de la misión.</p><a href="#controles">04 · Controles →</a></li>
+      <li><span class="nm">MisionPage</span><p>Muestra la misión y crea el objeto <code>Mision</code> al aceptarla.</p><a href="#colecciones">08 · Colecciones →</a></li>
+      <li><span class="nm">HistorialPage</span><p>Lista de misiones, con borrado y guardado en un archivo.</p><a href="#persistencia">10 · JSON →</a></li>
+    </ol>
+  </article>
+
+  <article class="concept" id="recorrido-dato" data-k="flujo de datos, recorrido, objeto, colección, archivo">
+    <h2>El recorrido de un dato</h2>
+    <div class="flow">
+      <span class="nd">Formulario<small>Entry, Picker, Slider</small></span><span class="ar">→</span>
+      <span class="nd">Objeto Mision<small>una misión concreta</small></span><span class="ar">→</span>
+      <span class="nd">ObservableCollection<small>todas las misiones</small></span><span class="ar">→</span>
+      <span class="nd">CollectionView<small>la lista en pantalla</small></span><span class="ar">→</span>
+      <span class="nd">misiones.json<small>lo que queda al cerrar</small></span>
+    </div>
+    <p>Si entiendes este recorrido, entiendes la primera evaluación. Las secciones 08, 09 y 10 lo explican paso a paso.</p>
+  </article>
+
+  <article class="concept" id="como-usar" data-k="cómo usar, buscar, guía">
+    <h2>Cómo usar esta guía</h2>
+    <ul>
+      <li>Usa el buscador del índice para ir directamente a un término: <code>Padding</code>, <code>PushAsync</code>, <code>Binding</code>…</li>
+      <li>Todas las secciones siguen el mismo orden: para qué sirve, cómo se escribe, un ejemplo de Agencia Secreta y cómo aplicarlo en vuestro proyecto.</li>
+      <li>Si algo no funciona, empieza por <a href="#errores">Cuando algo falla</a>.</li>
+    </ul>
+  </article>
+
+  <article class="concept" id="fuera" data-k="pendiente, HTTP, API, multimedia, SQLite, MVVM, videojuegos">
+    <h2>Qué no entra todavía</h2>
+    <p>La guía recoge solo lo trabajado hasta la persistencia JSON. Más adelante llegarán las peticiones HTTP y las APIs, la multimedia, SQLite, MVVM y los motores de videojuegos. Si encuentras ejemplos en internet que usan esas piezas, no las necesitas para lo que estamos haciendo ahora.</p>
+  </article>
+</section>
+
+<!-- ============================ 02 ENTORNO ============================ -->
+<section class="sec" id="entorno" data-num="02" data-title="Entorno y proyecto">
+  <header class="sec-head">
+    <p class="eyebrow">02 · Empezar</p>
+    <h1>El entorno y el proyecto</h1>
+    <p class="lead">Visual Studio crea, compila, ejecuta y publica la app. Conviene saber para qué sirve cada herramienta y dónde vive cada cosa dentro del proyecto.</p>
+  </header>
+
+  <article class="concept" id="entorno-piezas" data-k="Visual Studio, Android SDK, emulador, Android Device Manager, Windows Machine, .NET MAUI App, plantilla">
+    <h2>Las piezas del entorno</h2>
+    <div class="tw"><table>
+      <thead><tr><th>Herramienta</th><th>Para qué sirve</th></tr></thead>
+      <tbody>
+        <tr><td><span class="k">Visual Studio</span></td><td class="wrap">Editar, compilar, depurar y publicar el proyecto.</td></tr>
+        <tr><td><span class="k">.NET MAUI App</span></td><td class="wrap">Plantilla con la que se crea un proyecto multiplataforma.</td></tr>
+        <tr><td><span class="k">Android SDK</span></td><td class="wrap">Herramientas para compilar y ejecutar la app en Android.</td></tr>
+        <tr><td><span class="k">Android Device Manager</span></td><td class="wrap">Crea y arranca el móvil virtual (el emulador).</td></tr>
+        <tr><td><span class="k">Windows Machine</span></td><td class="wrap">Ejecuta la app en Windows, sin emulador. Es la forma más rápida de probar cambios.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note"><span class="lbl">Fíjate</span><p>Probar en Windows es más rápido, pero la app se entrega en Android. Comprueba en el emulador cómo queda en una pantalla de móvil: compartir código no significa que todo se vea igual en cada plataforma.</p></div>
+  </article>
+
+  <article class="concept" id="estructura" data-k="estructura, carpetas, Models, Data, Resources, Platforms, MauiProgram, App.xaml.cs, AppShell">
+    <h2>Estructura del proyecto</h2>
+<figure class="code"><figcaption><span class="file">Explorador de soluciones</span><span class="cap-r"><span class="lang">Texto</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-plaintext">AgenciaSecreta/
+├── Models/
+│   └── Mision.cs            ← cómo es una misión
+├── Data/
+│   ├── MisionData.cs        ← la colección en memoria
+│   └── MisionStorage.cs     ← guardar y cargar el JSON
+├── LoginPage.xaml  (+ .xaml.cs)
+├── MainPage.xaml  (+ .xaml.cs)
+├── MisionPage.xaml  (+ .xaml.cs)
+├── HistorialPage.xaml  (+ .xaml.cs)
+├── App.xaml / App.xaml.cs   ← arranque de la app
+├── AppShell.xaml
+├── MauiProgram.cs
+├── Resources/               ← icono, fuentes, imágenes
+└── Platforms/               ← código propio de cada plataforma</code></pre></figure>
+    <p>Separar en carpetas no es una cuestión estética. Cada archivo tiene una responsabilidad, así sabes dónde buscar y el equipo puede repartirse el trabajo sin pisarse.</p>
+  </article>
+
+  <article class="concept" id="dos-archivos" data-k=".xaml, .xaml.cs, code-behind, interfaz y lógica">
+    <h2>Cada página son dos archivos</h2>
+    <div class="pair">
+      <div class="pane"><span class="tag">Pagina.xaml</span><h3>Qué se ve</h3><p>Controles, orden, textos, colores y tamaños.</p></div>
+      <div class="pane"><span class="tag">Pagina.xaml.cs</span><h3>Qué pasa</h3><p>Eventos, validaciones, navegación y cambios en la interfaz.</p></div>
+    </div>
+    <p>El XAML dice «en la pantalla hay un botón». El C# dice «cuando se pulse, genera una misión». La separación no es absoluta, pero es un buen punto de partida. La sección <a href="#eventos">05</a> explica cómo se conectan.</p>
+  </article>
+
+  <article class="concept" id="compilar" data-k="Compilar, Limpiar, Recompilar, solución, Debug">
+    <h2>Compilar, limpiar y recompilar</h2>
+    <div class="tw"><table>
+      <thead><tr><th>Acción</th><th>Qué hace</th></tr></thead>
+      <tbody>
+        <tr><td><span class="k">Compilar</span></td><td class="wrap">Comprueba el código y genera la app con los cambios.</td></tr>
+        <tr><td><span class="k">Limpiar</span></td><td class="wrap">Borra los archivos generados en compilaciones anteriores.</td></tr>
+        <tr><td><span class="k">Recompilar</span></td><td class="wrap">Limpia y compila desde cero. Útil cuando el C# no «ve» un control que sí existe en el XAML.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Regla de trabajo: compila después de cada cambio pequeño. Si acumulas diez cambios y aparece un error, no sabrás cuál lo ha provocado. Si los cambios del XAML no aparecen en la app, sigue los pasos de <a href="#hotreload">Hot Reload</a>.</p>
+  </article>
+
+  <aside class="apply">
+    <span class="lbl">En vuestro proyecto</span>
+    <p>Cread desde el primer día las carpetas <code>Models</code> y <code>Data</code> y acordad los nombres de las páginas. Probad en Windows para avanzar rápido y en el emulador Android, como mínimo, al final de cada sesión.</p>
+  </aside>
+</section>
+
+<!-- ============================ 03 MAQUETACIÓN ============================ -->
+<section class="sec" id="maquetacion" data-num="03" data-title="Diseño con XAML">
+  <header class="sec-head">
+    <p class="eyebrow">03 · Interfaz</p>
+    <h1>Diseño con XAML</h1>
+    <p class="lead">XAML describe la pantalla como una jerarquía: la página contiene contenedores y los contenedores contienen controles. Elegir bien el contenedor resuelve la mitad del diseño.</p>
+  </header>
+
+  <article class="concept" id="jerarquia" data-k="ContentPage, ScrollView, VerticalStackLayout, contenedor, jerarquía, layout">
+    <h2>La jerarquía de una página</h2>
+<figure class="code"><figcaption><span class="file">MainPage.xaml</span><span class="cap-r"><span class="lang">XAML</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-xml">&lt;ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AgenciaSecreta.MainPage"
+             Title="Configurar agente"&gt;
+
+    &lt;ScrollView&gt;
+        &lt;VerticalStackLayout Padding="24" Spacing="16"&gt;
+            &lt;Label Text="AGENCIA SECRETA" FontSize="28" /&gt;
+            &lt;Picker Title="Especialidad" /&gt;
+            &lt;Button Text="GENERAR MISIÓN" /&gt;
+        &lt;/VerticalStackLayout&gt;
+    &lt;/ScrollView&gt;
+
+&lt;/ContentPage&gt;</code></pre></figure>
+    <div class="tw"><table>
+      <thead><tr><th>Elemento</th><th>Función</th></tr></thead>
+      <tbody>
+        <tr><td><span class="k">ContentPage</span></td><td class="wrap">La página completa. Solo admite un hijo directo.</td></tr>
+        <tr><td><span class="k">ScrollView</span></td><td class="wrap">Permite desplazarse cuando el contenido no cabe. Imprescindible en formularios para móvil.</td></tr>
+        <tr><td><span class="k">VerticalStackLayout</span></td><td class="wrap">Coloca sus hijos uno debajo de otro.</td></tr>
+      </tbody>
+    </table></div>
+  </article>
+
+  <article class="concept" id="padding" data-k="Padding, Spacing, Margin, espacio, separación, márgenes">
+    <h2>Padding, Spacing y Margin</h2>
+    <p>Las tres crean espacio, pero en sitios distintos. Mueve los controles y observa qué zona cambia cada una.</p>
+    <div class="sd" id="sd">
+      <div class="sd-stage" id="sdStage">
+        <div class="sd-border">
+          <div class="sd-stack">
+            <div class="sd-ctl"><b>Label</b> · AGENCIA SECRETA</div>
+            <div class="sd-ctl"><b>Picker</b> · Especialidad</div>
+            <div class="sd-ctl btn"><b>Button</b> · GENERAR</div>
+          </div>
+        </div>
+      </div>
+      <div class="sd-panel">
+        <div class="sd-row"><label for="sdM"><span class="sw" style="background:var(--sd-m)"></span>Margin</label><input id="sdM" type="range" min="0" max="40" step="2" value="16"><output id="sdMo" for="sdM">16</output></div>
+        <div class="sd-row"><label for="sdP"><span class="sw" style="background:var(--sd-p)"></span>Padding</label><input id="sdP" type="range" min="0" max="40" step="2" value="20"><output id="sdPo" for="sdP">20</output></div>
+        <div class="sd-row"><label for="sdS"><span class="sw" style="background:var(--sd-s)"></span>Spacing</label><input id="sdS" type="range" min="0" max="32" step="2" value="12"><output id="sdSo" for="sdS">12</output></div>
+<pre class="sd-out" id="sdOut">&lt;Border Margin="<span class="v">16</span>" Padding="<span class="v">20</span>"&gt;
+    &lt;VerticalStackLayout Spacing="<span class="v">12</span>"&gt;</pre>
+      </div>
+    </div>
+    <div class="tw"><table>
+      <thead><tr><th>Propiedad</th><th>Dónde actúa</th><th>Qué separa</th></tr></thead>
+      <tbody>
+        <tr><td><span class="k">Margin</span></td><td>Fuera del control</td><td class="wrap">El control de lo que tiene alrededor.</td></tr>
+        <tr><td><span class="k">Padding</span></td><td>Dentro del contenedor</td><td class="wrap">El contenido de los bordes del contenedor.</td></tr>
+        <tr><td><span class="k">Spacing</span></td><td>Entre los hijos</td><td class="wrap">Cada control del siguiente.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note"><span class="lbl">Fíjate</span><p>Para separar tres botones entre sí, usa <code>Spacing</code> en el contenedor y no un <code>Margin</code> en cada botón: un solo valor, siempre coherente. Con cuatro valores, el orden es izquierda, arriba, derecha, abajo: <code>Margin="0,0,0,12"</code> deja 12 solo por debajo.</p></div>
+  </article>
+
+  <article class="concept" id="grid" data-k="Grid, RowDefinitions, Grid.Row, RowSpacing, Auto, *, filas">
+    <h2>Grid: filas con tamaño</h2>
+    <p>Grid reparte el espacio en filas (y columnas). En el historial lo usamos para dejar el título arriba, el botón abajo y que la lista ocupe el resto.</p>
+<figure class="code"><figcaption><span class="file">HistorialPage.xaml</span><span class="cap-r"><span class="lang">XAML</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-xml">&lt;Grid RowDefinitions="Auto,*,Auto" RowSpacing="12" Padding="20"&gt;
+
+    &lt;Label Grid.Row="0" Text="HISTORIAL" FontSize="24" /&gt;
+
+    &lt;CollectionView Grid.Row="1" x:Name="MisionesView" /&gt;
+
+    &lt;Button Grid.Row="2" Text="VOLVER" Clicked="OnVolverClicked" /&gt;
+
+&lt;/Grid&gt;</code></pre></figure>
+    <div class="tw"><table>
+      <thead><tr><th>Valor</th><th>Tamaño de la fila</th></tr></thead>
+      <tbody>
+        <tr><td><span class="k">Auto</span></td><td class="wrap">Lo que necesite su contenido.</td></tr>
+        <tr><td><span class="k">*</span></td><td class="wrap">Todo el espacio que sobra.</td></tr>
+        <tr><td><span class="k">80</span></td><td class="wrap">Exactamente 80 unidades.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Las filas se numeran desde 0. <code>Grid.Row</code> indica en qué fila va cada control y <code>RowSpacing</code> separa una fila de otra.</p>
+    <div class="note warn"><span class="lbl">Atención</span><p>No metas una <code>CollectionView</code> dentro de un <code>ScrollView</code> ni de un <code>VerticalStackLayout</code>: la lista deja de desplazarse bien. Colócala en una fila <code>*</code> de un Grid.</p></div>
+  </article>
+
+  <article class="concept" id="border" data-k="Border, StrokeShape, RoundRectangle, Stroke, tarjeta, esquinas redondeadas">
+    <h2>Border: tarjetas</h2>
+<figure class="code"><figcaption><span class="file">MisionPage.xaml</span><span class="cap-r"><span class="lang">XAML</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-xml">&lt;Border Stroke="#2E7D5B" BackgroundColor="#14201A" Padding="18"&gt;
+    &lt;Border.StrokeShape&gt;
+        &lt;RoundRectangle CornerRadius="16" /&gt;
+    &lt;/Border.StrokeShape&gt;
+
+    &lt;VerticalStackLayout Spacing="6"&gt;
+        &lt;Label Text="MISIÓN ASIGNADA" FontAttributes="Bold" /&gt;
+        &lt;Label x:Name="DescripcionLabel" /&gt;
+    &lt;/VerticalStackLayout&gt;
+&lt;/Border&gt;</code></pre></figure>
+    <div class="tw"><table>
+      <thead><tr><th>Propiedad</th><th>Qué hace</th></tr></thead>
+      <tbody>
+        <tr><td><span class="k">Stroke</span></td><td class="wrap">Color del contorno.</td></tr>
+        <tr><td><span class="k">StrokeShape</span></td><td class="wrap">Forma del contorno. Con <code>RoundRectangle</code> las esquinas se redondean.</td></tr>
+      </tbody>
+    </table></div>
+    <p><code>Border.StrokeShape</code> se escribe como un elemento y no como atributo porque su valor (un <code>RoundRectangle</code>) es otro objeto con sus propias propiedades.</p>
+  </article>
+
+  <aside class="apply">
+    <span class="lbl">En vuestro proyecto</span>
+    <p>Bocetad cada pantalla antes de escribir XAML y decidid qué contenedor la sostiene: formulario largo, <code>ScrollView</code> con <code>VerticalStackLayout</code>; listado, Grid con la lista en la fila <code>*</code>. Usad los mismos valores de Padding y Spacing en todas las páginas para que el diseño sea coherente.</p>
+  </aside>
+</section>
+
+<!-- ============================ 04 CONTROLES ============================ -->
+<section class="sec" id="controles" data-num="04" data-title="Controles y propiedades">
+  <header class="sec-head">
+    <p class="eyebrow">04 · Interfaz</p>
+    <h1>Controles y propiedades</h1>
+    <p class="lead">Los controles son las piezas con las que interactúa el usuario. Todos se configuran igual: con propiedades escritas como atributos.</p>
+  </header>
+
+  <article class="concept" id="lista-controles" data-k="Label, Entry, Button, Picker, Slider, controles">
+    <h2>Los controles que hemos usado</h2>
+    <div class="tw"><table>
+      <thead><tr><th>Control</th><th>Para qué</th><th>En Agencia Secreta</th></tr></thead>
+      <tbody>
+        <tr><td><span class="k">Label</span></td><td class="wrap">Mostrar texto</td><td class="wrap">Títulos, instrucciones y resultado</td></tr>
+        <tr><td><span class="k">Entry</span></td><td class="wrap">Escribir una línea</td><td class="wrap">Nombre y contraseña</td></tr>
+        <tr><td><span class="k">Button</span></td><td class="wrap">Ejecutar una acción</td><td class="wrap">Acceder, generar, aceptar, limpiar, volver, eliminar</td></tr>
+        <tr><td><span class="k">Picker</span></td><td class="wrap">Elegir de una lista</td><td class="wrap">Especialidad del agente</td></tr>
+        <tr><td><span class="k">Slider</span></td><td class="wrap">Elegir un valor en un rango</td><td class="wrap">Dificultad de 1 a 5</td></tr>
+        <tr><td><span class="k">CollectionView</span></td><td class="wrap">Mostrar una colección</td><td class="wrap">Historial (<a href="#collectionview">sección 08</a>)</td></tr>
+        <tr><td><span class="k">Border</span></td><td class="wrap">Agrupar y destacar</td><td class="wrap">Tarjetas de misión</td></tr>
+      </tbody>
+    </table></div>
+  </article>
+
+  <article class="concept" id="entry" data-k="Entry, Placeholder, PlaceholderColor, IsPassword, Button, CornerRadius, x:Name, nombre de control">
+    <h2>Entry, Button y x:Name</h2>
+<figure class="code"><figcaption><span class="file">LoginPage.xaml</span><span class="cap-r"><span class="lang">XAML</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-xml">&lt;Entry x:Name="NombreEntry"
+       Placeholder="Nombre del agente"
+       PlaceholderColor="#7C8A81"
+       TextColor="White" /&gt;
+
+&lt;Entry x:Name="ClaveEntry"
+       Placeholder="Contraseña"
+       IsPassword="True" /&gt;
+
+&lt;Button Text="ACCEDER"
+        BackgroundColor="#2E7D5B"
+        CornerRadius="12"
+        Clicked="AccederClicked" /&gt;</code></pre></figure>
+    <p><code>x:Name</code> da nombre al control para poder usarlo desde C#, por ejemplo <code>NombreEntry.Text</code>. Si un control nunca se lee ni se cambia desde C#, no necesita nombre.</p>
+  </article>
+
+  <article class="concept" id="picker" data-k="Picker, Title, SelectedItem, especialidad, lista de opciones">
+    <h2>Picker: elegir una opción</h2>
+<figure class="code"><figcaption><span class="file">MainPage.xaml</span><span class="cap-r"><span class="lang">XAML</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-xml">&lt;Picker x:Name="RolPicker" Title="Especialidad"&gt;
+    &lt;Picker.ItemsSource&gt;
+        &lt;x:Array Type="{x:Type x:String}"&gt;
+            &lt;x:String&gt;Infiltración&lt;/x:String&gt;
+            &lt;x:String&gt;Tecnología&lt;/x:String&gt;
+            &lt;x:String&gt;Comunicaciones&lt;/x:String&gt;
+        &lt;/x:Array&gt;
+    &lt;/Picker.ItemsSource&gt;
+&lt;/Picker&gt;</code></pre></figure>
+<figure class="code"><figcaption><span class="file">MainPage.xaml.cs</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">string? rol = RolPicker.SelectedItem?.ToString();
+
+if (rol is null)
+{
+    await DisplayAlertAsync("Falta información", "Elige una especialidad.", "Aceptar");
+    return;
+}</code></pre></figure>
+    <p>Si no se ha elegido nada, <code>SelectedItem</code> vale <code>null</code>. El operador <code>?.</code> evita el error y deja <code>rol</code> en <code>null</code>, que es justo lo que comprobamos.</p>
+  </article>
+
+  <article class="concept" id="slider" data-k="Slider, Minimum, Maximum, Value, ValueChanged, e.NewValue, ValueChangedEventArgs, dificultad">
+    <h2>Slider: un valor en un rango</h2>
+<figure class="code"><figcaption><span class="file">MainPage.xaml</span><span class="cap-r"><span class="lang">XAML</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-xml">&lt;Slider x:Name="DificultadSlider"
+        Maximum="5" Minimum="1" Value="3"
+        ValueChanged="OnDificultadChanged" /&gt;
+
+&lt;Label x:Name="DificultadLabel" Text="Dificultad: 3/5" /&gt;</code></pre></figure>
+<figure class="code"><figcaption><span class="file">MainPage.xaml.cs</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">private void OnDificultadChanged(object? sender, ValueChangedEventArgs e)
+{
+    int nivel = (int)Math.Round(e.NewValue);
+    DificultadLabel.Text = $"Dificultad: {nivel}/5";
+}</code></pre></figure>
+    <p>El Slider trabaja con decimales (3,4728…). <code>Math.Round</code> redondea y <code>(int)</code> convierte el resultado a entero. <code>e.NewValue</code> es el valor nuevo que trae el evento.</p>
+    <div class="note"><span class="lbl">Fíjate</span><p>Escribe <code>Maximum</code> antes que <code>Minimum</code>. Si <code>Minimum</code> llega a superar el máximo que tiene el control en ese momento, puede producirse un error al cargar la página.</p></div>
+  </article>
+
+  <article class="concept" id="isenabled" data-k="IsEnabled, activar, desactivar, bloquear control">
+    <h2>IsEnabled: activar o bloquear</h2>
+<figure class="code"><figcaption><span class="file">MisionPage.xaml.cs</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">AceptarButton.IsEnabled = false;   // el botón deja de responder</code></pre></figure>
+    <p>Lo usamos para que una misión no pueda aceptarse dos veces. También sirve para bloquear un botón hasta que el formulario esté completo.</p>
+  </article>
+
+  <article class="concept" id="propiedades" data-k="Text, FontSize, FontAttributes, Bold, FontFamily, TextColor, BackgroundColor, HorizontalOptions, Title, x:Class, propiedades">
+    <h2>Referencia rápida de propiedades</h2>
+    <div class="tw"><table>
+      <thead><tr><th>Propiedad</th><th>Qué hace</th><th>Ejemplo</th></tr></thead>
+      <tbody>
+        <tr><td><span class="k">Text</span></td><td class="wrap">Texto que muestra</td><td><code>Text="ACCEDER"</code></td></tr>
+        <tr><td><span class="k">FontSize</span></td><td class="wrap">Tamaño del texto</td><td><code>FontSize="28"</code></td></tr>
+        <tr><td><span class="k">FontAttributes</span></td><td class="wrap">Negrita</td><td><code>FontAttributes="Bold"</code></td></tr>
+        <tr><td><span class="k">FontFamily</span></td><td class="wrap">Tipografía registrada en el proyecto</td><td><code>FontFamily="OpenSansSemibold"</code></td></tr>
+        <tr><td><span class="k">TextColor</span></td><td class="wrap">Color del texto</td><td><code>TextColor="White"</code></td></tr>
+        <tr><td><span class="k">BackgroundColor</span></td><td class="wrap">Color de fondo</td><td><code>BackgroundColor="#101820"</code></td></tr>
+        <tr><td><span class="k">HorizontalOptions</span></td><td class="wrap">Alineación horizontal</td><td><code>HorizontalOptions="Center"</code></td></tr>
+        <tr><td><span class="k">Title</span></td><td class="wrap">Título de la página o del Picker</td><td><code>Title="Historial"</code></td></tr>
+        <tr><td><span class="k">Placeholder</span></td><td class="wrap">Texto de ayuda en un Entry</td><td><code>Placeholder="Nombre"</code></td></tr>
+        <tr><td><span class="k">PlaceholderColor</span></td><td class="wrap">Color de ese texto de ayuda</td><td><code>PlaceholderColor="Gray"</code></td></tr>
+        <tr><td><span class="k">IsPassword</span></td><td class="wrap">Oculta lo que se escribe</td><td><code>IsPassword="True"</code></td></tr>
+        <tr><td><span class="k">CornerRadius</span></td><td class="wrap">Redondeo de un botón</td><td><code>CornerRadius="12"</code></td></tr>
+        <tr><td><span class="k">IsEnabled</span></td><td class="wrap">Activa o bloquea el control</td><td><code>IsEnabled="False"</code></td></tr>
+        <tr><td><span class="k">x:Name</span></td><td class="wrap">Nombre para usarlo desde C#</td><td><code>x:Name="NombreEntry"</code></td></tr>
+        <tr><td><span class="k">x:Class</span></td><td class="wrap">Une la página con su clase C#</td><td><code>x:Class="AgenciaSecreta.LoginPage"</code></td></tr>
+      </tbody>
+    </table></div>
+  </article>
+
+  <aside class="apply">
+    <span class="lbl">En vuestro proyecto</span>
+    <p>Vuestro formulario de alta usará estas mismas piezas. Elegid el control que impida introducir datos incorrectos: un <code>Picker</code> para categorías cerradas (tipo, prioridad, sala…) evita que alguien escriba una categoría que no existe, y un <code>Slider</code> no deja salir del rango.</p>
+  </aside>
+</section>
+
+<!-- ============================ 05 EVENTOS ============================ -->
+<section class="sec" id="eventos" data-num="05" data-title="Eventos: XAML y C#">
+  <header class="sec-head">
+    <p class="eyebrow">05 · Interfaz</p>
+    <h1>Eventos: de XAML a C#</h1>
+    <p class="lead">Un evento es algo que ocurre en la interfaz: pulsar un botón, mover un Slider. El XAML indica qué método responde y el C# decide qué se hace.</p>
+  </header>
+
+  <article class="concept" id="ciclo" data-k="evento, ciclo, interacción, acción del usuario">
+    <h2>El ciclo de una interacción</h2>
+    <div class="flow">
+      <span class="nd">El usuario actúa<small>pulsa GENERAR MISIÓN</small></span><span class="ar">→</span>
+      <span class="nd">Se lanza el evento<small>Clicked</small></span><span class="ar">→</span>
+      <span class="nd">El método procesa<small>valida y elige misión</small></span><span class="ar">→</span>
+      <span class="nd">La interfaz cambia<small>se abre MisionPage</small></span>
+    </div>
+  </article>
+
+  <article class="concept" id="conexion" data-k="x:Class, partial class, InitializeComponent, constructor, ContentPage">
+    <h2>Cómo se conectan los dos archivos</h2>
+<figure class="code"><figcaption><span class="file">MainPage.xaml</span><span class="cap-r"><span class="lang">XAML</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-xml">x:Class="AgenciaSecreta.MainPage"</code></pre></figure>
+<figure class="code"><figcaption><span class="file">MainPage.xaml.cs</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">namespace AgenciaSecreta;
+
+public partial class MainPage : ContentPage
+{
+    public MainPage()
+    {
+        InitializeComponent();
+    }
+}</code></pre></figure>
+    <div class="tw"><table>
+      <thead><tr><th>Pieza</th><th>Función</th></tr></thead>
+      <tbody>
+        <tr><td><span class="k">x:Class</span></td><td class="wrap">Indica qué clase C# corresponde a este XAML. Debe coincidir con el namespace y el nombre de la clase.</td></tr>
+        <tr><td><span class="k">partial class</span></td><td class="wrap">La clase se escribe en dos partes: la que genera MAUI a partir del XAML y la vuestra.</td></tr>
+        <tr><td><span class="k">InitializeComponent()</span></td><td class="wrap">Carga los controles del XAML y los enlaza con sus <code>x:Name</code>. Sin esta línea, los controles con nombre valen <code>null</code>.</td></tr>
+      </tbody>
+    </table></div>
+  </article>
+
+  <article class="concept" id="manejador" data-k="Clicked, sender, EventArgs, object? sender, async void, manejador de eventos, método">
+    <h2>Anatomía de un manejador</h2>
+<figure class="code"><figcaption><span class="file">MainPage.xaml</span><span class="cap-r"><span class="lang">XAML</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-xml">&lt;Button Text="GENERAR MISIÓN" Clicked="OnGenerarMisionClicked" /&gt;</code></pre></figure>
+<figure class="code"><figcaption><span class="file">MainPage.xaml.cs</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">private async void OnGenerarMisionClicked(object? sender, EventArgs e)
+{
+    // validar, generar la misión y navegar
+}</code></pre></figure>
+    <div class="tw"><table>
+      <thead><tr><th>Parte</th><th>Significado</th></tr></thead>
+      <tbody>
+        <tr><td><span class="k">private</span></td><td class="wrap">Solo se usa desde esta página.</td></tr>
+        <tr><td><span class="k">async</span></td><td class="wrap">Permite usar <code>await</code> dentro, por ejemplo para avisos y navegación.</td></tr>
+        <tr><td><span class="k">void</span></td><td class="wrap">Los manejadores de eventos no devuelven nada.</td></tr>
+        <tr><td><span class="k">OnGenerarMisionClicked</span></td><td class="wrap">Debe llamarse exactamente igual que en <code>Clicked</code>.</td></tr>
+        <tr><td><span class="k">object? sender</span></td><td class="wrap">El control que ha provocado el evento. Lleva <code>?</code> porque así lo define MAUI: puede ser <code>null</code>.</td></tr>
+        <tr><td><span class="k">EventArgs e</span></td><td class="wrap">Información extra. En el Slider es <code>ValueChangedEventArgs</code>, con <code>e.NewValue</code>.</td></tr>
+      </tbody>
+    </table></div>
+  </article>
+
+  <article class="concept" id="avisos" data-k="DisplayAlertAsync, alerta, aviso, mensaje, confirmación">
+    <h2>Responder al usuario: avisos</h2>
+<figure class="code"><figcaption><span class="file">Cualquier página</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">// Aviso con un solo botón
+await DisplayAlertAsync("Acceso", "Introduce nombre y contraseña.", "Aceptar");
+
+// Pregunta con dos botones: devuelve true o false
+bool confirmar = await DisplayAlertAsync(
+    "Eliminar misión", "¿Seguro que quieres eliminarla?", "Eliminar", "Cancelar");</code></pre></figure>
+    <p><code>DisplayAlertAsync</code> espera a que el usuario pulse. Por eso lleva <code>await</code> y el método que la contiene es <code>async</code>.</p>
+  </article>
+
+  <article class="concept" id="limpiar" data-k="OnLimpiarClicked, limpiar formulario, restablecer valores">
+    <h2>Limpiar el formulario</h2>
+<figure class="code"><figcaption><span class="file">MainPage.xaml.cs</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">private void OnLimpiarClicked(object? sender, EventArgs e)
+{
+    RolPicker.SelectedItem = null;
+    DificultadSlider.Value = 3;
+    DificultadLabel.Text = "Dificultad: 3/5";
+}</code></pre></figure>
+    <p>Restablecer es asignar a cada control su valor inicial desde C#. Este método no usa <code>await</code>, así que no necesita <code>async</code>.</p>
+  </article>
+
+  <aside class="apply">
+    <span class="lbl">En vuestro proyecto</span>
+    <p>Poned nombres que digan qué hace cada método: <code>OnGuardarIncidenciaClicked</code> es mejor que <code>Button_Clicked_1</code>. En la defensa tendréis que localizar rápido qué método responde a cada botón.</p>
+  </aside>
+</section>
+
+<!-- ============================ 06 C# ============================ -->
+<section class="sec" id="csharp" data-num="06" data-title="C# que hemos usado">
+  <header class="sec-head">
+    <p class="eyebrow">06 · Lógica</p>
+    <h1>El C# que hemos usado</h1>
+    <p class="lead">No hace falta dominar todo el lenguaje. Esta es la parte de C# que aparece en Agencia Secreta, con un ejemplo de cada cosa.</p>
+  </header>
+
+  <article class="concept" id="tipos" data-k="string, int, bool, string[], array, variable, tipos">
+    <h2>Tipos y variables</h2>
+<figure class="code"><figcaption><span class="file">MainPage.xaml.cs</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">string agente = "SOMBRA";
+int dificultad = 4;
+bool confirmar = false;
+
+string[] misionesFaciles =
+{
+    "Recupera el maletín olvidado en la cafetería.",
+    "Fotografía la matrícula del coche sospechoso."
+};</code></pre></figure>
+    <p>Un array (<code>string[]</code>) guarda varios valores del mismo tipo. Se accede por posición, empezando en 0: <code>misionesFaciles[0]</code> es la primera.</p>
+  </article>
+
+  <article class="concept" id="validar" data-k="if, else, return, string.IsNullOrWhiteSpace, Trim, ToUpper, validación, campos vacíos">
+    <h2>Validar y salir pronto</h2>
+<figure class="code"><figcaption><span class="file">LoginPage.xaml.cs</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">string nombre = NombreEntry.Text?.Trim() ?? "";
+
+if (string.IsNullOrWhiteSpace(nombre))
+{
+    await DisplayAlertAsync("Falta información", "Escribe el nombre del agente.", "Aceptar");
+    return;
+}
+
+// A partir de aquí, el nombre es válido</code></pre></figure>
+    <p>Primero se comprueba lo que está mal y se sale con <code>return</code>. Así el código siguiente solo se ejecuta con datos correctos y no se llena de <code>else</code> anidados.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Método</th><th>Qué hace</th></tr></thead>
+      <tbody>
+        <tr><td><span class="k">Trim()</span></td><td class="wrap">Quita los espacios del principio y del final: <code>"  Ana "</code> → <code>"Ana"</code>.</td></tr>
+        <tr><td><span class="k">string.IsNullOrWhiteSpace(t)</span></td><td class="wrap"><code>true</code> si el texto es null, está vacío o solo tiene espacios.</td></tr>
+        <tr><td><span class="k">ToUpper()</span></td><td class="wrap">Pasa a mayúsculas: <code>"sombra"</code> → <code>"SOMBRA"</code>.</td></tr>
+      </tbody>
+    </table></div>
+  </article>
+
+  <article class="concept" id="nulos" data-k="null, ?., ??, nulabilidad, NullReferenceException, valor nulo">
+    <h2>Valores nulos: ?. y ??</h2>
+<figure class="code"><figcaption><span class="file">LoginPage.xaml.cs</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">// ?.  si Text es null, no llama a Trim() y el resultado es null
+// ??  si lo de la izquierda es null, usa lo de la derecha
+string nombre = NombreEntry.Text?.Trim() ?? "";</code></pre></figure>
+    <p>Un Entry que nunca se ha tocado puede tener <code>Text</code> a <code>null</code>. Sin <code>?.</code>, llamar a <code>Trim()</code> provocaría una excepción y la app se cerraría.</p>
+  </article>
+
+  <article class="concept" id="condiciones" data-k="if, else, !, is not, condiciones, negar, comprobar tipo">
+    <h2>Condiciones</h2>
+<figure class="code"><figcaption><span class="file">Varios archivos</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">if (dificultad &gt;= 4)
+{
+    opciones = misionesDificiles;
+}
+else
+{
+    opciones = misionesFaciles;
+}
+
+if (!confirmar)                     // ! niega: «si NO se ha confirmado»
+{
+    return;
+}
+
+if (sender is not Button boton)     // «si sender NO es un Button»
+{
+    return;
+}</code></pre></figure>
+    <p><code>is not</code> comprueba el tipo y, si es el correcto, deja el valor ya convertido en una variable (<code>boton</code>) lista para usar.</p>
+  </article>
+
+  <article class="concept" id="interpolacion" data-k="$, interpolación, cadenas, texto con variables">
+    <h2>Texto con datos: interpolación</h2>
+<figure class="code"><figcaption><span class="file">MainPage.xaml.cs</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">DificultadLabel.Text = $"Dificultad: {nivel}/5";
+AgenteLabel.Text = $"Bienvenido, agente {agente}";</code></pre></figure>
+    <p>El <code>$</code> delante de las comillas permite meter variables entre llaves dentro del texto.</p>
+  </article>
+
+  <article class="concept" id="aleatorio" data-k="Random.Shared.Next, aleatorio, Length, posición">
+    <h2>Valores aleatorios</h2>
+<figure class="code"><figcaption><span class="file">MainPage.xaml.cs</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">int posicion = Random.Shared.Next(opciones.Length);
+string descripcion = opciones[posicion];</code></pre></figure>
+    <p><code>Next(n)</code> devuelve un entero entre 0 y n − 1: justo las posiciones válidas del array.</p>
+  </article>
+
+  <article class="concept" id="modificadores" data-k="public, private, static, readonly, get; private set;, new, modificadores">
+    <h2>Modificadores y palabras clave</h2>
+    <div class="tw"><table>
+      <thead><tr><th>Palabra</th><th>Significado</th><th>Ejemplo</th></tr></thead>
+      <tbody>
+        <tr><td><span class="k">public</span></td><td class="wrap">Se puede usar desde cualquier parte del proyecto.</td><td><code>public class Mision</code></td></tr>
+        <tr><td><span class="k">private</span></td><td class="wrap">Solo desde la propia clase.</td><td><code>private void OnLimpiarClicked</code></td></tr>
+        <tr><td><span class="k">static</span></td><td class="wrap">Pertenece a la clase, no a un objeto: se usa sin <code>new</code>.</td><td><code>MisionData.Misiones</code></td></tr>
+        <tr><td><span class="k">readonly</span></td><td class="wrap">Se asigna una vez (al declararla o en el constructor) y no cambia.</td><td><code>private readonly string agente;</code></td></tr>
+        <tr><td><span class="k">get; private set;</span></td><td class="wrap">Todos pueden leer; solo la propia clase puede cambiar.</td><td><code>Misiones { get; private set; }</code></td></tr>
+        <tr><td><span class="k">new</span></td><td class="wrap">Crea un objeto.</td><td><code>new MisionPage(…)</code></td></tr>
+      </tbody>
+    </table></div>
+  </article>
+
+  <article class="concept" id="todo-junto" data-k="OnGenerarMisionClicked, ejemplo completo, generar misión">
+    <h2>Todo junto: generar una misión</h2>
+<figure class="code"><figcaption><span class="file">MainPage.xaml.cs</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">private async void OnGenerarMisionClicked(object? sender, EventArgs e)
+{
+    string? rol = RolPicker.SelectedItem?.ToString();
+
+    if (rol is null)
+    {
+        await DisplayAlertAsync("Falta información", "Elige una especialidad.", "Aceptar");
+        return;
+    }
+
+    int dificultad = (int)Math.Round(DificultadSlider.Value);
+
+    string[] opciones;
+    if (dificultad &gt;= 4)
+    {
+        opciones = misionesDificiles;
+    }
+    else
+    {
+        opciones = misionesFaciles;
+    }
+
+    string descripcion = opciones[Random.Shared.Next(opciones.Length)];
+
+    await Navigation.PushAsync(new MisionPage(agente, rol, dificultad, descripcion));
+}</code></pre></figure>
+    <p>Leer el dato, validar, decidir, elegir al azar y navegar. Casi cualquier botón de vuestra app seguirá esta misma estructura.</p>
+  </article>
+
+  <aside class="apply">
+    <span class="lbl">En vuestro proyecto</span>
+    <p>Cada formulario necesita el mismo patrón: leer con <code>?.Trim() ?? ""</code>, validar con <code>if</code> + <code>return</code> y avisar con <code>DisplayAlertAsync</code>. Validad todo lo que pueda llegar vacío o fuera de rango antes de crear el objeto.</p>
+  </aside>
+</section>
+
+<!-- ============================ 07 NAVEGACIÓN ============================ -->
+<section class="sec" id="navegacion" data-num="07" data-title="Navegación entre páginas">
+  <header class="sec-head">
+    <p class="eyebrow">07 · Lógica</p>
+    <h1>Navegación entre páginas</h1>
+    <p class="lead">Una app real tiene varias pantallas. MAUI las organiza en una pila: abrir una página la coloca encima y volver la quita.</p>
+  </header>
+
+  <article class="concept" id="pila" data-k="pila de navegación, stack, Navigation">
+    <h2>La pila de navegación</h2>
+    <div class="stacks">
+      <figure class="stk"><figcaption>Tras entrar<code>RemovePage(login)</code></figcaption>
+        <ol><li class="top">MainPage</li></ol></figure>
+      <figure class="stk"><figcaption>Generar misión<code>PushAsync(MisionPage)</code></figcaption>
+        <ol><li>MainPage</li><li class="top">MisionPage</li></ol></figure>
+      <figure class="stk"><figcaption>Aceptar<code>PushAsync(HistorialPage)</code></figcaption>
+        <ol><li>MainPage</li><li>MisionPage</li><li class="top">HistorialPage</li></ol></figure>
+      <figure class="stk"><figcaption>Volver<code>PopAsync()</code></figcaption>
+        <ol><li>MainPage</li><li class="top">MisionPage</li></ol></figure>
+    </div>
+    <p>Solo se ve la página de arriba, marcada en verde. El botón Atrás del sistema hace lo mismo que <code>PopAsync</code>.</p>
+  </article>
+
+  <article class="concept" id="arranque" data-k="App.xaml.cs, NavigationPage, CreateWindow, arranque, AppShell, Window">
+    <h2>El arranque de la app</h2>
+<figure class="code"><figcaption><span class="file">App.xaml.cs</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">protected override Window CreateWindow(IActivationState? activationState)
+{
+    return new Window(new NavigationPage(new LoginPage()));
+}</code></pre></figure>
+    <p>Envolver la primera página en una <code>NavigationPage</code> activa la pila. Si vuestro proyecto arranca con <code>AppShell</code>, como la plantilla, <code>PushAsync</code> también funciona, pero la barra superior se oculta con otra propiedad (<a href="#barra">ver más abajo</a>).</p>
+  </article>
+
+  <article class="concept" id="pushasync" data-k="PushAsync, PopAsync, abrir página, volver, OnVolverClicked">
+    <h2>Abrir y volver</h2>
+<figure class="code"><figcaption><span class="file">Cualquier página</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">// Abrir una página nueva: se coloca encima
+await Navigation.PushAsync(new HistorialPage());
+
+// Cerrar la actual y volver a la anterior
+await Navigation.PopAsync();</code></pre></figure>
+  </article>
+
+  <article class="concept" id="parametros" data-k="constructor, parámetros, pasar datos entre páginas">
+    <h2>Pasar datos a otra página</h2>
+<figure class="code"><figcaption><span class="file">MainPage.xaml.cs · quien envía</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">await Navigation.PushAsync(new MisionPage(agente, rol, dificultad, descripcion));</code></pre></figure>
+<figure class="code"><figcaption><span class="file">MisionPage.xaml.cs · quien recibe</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">public MisionPage(string agente, string especialidad, int dificultad, string descripcion)
+{
+    InitializeComponent();
+
+    AgenteLabel.Text = agente;
+    DescripcionLabel.Text = descripcion;
+    // ...
+}</code></pre></figure>
+    <p>El constructor es la puerta de entrada de la página: lo que necesita para funcionar se le pasa al crearla. El número, el orden y el tipo de los argumentos deben coincidir con los parámetros.</p>
+  </article>
+
+  <article class="concept" id="removepage" data-k="RemovePage, login, botón atrás, quitar página de la pila, AccederClicked">
+    <h2>Quitar el login de la pila</h2>
+<figure class="code"><figcaption><span class="file">LoginPage.xaml.cs</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">await Navigation.PushAsync(new MainPage(nombre.ToUpper()));
+Navigation.RemovePage(this);</code></pre></figure>
+    <p>Después de entrar, el login sobra. Si no se elimina, el botón Atrás devuelve al usuario a la pantalla de acceso.</p>
+  </article>
+
+  <article class="concept" id="barra" data-k="NavigationPage.HasNavigationBar, Shell.NavBarIsVisible, SetHasNavigationBar, SetNavBarIsVisible, ocultar barra">
+    <h2>Ocultar la barra de navegación</h2>
+    <div class="tw"><table>
+      <thead><tr><th></th><th>Arranque con NavigationPage</th><th>Arranque con Shell</th></tr></thead>
+      <tbody>
+        <tr><td><span class="k">XAML</span></td><td><code>NavigationPage.HasNavigationBar="False"</code></td><td><code>Shell.NavBarIsVisible="False"</code></td></tr>
+        <tr><td><span class="k">C#</span></td><td><code>NavigationPage.SetHasNavigationBar(this, false);</code></td><td><code>Shell.SetNavBarIsVisible(this, false);</code></td></tr>
+      </tbody>
+    </table></div>
+    <p>La propiedad que funciona depende de cómo arranca la app. Si la barra no desaparece, comprueba primero cuál de los dos sistemas usas.</p>
+  </article>
+
+  <aside class="apply">
+    <span class="lbl">En vuestro proyecto</span>
+    <p>Dibujad el mapa de pantallas antes de programar: qué página abre cuál y qué datos necesita cada una. Ese mapa decide los constructores y entra directamente en la documentación.</p>
+  </aside>
+</section>
+
+<!-- ============================ 08 COLECCIONES ============================ -->
+<section class="sec" id="colecciones" data-num="08" data-title="Clases y colecciones">
+  <header class="sec-head">
+    <p class="eyebrow">08 · Datos</p>
+    <h1>Clases y colecciones</h1>
+    <p class="lead">Una misión cabe en variables sueltas; veinte, no. Una clase agrupa los datos de una misión y una colección guarda todas.</p>
+  </header>
+
+  <article class="concept" id="clase" data-k="clase, objeto, Mision, propiedades, get; set;, Models, modelo">
+    <h2>Clase y objeto</h2>
+<figure class="code"><figcaption><span class="file">Models/Mision.cs</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">namespace AgenciaSecreta.Models;
+
+public class Mision
+{
+    public string Agente { get; set; } = "";
+    public string Especialidad { get; set; } = "";
+    public int Dificultad { get; set; }
+    public string Descripcion { get; set; } = "";
+    public string Estado { get; set; } = "Pendiente";
+}</code></pre></figure>
+    <div class="pair">
+      <div class="pane"><span class="tag">Clase</span><h3>La plantilla</h3><p>Describe cómo es cualquier misión: qué datos tiene y de qué tipo.</p></div>
+      <div class="pane"><span class="tag">Objeto</span><h3>Una ficha concreta</h3><p>Una misión real, con sus propios valores: agente SOMBRA, dificultad 4…</p></div>
+    </div>
+  </article>
+
+  <article class="concept" id="inicializador" data-k="new, inicializador de objetos, crear objeto">
+    <h2>Crear un objeto</h2>
+<figure class="code"><figcaption><span class="file">MisionPage.xaml.cs</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">mision = new Mision
+{
+    Agente = agente,
+    Especialidad = especialidad,
+    Dificultad = dificultad,
+    Descripcion = descripcion,
+    Estado = "Pendiente"
+};</code></pre></figure>
+    <p>El inicializador de objetos asigna varias propiedades al crear el objeto: entre llaves y separadas por comas.</p>
+  </article>
+
+  <article class="concept" id="misiondata" data-k="ObservableCollection, MisionData, List, colección compartida, Add, Remove, Clear, using">
+    <h2>Una colección para toda la app</h2>
+<figure class="code"><figcaption><span class="file">Data/MisionData.cs</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">using System.Collections.ObjectModel;
+using AgenciaSecreta.Models;
+
+namespace AgenciaSecreta.Data;
+
+public static class MisionData
+{
+    public static ObservableCollection&lt;Mision&gt; Misiones { get; private set; }
+        = new ObservableCollection&lt;Mision&gt;();
+}</code></pre></figure>
+    <p>Al ser <code>static</code>, todas las páginas acceden a la misma colección escribiendo <code>MisionData.Misiones</code>, sin crear nada.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Tipo</th><th>Comportamiento</th><th>Uso</th></tr></thead>
+      <tbody>
+        <tr><td><span class="k">List&lt;Mision&gt;</span></td><td class="wrap">Guarda objetos. La interfaz no se entera de los cambios.</td><td class="wrap">Leer el JSON</td></tr>
+        <tr><td><span class="k">ObservableCollection&lt;Mision&gt;</span></td><td class="wrap">Guarda objetos y avisa a la interfaz al añadir o quitar.</td><td class="wrap">El historial</td></tr>
+      </tbody>
+    </table></div>
+    <p>Operaciones: <code>Add(m)</code> añade, <code>Remove(m)</code> quita esa misión concreta y <code>Clear()</code> vacía la colección.</p>
+  </article>
+
+  <article class="concept" id="collectionview" data-k="CollectionView, ItemsSource, ItemTemplate, DataTemplate, Binding, StringFormat, EmptyView, plantilla, lista">
+    <h2>Mostrar la colección: CollectionView</h2>
+    <p>No se diseñan veinte tarjetas. Se diseña una plantilla y CollectionView la repite para cada objeto de la colección.</p>
+<figure class="code"><figcaption><span class="file">HistorialPage.xaml</span><span class="cap-r"><span class="lang">XAML</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-xml">&lt;CollectionView x:Name="MisionesView"
+                EmptyView="Todavía no has aceptado ninguna misión."&gt;
+    &lt;CollectionView.ItemTemplate&gt;
+        &lt;DataTemplate&gt;
+            &lt;Border Padding="16" Margin="0,0,0,12" Stroke="#2E7D5B"&gt;
+                &lt;Border.StrokeShape&gt;
+                    &lt;RoundRectangle CornerRadius="14" /&gt;
+                &lt;/Border.StrokeShape&gt;
+                &lt;VerticalStackLayout Spacing="4"&gt;
+                    &lt;Label Text="{Binding Agente}" FontAttributes="Bold" /&gt;
+                    &lt;Label Text="{Binding Especialidad}" /&gt;
+                    &lt;Label Text="{Binding Dificultad, StringFormat='Dificultad: {0}/5'}" /&gt;
+                    &lt;Label Text="{Binding Descripcion}" /&gt;
+                    &lt;Label Text="{Binding Estado}" /&gt;
+                &lt;/VerticalStackLayout&gt;
+            &lt;/Border&gt;
+        &lt;/DataTemplate&gt;
+    &lt;/CollectionView.ItemTemplate&gt;
+&lt;/CollectionView&gt;</code></pre></figure>
+<figure class="code"><figcaption><span class="file">HistorialPage.xaml.cs</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">public HistorialPage()
+{
+    InitializeComponent();
+    MisionesView.ItemsSource = MisionData.Misiones;
+}</code></pre></figure>
+    <div class="tw"><table>
+      <thead><tr><th>Pieza</th><th>Función</th></tr></thead>
+      <tbody>
+        <tr><td><span class="k">ItemsSource</span></td><td class="wrap">De dónde salen los elementos.</td></tr>
+        <tr><td><span class="k">ItemTemplate / DataTemplate</span></td><td class="wrap">Cómo se dibuja cada elemento.</td></tr>
+        <tr><td><span class="k">{Binding Agente}</span></td><td class="wrap">Muestra la propiedad <code>Agente</code> del objeto de esa tarjeta.</td></tr>
+        <tr><td><span class="k">StringFormat</span></td><td class="wrap">Añade texto alrededor del valor; <code>{0}</code> es el valor.</td></tr>
+        <tr><td><span class="k">EmptyView</span></td><td class="wrap">Lo que se muestra si la colección está vacía.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note warn"><span class="lbl">Atención</span><p>El nombre dentro de <code>Binding</code> debe coincidir exactamente con una propiedad pública de la clase, mayúsculas incluidas. Si te equivocas no hay error de compilación: la etiqueta simplemente sale vacía.</p></div>
+  </article>
+
+  <article class="concept" id="anadir" data-k="Add, OnAceptarClicked, aceptar misión, duplicados, IsEnabled">
+    <h2>Añadir sin duplicar</h2>
+<figure class="code"><figcaption><span class="file">MisionPage.xaml.cs</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">private async void OnAceptarClicked(object? sender, EventArgs e)
+{
+    AceptarButton.IsEnabled = false;   // evita aceptar dos veces
+    mision.Estado = "Aceptada";
+
+    MisionData.Misiones.Add(mision);
+
+    await Navigation.PushAsync(new HistorialPage());
+}</code></pre></figure>
+    <p>En la <a href="#cuando">sección 10</a> este método se completa con la carga y el guardado del archivo.</p>
+  </article>
+
+  <aside class="apply">
+    <span class="lbl">En vuestro proyecto</span>
+    <p>Vuestra clase principal (<code>Incidencia</code>, <code>Producto</code>, <code>Reserva</code>…) es la decisión más importante del proyecto: de sus propiedades dependen el formulario, las tarjetas del listado y el archivo JSON. Acordadla en equipo antes de repartir pantallas.</p>
+  </aside>
+</section>
+
+<!-- ============================ 09 BORRADO ============================ -->
+<section class="sec" id="borrado" data-num="09" data-title="Eliminar elementos">
+  <header class="sec-head">
+    <p class="eyebrow">09 · Datos</p>
+    <h1>Eliminar un elemento</h1>
+    <p class="lead">Cada tarjeta tiene su botón ELIMINAR. Hay que conseguir que el método sepa qué misión concreta borrar y que pida confirmación antes.</p>
+  </header>
+
+  <article class="concept" id="flujo-borrado" data-k="eliminar, borrar, flujo de eliminación">
+    <h2>El flujo completo</h2>
+    <div class="flow">
+      <span class="nd">Pulsar ELIMINAR</span><span class="ar">→</span>
+      <span class="nd">Recuperar la misión</span><span class="ar">→</span>
+      <span class="nd">Confirmar</span><span class="ar">→</span>
+      <span class="nd">Quitar de la colección</span><span class="ar">→</span>
+      <span class="nd">Guardar</span>
+    </div>
+    <p>Primero se modifican los datos en memoria y después se hace permanente el cambio.</p>
+  </article>
+
+  <article class="concept" id="commandparameter" data-k="CommandParameter, {Binding .}, Binding punto, objeto de la tarjeta">
+    <h2>Cada botón lleva su misión</h2>
+<figure class="code"><figcaption><span class="file">HistorialPage.xaml · dentro del DataTemplate</span><span class="cap-r"><span class="lang">XAML</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-xml">&lt;Button Text="ELIMINAR"
+        Clicked="OnEliminarClicked"
+        CommandParameter="{Binding .}" /&gt;</code></pre></figure>
+    <p><code>{Binding .}</code> significa «el objeto entero de esta tarjeta». Así cada botón guarda su propia misión y el método sabe cuál borrar.</p>
+  </article>
+
+  <article class="concept" id="oneliminar" data-k="OnEliminarClicked, Remove, is not, confirmar borrado">
+    <h2>El método de borrado</h2>
+<figure class="code"><figcaption><span class="file">HistorialPage.xaml.cs</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">private async void OnEliminarClicked(object? sender, EventArgs e)
+{
+    // 1. ¿Qué misión es?
+    if (sender is not Button boton || boton.CommandParameter is not Mision mision)
+    {
+        return;
+    }
+
+    // 2. Confirmar
+    bool confirmar = await DisplayAlertAsync(
+        "Eliminar misión",
+        $"¿Eliminar la misión del agente {mision.Agente}?",
+        "Eliminar", "Cancelar");
+
+    if (!confirmar)
+    {
+        return;
+    }
+
+    // 3. Quitar de la colección: la lista se actualiza sola
+    MisionData.Misiones.Remove(mision);
+
+    // 4. Hacer permanente el cambio
+    await MisionStorage.GuardarAsync();
+}</code></pre></figure>
+    <p>Si falta el paso 4, la misión desaparece de la pantalla pero reaparece al reiniciar la app.</p>
+  </article>
+
+  <article class="concept" id="clear" data-k="Clear, vaciar, borrar todo el historial">
+    <h2>Vaciar todo el historial</h2>
+<figure class="code"><figcaption><span class="file">HistorialPage.xaml.cs</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">MisionData.Misiones.Clear();
+await MisionStorage.GuardarAsync();</code></pre></figure>
+    <p>Antes de vaciar, pide confirmación dos veces: es una acción que no se puede deshacer.</p>
+  </article>
+
+  <aside class="apply">
+    <span class="lbl">En vuestro proyecto</span>
+    <p>Cualquier listado de vuestra app puede borrar con este patrón. Cambiad el tipo del <code>is not</code> (<code>Incidencia</code>, <code>Producto</code>…), la colección y el texto de la confirmación.</p>
+  </aside>
+</section>
+
+<!-- ============================ 10 PERSISTENCIA ============================ -->
+<section class="sec" id="persistencia" data-num="10" data-title="Guardar con JSON">
+  <header class="sec-head">
+    <p class="eyebrow">10 · Datos</p>
+    <h1>Guardar los datos con JSON</h1>
+    <p class="lead">La colección vive en memoria y desaparece al cerrar la app. Para conservarla, la convertimos en texto JSON y la guardamos en un archivo del dispositivo.</p>
+  </header>
+
+  <article class="concept" id="memoria" data-k="memoria, persistencia, datos temporales">
+    <h2>Memoria frente a persistencia</h2>
+    <div class="pair">
+      <div class="pane"><span class="tag">Memoria</span><h3>La mesa de trabajo</h3><p>Rápida y temporal. Contiene la ObservableCollection mientras la app está abierta. Al cerrar, se pierde.</p></div>
+      <div class="pane"><span class="tag">Archivo</span><h3>El archivador</h3><p>Conserva la información en el almacenamiento del dispositivo. Sobrevive al cierre.</p></div>
+    </div>
+  </article>
+
+  <article class="concept" id="json" data-k="JSON, serializar, deserializar, JsonSerializer.Serialize, JsonSerializer.Deserialize">
+    <h2>Qué es JSON</h2>
+    <div class="pair">
+<figure class="code"><figcaption><span class="file">Objeto en C#</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">new Mision
+{
+    Agente = "SOMBRA",
+    Dificultad = 4,
+    Estado = "Aceptada"
+}</code></pre></figure>
+<figure class="code"><figcaption><span class="file">El mismo objeto en JSON</span><span class="cap-r"><span class="lang">JSON</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-json">{
+  "Agente": "SOMBRA",
+  "Dificultad": 4,
+  "Estado": "Aceptada"
+}</code></pre></figure>
+    </div>
+    <div class="tw"><table>
+      <thead><tr><th>Operación</th><th>Dirección</th><th>Método</th></tr></thead>
+      <tbody>
+        <tr><td><span class="k">Serializar</span></td><td>objeto → texto</td><td><code>JsonSerializer.Serialize(…)</code></td></tr>
+        <tr><td><span class="k">Deserializar</span></td><td>texto → objeto</td><td><code>JsonSerializer.Deserialize&lt;List&lt;Mision&gt;&gt;(json)</code></td></tr>
+      </tbody>
+    </table></div>
+    <div class="note"><span class="lbl">Fíjate</span><p>No se guarda la CollectionView ni las tarjetas: se guardan los datos, y la interfaz se vuelve a dibujar a partir de ellos. En el archivo real el JSON aparece en una sola línea y con todas las propiedades.</p></div>
+  </article>
+
+  <article class="concept" id="ruta" data-k="FileSystem.Current.AppDataDirectory, Path.Combine, ruta, misiones.json, carpeta de la app">
+    <h2>Dónde se guarda</h2>
+<figure class="code"><figcaption><span class="file">Data/MisionStorage.cs</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">string ruta = Path.Combine(FileSystem.Current.AppDataDirectory, "misiones.json");</code></pre></figure>
+    <div class="tw"><table>
+      <thead><tr><th>Pieza</th><th>Función</th></tr></thead>
+      <tbody>
+        <tr><td><span class="k">AppDataDirectory</span></td><td class="wrap">Carpeta privada de la app. Solo ella puede leerla y escribirla.</td></tr>
+        <tr><td><span class="k">Path.Combine</span></td><td class="wrap">Une carpeta y archivo con el separador correcto en cada sistema.</td></tr>
+      </tbody>
+    </table></div>
+  </article>
+
+  <article class="concept" id="misionstorage" data-k="MisionStorage, GuardarAsync, CargarAsync, File.WriteAllTextAsync, File.ReadAllTextAsync, File.Exists, foreach, cargas duplicadas, using System.Text.Json">
+    <h2>La clase MisionStorage</h2>
+<figure class="code"><figcaption><span class="file">Data/MisionStorage.cs</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">using System.Text.Json;
+using AgenciaSecreta.Models;
+
+namespace AgenciaSecreta.Data;
+
+public static class MisionStorage
+{
+    private static readonly string ruta =
+        Path.Combine(FileSystem.Current.AppDataDirectory, "misiones.json");
+
+    private static bool cargado = false;
+
+    public static async Task GuardarAsync()
+    {
+        string json = JsonSerializer.Serialize(MisionData.Misiones);
+        await File.WriteAllTextAsync(ruta, json);
+    }
+
+    public static async Task CargarAsync()
+    {
+        if (cargado)
+        {
+            return;                 // ya se cargó: evita duplicados
+        }
+
+        cargado = true;
+
+        if (!File.Exists(ruta))
+        {
+            return;                 // primera ejecución: aún no hay archivo
+        }
+
+        string json = await File.ReadAllTextAsync(ruta);
+        List&lt;Mision&gt; lista = JsonSerializer.Deserialize&lt;List&lt;Mision&gt;&gt;(json) ?? new List&lt;Mision&gt;();
+
+        foreach (Mision m in lista)
+        {
+            MisionData.Misiones.Add(m);
+        }
+    }
+}</code></pre></figure>
+    <div class="flow">
+      <span class="lab">Guardar</span>
+      <span class="nd">Colección</span><span class="ar">→</span>
+      <span class="nd">Serialize</span><span class="ar">→</span>
+      <span class="nd">WriteAllTextAsync</span><span class="ar">→</span>
+      <span class="nd">misiones.json</span>
+    </div>
+    <div class="flow">
+      <span class="lab">Cargar</span>
+      <span class="nd">misiones.json</span><span class="ar">→</span>
+      <span class="nd">ReadAllTextAsync</span><span class="ar">→</span>
+      <span class="nd">Deserialize</span><span class="ar">→</span>
+      <span class="nd">foreach + Add</span>
+    </div>
+    <p><code>Deserialize</code> puede devolver <code>null</code>; con <code>??</code> trabajamos en ese caso con una lista vacía. La variable <code>cargado</code> impide que el archivo se lea dos veces y las misiones salgan repetidas.</p>
+  </article>
+
+  <article class="concept" id="cuando" data-k="OnAppearing, base.OnAppearing, cuándo guardar, cuándo cargar, sobrescribir">
+    <h2>Cuándo cargar y cuándo guardar</h2>
+    <div class="tw"><table>
+      <thead><tr><th>Momento</th><th>Qué hacer</th></tr></thead>
+      <tbody>
+        <tr><td><span class="k">Al aceptar</span></td><td class="wrap">Cargar, añadir y guardar.</td></tr>
+        <tr><td><span class="k">Al eliminar</span></td><td class="wrap">Quitar y guardar.</td></tr>
+        <tr><td><span class="k">Al mostrar el historial</span></td><td class="wrap">Cargar.</td></tr>
+      </tbody>
+    </table></div>
+<figure class="code"><figcaption><span class="file">HistorialPage.xaml.cs</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">protected override async void OnAppearing()
+{
+    base.OnAppearing();
+    await MisionStorage.CargarAsync();
+}</code></pre></figure>
+<figure class="code"><figcaption><span class="file">MisionPage.xaml.cs · versión final</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">private async void OnAceptarClicked(object? sender, EventArgs e)
+{
+    AceptarButton.IsEnabled = false;
+    mision.Estado = "Aceptada";
+
+    await MisionStorage.CargarAsync();    // primero, recuperar lo guardado
+    MisionData.Misiones.Add(mision);
+    await MisionStorage.GuardarAsync();   // después, guardar con la nueva
+
+    await Navigation.PushAsync(new HistorialPage());
+}</code></pre></figure>
+    <p><code>OnAppearing</code> se ejecuta cada vez que la página aparece, también al volver a ella. <code>base.OnAppearing()</code> mantiene el comportamiento normal de la página.</p>
+    <div class="note warn"><span class="lbl">Atención</span><p>Guarda siempre después de haber cargado. Si al abrir la app lo primero que haces es aceptar una misión, la colección aún está vacía: guardar en ese momento sobrescribiría el archivo y se perderían las misiones anteriores. Gracias a <code>cargado</code>, llamar a <code>CargarAsync</code> varias veces no duplica nada.</p></div>
+  </article>
+
+  <article class="concept" id="async" data-k="async, await, Task, asíncrono, async void, programación asíncrona">
+    <h2>async, await y Task</h2>
+    <p>Leer o escribir un archivo tarda. <code>await</code> espera a que termine sin congelar la pantalla mientras tanto.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Palabra</th><th>Significado</th></tr></thead>
+      <tbody>
+        <tr><td><span class="k">async</span></td><td class="wrap">Marca un método que usa <code>await</code> dentro.</td></tr>
+        <tr><td><span class="k">await</span></td><td class="wrap">Espera una operación sin bloquear la interfaz.</td></tr>
+        <tr><td><span class="k">Task</span></td><td class="wrap">Lo que devuelve un método asíncrono propio, como <code>GuardarAsync</code>.</td></tr>
+        <tr><td><span class="k">async void</span></td><td class="wrap">Solo en manejadores de eventos y en <code>OnAppearing</code>, donde MAUI exige <code>void</code>.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note"><span class="lbl">Fíjate</span><p>Si llamas sin <code>await</code> a un método que devuelve <code>Task</code>, el código sigue adelante sin esperar: la app podría cambiar de página antes de terminar de guardar.</p></div>
+  </article>
+
+  <article class="concept" id="prueba-reinicio" data-k="prueba, reinicio, comprobar persistencia, cerrar app">
+    <h2>La prueba definitiva</h2>
+    <ol>
+      <li>Crea dos misiones y abre el historial.</li>
+      <li>Cierra la app por completo. Volver atrás no basta; detener la depuración sí la cierra.</li>
+      <li>Ábrela de nuevo: las dos misiones deben seguir ahí.</li>
+      <li>Elimina una, cierra y abre otra vez.</li>
+      <li>La eliminada no debe reaparecer.</li>
+    </ol>
+    <p>Si los datos sobreviven al reinicio, hay persistencia real.</p>
+  </article>
+
+  <aside class="apply">
+    <span class="lbl">En vuestro proyecto</span>
+    <p>Copiad el patrón cambiando tres cosas: el tipo (<code>List&lt;Incidencia&gt;</code>), la colección (<code>IncidenciaData.Incidencias</code>) y el nombre del archivo (<code>incidencias.json</code>). Si más adelante cambiáis el tipo de alguna propiedad, el JSON antiguo puede fallar al cargarse: desinstalad la app del emulador para empezar con datos limpios.</p>
+  </aside>
+</section>
+
+<!-- ============================ 11 EQUIPO ============================ -->
+<section class="sec" id="equipo" data-num="11" data-title="Aplicarlo en el equipo">
+  <header class="sec-head">
+    <p class="eyebrow">11 · Proyecto</p>
+    <h1>Del ejemplo a vuestro proyecto</h1>
+    <p class="lead">Vuestra app resuelve otro problema, pero se construye con las mismas piezas que Agencia Secreta. Esta sección ayuda a traducirlas y a organizar el trabajo del equipo.</p>
+  </header>
+
+  <article class="concept" id="traducir" data-k="adaptar, equivalencias, traducir piezas, Incidencia, servicio técnico">
+    <h2>Traducir las piezas</h2>
+    <div class="tw"><table>
+      <thead><tr><th>Agencia Secreta</th><th>Qué es</th><th>Ejemplo: servicio técnico</th></tr></thead>
+      <tbody>
+        <tr><td><span class="k">Mision</span></td><td class="wrap">La clase de vuestro dato</td><td><code>Incidencia</code></td></tr>
+        <tr><td><span class="k">MisionData</span></td><td class="wrap">La colección compartida</td><td><code>IncidenciaData</code></td></tr>
+        <tr><td><span class="k">MisionStorage</span></td><td class="wrap">Guardar y cargar</td><td><code>IncidenciaStorage</code></td></tr>
+        <tr><td><span class="k">misiones.json</span></td><td class="wrap">El archivo de datos</td><td><code>incidencias.json</code></td></tr>
+        <tr><td><span class="k">LoginPage</span></td><td class="wrap">Pantalla inicial</td><td><code>LoginPage</code></td></tr>
+        <tr><td><span class="k">MainPage</span></td><td class="wrap">Formulario de alta</td><td><code>NuevaIncidenciaPage</code></td></tr>
+        <tr><td><span class="k">HistorialPage</span></td><td class="wrap">Listado con borrado</td><td><code>IncidenciasPage</code></td></tr>
+      </tbody>
+    </table></div>
+<figure class="code"><figcaption><span class="file">Models/Incidencia.cs</span><span class="cap-r"><span class="lang">C#</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-csharp">public class Incidencia
+{
+    public string Equipo { get; set; } = "";
+    public string Tipo { get; set; } = "";          // Hardware, Software, Red: con un Picker
+    public string Descripcion { get; set; } = "";
+    public int Prioridad { get; set; }              // de 1 a 5: con un Slider
+    public string Estado { get; set; } = "Abierta";
+}</code></pre></figure>
+  </article>
+
+  <article class="concept" id="modelo-equipo" data-k="modelo, acordar, nombres, decisiones del equipo">
+    <h2>Primero, poneos de acuerdo en el modelo</h2>
+    <p>Antes de repartir pantallas, decidid juntos:</p>
+    <ul>
+      <li>La clase principal: su nombre, sus propiedades y el tipo de cada una.</li>
+      <li>Los nombres de las páginas y qué datos recibe cada una en su constructor.</li>
+      <li>El nombre del archivo JSON.</li>
+      <li>Colores, tamaños y valores comunes de Padding y Spacing.</li>
+    </ul>
+    <p>Todo depende de los nombres de las propiedades: los <code>Binding</code> del listado, el JSON y el formulario. Si alguien los cambia a mitad de proyecto, el resto deja de funcionar sin que aparezca ningún error.</p>
+  </article>
+
+  <article class="concept" id="reparto" data-k="reparto, roles, organización, integrar, trabajo en equipo">
+    <h2>Repartir el trabajo</h2>
+    <div class="tw"><table>
+      <thead><tr><th>Bloque</th><th>Responsabilidad</th></tr></thead>
+      <tbody>
+        <tr><td><span class="k">Formulario</span></td><td class="wrap">Controles, validación y creación del objeto.</td></tr>
+        <tr><td><span class="k">Listado</span></td><td class="wrap">CollectionView, plantilla de la tarjeta y borrado.</td></tr>
+        <tr><td><span class="k">Datos y navegación</span></td><td class="wrap">Modelo, colección, guardado JSON, arranque y paso entre páginas.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Es una propuesta: ajustadla al número de personas del equipo. Lo importante es que dos personas no editen el mismo archivo a la vez y que cada parte se pruebe antes de juntarla.</p>
+    <ul>
+      <li>Compilad y probad vuestra parte antes de integrarla.</li>
+      <li>Integrad a menudo: juntar cambios pequeños es mucho más fácil que juntar una semana de trabajo.</li>
+      <li>Después de integrar, recorred la app entera: inicio, alta, listado, borrado y reinicio.</li>
+      <li>Explicaos lo que habéis hecho. En la defensa, cualquiera puede tener que explicar cualquier archivo.</li>
+    </ul>
+  </article>
+
+  <article class="concept" id="orden" data-k="prioridades, alcance, orden de trabajo, proyecto pequeño">
+    <h2>Orden de trabajo</h2>
+    <div class="flow">
+      <span class="nd">Que funcione</span><span class="ar">→</span>
+      <span class="nd">Comprobarlo</span><span class="ar">→</span>
+      <span class="nd">Organizarlo</span><span class="ar">→</span>
+      <span class="nd">Mejorar el aspecto</span>
+    </div>
+    <p>No dediquéis una sesión a colores e iconos mientras falta el listado. Es mejor una app pequeña, completa y que sepáis defender que una idea grande que no llega a funcionar. Quedan fuera de alcance las redes sociales, los pagos, los clones de apps grandes y los proyectos que dependen de muchas APIs externas.</p>
+  </article>
+
+  <article class="concept" id="checklist" data-k="requisitos, fase 1, entrega, checklist, lista de comprobación">
+    <h2>Lista de comprobación</h2>
+    <div class="checks" id="checks">
+      <h3>Requisitos de la fase 1</h3>
+      <label class="check"><input type="checkbox" id="ck01"><span>Cliente y problema claramente definidos.</span></label>
+      <label class="check"><input type="checkbox" id="ck02"><span>Login o pantalla inicial.</span></label>
+      <label class="check"><input type="checkbox" id="ck03"><span>Varias páginas con navegación funcional.</span></label>
+      <label class="check"><input type="checkbox" id="ck04"><span>Formulario con validación.</span></label>
+      <label class="check"><input type="checkbox" id="ck05"><span>Una clase propia para representar los datos.</span></label>
+      <label class="check"><input type="checkbox" id="ck06"><span>Una colección de objetos.</span></label>
+      <label class="check"><input type="checkbox" id="ck07"><span>Listado mediante CollectionView.</span></label>
+      <label class="check"><input type="checkbox" id="ck08"><span>Alta de nuevos elementos.</span></label>
+      <label class="check"><input type="checkbox" id="ck09"><span>Diseño coherente y adaptado a Android.</span></label>
+      <label class="check"><input type="checkbox" id="ck10"><span>Icono personalizado.</span></label>
+      <label class="check"><input type="checkbox" id="ck11"><span>APK instalable y probada en un móvil.</span></label>
+      <label class="check"><input type="checkbox" id="ck12"><span>Documentación técnica de la fase.</span></label>
+      <h3>Añadido después</h3>
+      <label class="check"><input type="checkbox" id="ck13"><span>Eliminar elementos con confirmación.</span></label>
+      <label class="check"><input type="checkbox" id="ck14"><span>Datos guardados en JSON que sobreviven al reinicio.</span></label>
+    </div>
+    <div class="check-meta"><span class="progress" id="ckProgress">0 de 14 completados</span><span>Las marcas se guardan solo en este navegador. <button type="button" id="ckReset">Desmarcar todo</button></span></div>
+  </article>
+
+  <article class="concept" id="documentacion" data-k="documentación, capturas, entrega, evidencias">
+    <h2>Documentar mientras trabajáis</h2>
+    <p>La documentación de la fase recoge:</p>
+    <ul>
+      <li>Cliente, problema y solución.</li>
+      <li>Páginas y funcionalidades.</li>
+      <li>Modelo de datos.</li>
+      <li>Capturas, pruebas y errores resueltos.</li>
+      <li>Reparto del trabajo y aportación de cada persona.</li>
+    </ul>
+    <p>Haced capturas y anotad cada error resuelto en el momento en que aparece. Reconstruirlo todo el último día es mucho más difícil.</p>
+  </article>
+
+  <article class="concept" id="defensa" data-k="defensa individual, explicar código, IA, inteligencia artificial">
+    <h2>Defensa individual</h2>
+    <p>Que la app funcione no basta. Cada persona debe poder:</p>
+    <ul>
+      <li>Explicar cualquier pantalla.</li>
+      <li>Decir qué hace cada archivo.</li>
+      <li>Hacer un cambio pequeño en directo.</li>
+      <li>Localizar y corregir un error.</li>
+    </ul>
+    <p>Podéis consultar documentación, ejemplos o IA, pero el código que entra en el proyecto tiene que entenderse, adaptarse y poder justificarse. Si no sabes explicar una parte, esa parte no demuestra lo que has aprendido.</p>
+  </article>
+</section>
+
+<!-- ============================ 12 ERRORES ============================ -->
+<section class="sec" id="errores" data-num="12" data-title="Cuando algo falla">
+  <header class="sec-head">
+    <p class="eyebrow">12 · Proyecto</p>
+    <h1>Cuando algo falla</h1>
+    <p class="lead">Los errores forman parte del trabajo. Seguir siempre el mismo procedimiento ahorra tiempo y te hace más autónomo.</p>
+  </header>
+
+  <article class="concept" id="procedimiento" data-k="error, procedimiento, depurar, Lista de errores, diagnóstico">
+    <h2>Procedimiento</h2>
+    <ol>
+      <li>Lee el mensaje completo.</li>
+      <li>Localiza el archivo y la línea: doble clic en la Lista de errores.</li>
+      <li>Identifica el tipo: de compilación (no arranca), de ejecución (se cierra) o de lógica (funciona, pero mal).</li>
+      <li>Revisa nombres, mayúsculas, tipos y sintaxis.</li>
+      <li>Formula una hipótesis y prueba un solo cambio cada vez.</li>
+      <li>Consulta la documentación o los ejemplos de esta guía.</li>
+      <li>Si sigues atascado, pide ayuda explicando qué has comprobado.</li>
+    </ol>
+  </article>
+
+  <article class="concept" id="hotreload" data-k="Hot Reload, cambios no aparecen, emulador, reiniciar">
+    <h2>Los cambios de XAML no aparecen (Hot Reload)</h2>
+    <ol>
+      <li>Comprueba que la app sigue ejecutándose en modo Debug.</li>
+      <li>Guarda el archivo.</li>
+      <li>Mira si hay errores en el XAML.</li>
+      <li>Detén la app y vuelve a ejecutarla.</li>
+      <li>Limpia y recompila la solución.</li>
+      <li>Reinicia el emulador.</li>
+      <li>Si nada de lo anterior funciona, revisa la instalación y las cargas de trabajo de Visual Studio.</li>
+    </ol>
+    <p>Añadir controles con <code>x:Name</code>, eventos nuevos o recursos suele requerir volver a ejecutar.</p>
+  </article>
+
+  <article class="concept" id="sintomas" data-k="errores frecuentes, síntomas, no aparece, duplicados, excepción, lista vacía, se cierra">
+    <h2>Síntomas frecuentes</h2>
+    <div class="faq">
+      <details><summary>«El nombre 'DificultadLabel' no existe en el contexto actual»</summary>
+        <dl class="body"><dt>Causa</dt><dd>El <code>x:Name</code> del XAML no coincide, mayúsculas incluidas, o el XAML no se ha regenerado.</dd><dt>Solución</dt><dd>Revisa el nombre, guarda y recompila. <a href="#entry">Ver x:Name</a></dd></dl></details>
+      <details><summary>Error en el XAML porque no encuentra el método del evento</summary>
+        <dl class="body"><dt>Causa</dt><dd>El nombre en <code>Clicked</code> no coincide con el del método en C#, o la firma es distinta.</dd><dt>Solución</dt><dd>Copia el nombre exacto y usa <code>(object? sender, EventArgs e)</code>. <a href="#manejador">Ver manejadores</a></dd></dl></details>
+      <details><summary>No se encuentra el tipo ObservableCollection, JsonSerializer o Mision</summary>
+        <dl class="body"><dt>Causa</dt><dd>Falta un <code>using</code> al principio del archivo.</dd><dt>Solución</dt><dd>Añade <code>using System.Collections.ObjectModel;</code>, <code>using System.Text.Json;</code> o <code>using AgenciaSecreta.Models;</code> según el caso. <a href="#misiondata">Ver MisionData</a></dd></dl></details>
+      <details><summary>La lista sale vacía aunque hay datos</summary>
+        <dl class="body"><dt>Causa</dt><dd>No se ha asignado <code>ItemsSource</code>, o un <code>Binding</code> tiene el nombre mal escrito.</dd><dt>Solución</dt><dd>Revisa el constructor de la página y que los nombres coincidan con las propiedades públicas. <a href="#collectionview">Ver CollectionView</a></dd></dl></details>
+      <details><summary>Añado elementos y la lista no cambia</summary>
+        <dl class="body"><dt>Causa</dt><dd>La colección es una <code>List</code>, que no avisa a la interfaz.</dd><dt>Solución</dt><dd>Usa <code>ObservableCollection</code>. <a href="#misiondata">Ver colecciones</a></dd></dl></details>
+      <details><summary>Las tarjetas se cortan o la lista no se desplaza</summary>
+        <dl class="body"><dt>Causa</dt><dd>La CollectionView está dentro de un ScrollView o de un VerticalStackLayout.</dd><dt>Solución</dt><dd>Colócala en una fila <code>*</code> de un Grid. <a href="#grid">Ver Grid</a></dd></dl></details>
+      <details><summary>La app se cierra al pulsar un botón (NullReferenceException)</summary>
+        <dl class="body"><dt>Causa</dt><dd>Se usa un valor <code>null</code>: un Entry vacío, un Picker sin selección… o falta <code>InitializeComponent()</code>.</dd><dt>Solución</dt><dd>Usa <code>?.</code> y <code>??</code>, y valida antes de usar el dato. <a href="#nulos">Ver valores nulos</a></dd></dl></details>
+      <details><summary>Al pulsar dos veces, la misión se añade dos veces</summary>
+        <dl class="body"><dt>Causa</dt><dd>El botón sigue activo mientras se procesa.</dd><dt>Solución</dt><dd><code>AceptarButton.IsEnabled = false;</code> al principio del método. <a href="#anadir">Ver añadir</a></dd></dl></details>
+      <details><summary>El historial muestra misiones repetidas</summary>
+        <dl class="body"><dt>Causa</dt><dd>El archivo se carga cada vez que aparece la página.</dd><dt>Solución</dt><dd>Usa la variable <code>cargado</code> en <code>CargarAsync</code>. <a href="#misionstorage">Ver MisionStorage</a></dd></dl></details>
+      <details><summary>Al reiniciar, solo queda la última misión</summary>
+        <dl class="body"><dt>Causa</dt><dd>Se guardó antes de cargar el archivo y se sobrescribió.</dd><dt>Solución</dt><dd>Llama a <code>CargarAsync</code> antes de añadir. <a href="#cuando">Ver cuándo guardar</a></dd></dl></details>
+      <details><summary>La primera vez que abro el historial, la app falla</summary>
+        <dl class="body"><dt>Causa</dt><dd>Se intenta leer un archivo que todavía no existe.</dd><dt>Solución</dt><dd>Comprueba <code>File.Exists(ruta)</code> antes de leer. <a href="#misionstorage">Ver MisionStorage</a></dd></dl></details>
+      <details><summary>El botón Atrás vuelve al login</summary>
+        <dl class="body"><dt>Causa</dt><dd>El login sigue en la pila.</dd><dt>Solución</dt><dd><code>Navigation.RemovePage(this);</code> después del <code>PushAsync</code>. <a href="#removepage">Ver RemovePage</a></dd></dl></details>
+      <details><summary>La barra de navegación no se oculta</summary>
+        <dl class="body"><dt>Causa</dt><dd>Se usa la propiedad del otro sistema de navegación.</dd><dt>Solución</dt><dd><code>NavigationPage.HasNavigationBar</code> o <code>Shell.NavBarIsVisible</code>, según cómo arranque la app. <a href="#barra">Ver la tabla</a></dd></dl></details>
+      <details><summary>Aviso de nulabilidad en el manejador del evento</summary>
+        <dl class="body"><dt>Causa</dt><dd>El parámetro está declarado como <code>object sender</code>.</dd><dt>Solución</dt><dd>Escribe <code>object? sender</code>, como define MAUI. <a href="#manejador">Ver manejadores</a></dd></dl></details>
+    </div>
+  </article>
+
+  <article class="concept" id="preguntar" data-k="pedir ayuda, preguntar, dudas, plantilla">
+    <h2>Antes de preguntar</h2>
+    <p>«No funciona» no permite ayudarte. Copia esta plantilla y complétala antes de pedir ayuda:</p>
+<figure class="code"><figcaption><span class="file">Plantilla de pregunta</span><span class="cap-r"><span class="lang">Texto</span><button class="copy" type="button">Copiar</button></span></figcaption><pre><code class="language-plaintext">¿Qué esperaba que pasara?
+¿Qué ha pasado?
+¿Qué error aparece? (mensaje, archivo y línea)
+¿Qué he comprobado ya?
+¿Qué creo que puede estar fallando?</code></pre></figure>
+  </article>
+</section>
+
+</main>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>
+(function(){
+  "use strict";
+  var secs = Array.prototype.slice.call(document.querySelectorAll(".sec"));
+  var links = Array.prototype.slice.call(document.querySelectorAll(".nav a[data-sec]"));
+  var topTitle = document.getElementById("topTitle");
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+
+  /* Resaltado de código */
+  if (window.hljs) {
+    document.querySelectorAll("pre code[class*='language-']").forEach(function(el){
+      if (!el.classList.contains("language-plaintext")) { try { window.hljs.highlightElement(el); } catch(e){} }
+    });
+  }
+
+  /* Índice de cada sección y paginador */
+  secs.forEach(function(s, i){
+    var concepts = s.querySelectorAll(".concept");
+    if (concepts.length > 3) {
+      var toc = document.createElement("nav");
+      toc.className = "toc"; toc.setAttribute("aria-label", "En esta sección");
+      concepts.forEach(function(c){
+        var a = document.createElement("a");
+        a.href = "#" + c.id; a.textContent = c.querySelector("h2").textContent;
+        toc.appendChild(a);
+      });
+      s.querySelector(".sec-head").insertAdjacentElement("afterend", toc);
+    }
+    var prev = secs[i-1], next = secs[i+1], html = "";
+    html += prev ? '<a class="prev" href="#' + prev.id + '"><small>← Anterior</small><span>' + esc(prev.dataset.num + " · " + prev.dataset.title) + '</span></a>' : "";
+    html += next ? '<a class="next" href="#' + next.id + '"><small>Siguiente →</small><span>' + esc(next.dataset.num + " · " + next.dataset.title) + '</span></a>' : "";
+    var pager = document.createElement("nav");
+    pager.className = "pager"; pager.setAttribute("aria-label", "Cambiar de sección");
+    pager.innerHTML = html;
+    s.appendChild(pager);
+  });
+
+  /* Menú en móvil */
+  var menuBtn = document.getElementById("menuBtn");
+  function openDrawer(){ document.body.classList.add("drawer-open"); menuBtn.setAttribute("aria-expanded","true"); }
+  function closeDrawer(){ document.body.classList.remove("drawer-open"); menuBtn.setAttribute("aria-expanded","false"); }
+  menuBtn.addEventListener("click", function(){ document.body.classList.contains("drawer-open") ? closeDrawer() : openDrawer(); });
+  document.getElementById("scrim").addEventListener("click", closeDrawer);
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape") closeDrawer(); });
+
+  /* Navegación por secciones (una visible cada vez) */
+  function show(id){
+    secs.forEach(function(s){ s.hidden = s.id !== id; });
+    links.forEach(function(a){
+      var on = a.dataset.sec === id;
+      a.classList.toggle("active", on);
+      if (on) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+    });
+    var sec = document.getElementById(id);
+    if (topTitle && sec) topTitle.textContent = sec.dataset.num + " · " + sec.dataset.title;
+  }
+  function route(){
+    var raw = "";
+    try { raw = decodeURIComponent(location.hash.slice(1)); } catch(e){}
+    var target = raw ? document.getElementById(raw) : null;
+    var sec = target ? (target.classList.contains("sec") ? target : target.closest(".sec")) : null;
+    if (!sec) { sec = secs[0]; target = null; }
+    show(sec.id);
+    closeDrawer();
+    if (target && target !== sec) {
+      requestAnimationFrame(function(){
+        target.scrollIntoView({ block: "start", behavior: reduce ? "auto" : "smooth" });
+        if (target.classList.contains("concept")) {
+          target.classList.add("flash");
+          setTimeout(function(){ target.classList.remove("flash"); }, 1300);
+        }
+      });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }
+  window.addEventListener("hashchange", route);
+  /* El navegador desplaza al ancla al terminar de cargar; se corrige una vez */
+  window.addEventListener("load", function(){ setTimeout(route, 0); });
+  document.addEventListener("click", function(e){
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (a && a.getAttribute("href") === location.hash) { e.preventDefault(); route(); }
+  });
+  route();
+
+  /* Buscador */
+  function norm(t){ return t.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase(); }
+  var index = [];
+  document.querySelectorAll(".concept").forEach(function(c){
+    var sec = c.closest(".sec");
+    var title = c.querySelector("h2").textContent;
+    var keys = (c.dataset.k || "").split(",").map(function(s){ return s.trim(); }).filter(Boolean);
+    [title].concat(keys).forEach(function(k, i){
+      index.push({ key: k, nkey: norm(k), id: c.id, title: title, where: sec.dataset.num + " · " + title, isTitle: i === 0 });
+    });
+  });
+  var q = document.getElementById("q"), results = document.getElementById("results");
+  function render(){
+    var nq = norm(q.value.trim());
+    if (!nq) { results.hidden = true; results.innerHTML = ""; return; }
+    var hits = [];
+    index.forEach(function(e){
+      var pos = e.nkey.indexOf(nq);
+      if (pos < 0) return;
+      hits.push({ e: e, score: (pos === 0 ? 0 : 1) + (e.isTitle ? 0.4 : 0) + e.nkey.length / 200 });
+    });
+    hits.sort(function(a, b){ return a.score - b.score; });
+    var seen = {}, out = [];
+    for (var i = 0; i < hits.length && out.length < 8; i++) {
+      var e = hits[i].e;
+      if (seen[e.id]) continue;
+      seen[e.id] = true; out.push(e);
+    }
+    results.innerHTML = out.length
+      ? out.map(function(e){ return '<li><a href="#' + e.id + '"><span class="r-key">' + esc(e.key) + '</span><span class="r-where">' + esc(e.where) + '</span></a></li>'; }).join("")
+      : '<li class="none">Sin resultados. Prueba con otro término: Binding, PushAsync, JSON…</li>';
+    results.hidden = false;
+  }
+  q.addEventListener("input", render);
+  q.addEventListener("keydown", function(e){
+    if (e.key === "Enter") { var first = results.querySelector("a"); if (first) { e.preventDefault(); first.click(); } }
+    if (e.key === "Escape") { q.value = ""; render(); }
+  });
+  document.addEventListener("keydown", function(e){
+    if (e.key === "/" && document.activeElement !== q && !/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)) {
+      e.preventDefault();
+      if (window.innerWidth <= 900) openDrawer();
+      q.focus();
+    }
+  });
+
+  /* Copiar código */
+  document.addEventListener("click", function(e){
+    var b = e.target.closest && e.target.closest(".copy");
+    if (!b) return;
+    var code = b.closest("figure").querySelector("code");
+    function selectCode(){ var r = document.createRange(); r.selectNodeContents(code); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); }
+    function done(ok){ b.textContent = ok ? "Copiado" : "Seleccionado"; setTimeout(function(){ b.textContent = "Copiar"; }, 1500); }
+    try {
+      navigator.clipboard.writeText(code.textContent).then(function(){ done(true); }, function(){ selectCode(); done(false); });
+    } catch(err) { selectCode(); done(false); }
+  });
+
+  /* Demo de Padding / Spacing / Margin */
+  var stage = document.getElementById("sdStage");
+  if (stage) {
+    var m = document.getElementById("sdM"), p = document.getElementById("sdP"), s = document.getElementById("sdS");
+    var out = document.getElementById("sdOut");
+    var update = function(){
+      stage.style.setProperty("--mm", m.value + "px");
+      stage.style.setProperty("--pp", p.value + "px");
+      stage.style.setProperty("--ss", s.value + "px");
+      document.getElementById("sdMo").textContent = m.value;
+      document.getElementById("sdPo").textContent = p.value;
+      document.getElementById("sdSo").textContent = s.value;
+      out.innerHTML = '&lt;Border Margin="<span class="v">' + m.value + '</span>" Padding="<span class="v">' + p.value + '</span>"&gt;\n    &lt;VerticalStackLayout Spacing="<span class="v">' + s.value + '</span>"&gt;';
+    };
+    [m, p, s].forEach(function(el){ el.addEventListener("input", update); });
+    update();
+  }
+
+  /* Lista de comprobación (se recuerda en este navegador) */
+  var KEY = "pmdm-guia-1ev-checklist";
+  var boxes = Array.prototype.slice.call(document.querySelectorAll("#checks input[type=checkbox]"));
+  var prog = document.getElementById("ckProgress");
+  function saved(){ try { return JSON.parse(localStorage.getItem(KEY) || "[]"); } catch(e){ return []; } }
+  function persist(){ try { localStorage.setItem(KEY, JSON.stringify(boxes.filter(function(b){ return b.checked; }).map(function(b){ return b.id; }))); } catch(e){} }
+  function count(){ var n = boxes.filter(function(b){ return b.checked; }).length; prog.textContent = n + " de " + boxes.length + " completados"; }
+  var init = saved();
+  boxes.forEach(function(b){ b.checked = init.indexOf(b.id) !== -1; b.addEventListener("change", function(){ persist(); count(); }); });
+  document.getElementById("ckReset").addEventListener("click", function(){ boxes.forEach(function(b){ b.checked = false; }); persist(); count(); });
+  count();
+})();
+</script>
+
+</body>
+</html>

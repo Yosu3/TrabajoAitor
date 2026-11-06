@@ -171,7 +171,7 @@
             <Border.Shadow>
                 <Shadow Brush="Black" Opacity="0.2" Radius="10" Offset="0,-4" />
             </Border.Shadow>
-            <Grid ColumnDefinitions="*, *, *">
+            <Grid ColumnDefinitions="*, *, *, *">
                 <!-- Botón Inicio -->
                 <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center" VerticalOptions="Center">
                     <Label Text="🏠"  FontSize="20" HorizontalOptions="Center"/>
@@ -192,6 +192,14 @@
                     </VerticalStackLayout.GestureRecognizers>
                     <Label Text="📁" FontSize="20" HorizontalOptions="Center"/>
                     <Label Text="Prestamos" FontSize="11" TextColor="#2C5364" FontAttributes="Bold" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Column="3" HorizontalOptions="Center" VerticalOptions="Center">
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnCambiarAreaTapped" />
+                    </VerticalStackLayout.GestureRecognizers>
+                    <Label Text="↪" FontSize="20" HorizontalOptions="Center"/>
+                    <Label Text="Cambiar área" FontSize="11" TextColor="#2C5364" FontAttributes="Bold" HorizontalOptions="Center"/>
                 </VerticalStackLayout>
 
                 

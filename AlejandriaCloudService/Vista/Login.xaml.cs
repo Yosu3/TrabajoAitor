@@ -1,4 +1,5 @@
 using AlejandriaCloudService.Models;
+using AlejandriaCloudService.Funcionalidades;
 using System.Text.Json;
 using System.Security.Cryptography;
 using System.Text;
@@ -81,6 +82,8 @@ public partial class LoginPage : ContentPage
 
             if (usuarioValido != null)
             {
+                UsuarioService.UsuarioActual = usuarioValido;
+
                 if (usuarioValido.IsAdmin)
                 {
                     await DisplayAlert("¡Bienvenido Panel de Control!", $"Administrador: {usuarioValido.Username}", "Ingresar");

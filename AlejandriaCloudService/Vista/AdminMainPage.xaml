@@ -179,35 +179,38 @@
             <Border.Shadow>
                 <Shadow Brush="Black" Opacity="0.2" Radius="10" Offset="0,-4" />
             </Border.Shadow>
-            <Grid ColumnDefinitions="*, *, *">
-                <!-- Botón Inicio -->
+            <Grid
+                ColumnDefinitions="*, *, *, *">
                 <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center" VerticalOptions="Center">
-                    <Label Text="🏠" FontSize="20" HorizontalOptions="Center"/>
-                    <Label Text="Inicio" FontSize="11" TextColor="#2C5364" FontAttributes="Bold" HorizontalOptions="Center"/>
-                </VerticalStackLayout>
-
-                <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center">
                     <VerticalStackLayout.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnCatalogoTapped" />
                     </VerticalStackLayout.GestureRecognizers>
                     <Label Text="📚" FontSize="20" HorizontalOptions="Center"/>
-                    <Label Text="Biblioteca" FontSize="11" TextColor="#2C5364" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Text="Biblioteca" FontSize="10" TextColor="#2C5364" FontAttributes="Bold" HorizontalOptions="Center"/>
                 </VerticalStackLayout>
 
-                <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center">
+                <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center">
                     <VerticalStackLayout.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnAnadirLibroTapped" />
                     </VerticalStackLayout.GestureRecognizers>
                     <Label Text="➕" FontSize="20" HorizontalOptions="Center"/>
-                    <Label Text="Añadir" FontSize="11" TextColor="#2C5364" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Text="Añadir" FontSize="10" TextColor="#2C5364" FontAttributes="Bold" HorizontalOptions="Center"/>
                 </VerticalStackLayout>
 
-                <VerticalStackLayout Grid.Column="3" HorizontalOptions="Center" VerticalOptions="Center">
+                <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center">
                     <VerticalStackLayout.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnPrestamosTapped" />
                     </VerticalStackLayout.GestureRecognizers>
                     <Label Text="📁" FontSize="20" HorizontalOptions="Center"/>
-                    <Label Text="Prestamos" FontSize="11" TextColor="#2C5364" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Text="Préstamos" FontSize="10" TextColor="#2C5364" FontAttributes="Bold" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Column="3" HorizontalOptions="Center" VerticalOptions="Center">
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnCambiarAreaTapped" />
+                    </VerticalStackLayout.GestureRecognizers>
+                    <Label Text="↪" FontSize="20" HorizontalOptions="Center"/>
+                    <Label Text="Cambiar" FontSize="10" TextColor="#2C5364" FontAttributes="Bold" HorizontalOptions="Center"/>
                 </VerticalStackLayout>
 
 

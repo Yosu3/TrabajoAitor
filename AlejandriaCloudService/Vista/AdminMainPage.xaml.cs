@@ -18,7 +18,7 @@ public partial class AdminMainPage : ContentPage
 		try
 		{
 			await CatalogoService.CargarLibrosAsync();
-			BindingContext = CatalogoService.ObtenerLibros().Take(3).ToList();
+			LibrosRecomendados.ItemsSource = CatalogoService.ObtenerLibros().Take(3).ToList();
 		}
 		catch (Exception ex)
 		{
@@ -39,6 +39,11 @@ public partial class AdminMainPage : ContentPage
 	private async void OnPrestamosTapped(object? sender, TappedEventArgs e)
 	{
 		await Navigation.PushAsync(new prestamosPage());
+	}
+
+	private void OnCambiarAreaTapped(object? sender, TappedEventArgs e)
+	{
+		Application.Current!.MainPage = new NavigationPage(new LoginPage());
 	}
 	private async void OnDetalleLibroTapped(object? sender, TappedEventArgs e)
     {
