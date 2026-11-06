@@ -4,6 +4,7 @@
     <ActiveDebugProfile>Windows Machine</ActiveDebugProfile>
     <ActiveDebugFramework>net10.0-windows10.0.19041.0</ActiveDebugFramework>
     <SelectedPlatformGroup>Emulator</SelectedPlatformGroup>
+    <IsFirstTimeProjectOpen>False</IsFirstTimeProjectOpen>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net10.0-android|AnyCPU'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
