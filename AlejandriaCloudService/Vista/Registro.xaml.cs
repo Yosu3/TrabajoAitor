@@ -32,6 +32,18 @@ public partial class RegistroPage : ContentPage
         string emailNuevo = txtEmail.Text.Trim().ToLower();
         string passwordNueva = txtPassword.Text;
 
+        if (!Regex.IsMatch(usernameNuevo, @"^[\p{L}][\p{L}0-9_]{3,19}$"))
+        {
+            await DisplayAlert("Usuario no válido", "El usuario debe tener entre 4 y 20 caracteres, empezar por una letra y solo contener letras, números o guion bajo.", "OK");
+            return;
+        }
+
+        if (!Regex.IsMatch(apellidoNuevo, @"^[\p{L}][\p{L}\s'’-]{1,49}$"))
+        {
+            await DisplayAlert("Apellido no válido", "El apellido solo puede contener letras, espacios, apóstrofes o guiones.", "OK");
+            return;
+        }
+
         if (!Regex.IsMatch(emailNuevo, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
         {
             await DisplayAlert("Formato Incorrecto", "El formato del correo electrónico no es válido.", "OK");
@@ -68,6 +80,12 @@ public partial class RegistroPage : ContentPage
             if (listaUsuarios.Any(u => u.Email.Equals(emailNuevo, StringComparison.OrdinalIgnoreCase)))
             {
                 await DisplayAlert("Registro Fallido", "El correo electrónico ya se encuentra registrado.", "OK");
+                return;
+            }
+
+            if (listaUsuarios.Any(u => u.Username.Equals(usernameNuevo, StringComparison.OrdinalIgnoreCase)))
+            {
+                await DisplayAlert("Registro Fallido", "El nombre de usuario ya está registrado.", "OK");
                 return;
             }
 
