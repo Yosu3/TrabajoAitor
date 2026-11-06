@@ -4,56 +4,106 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     NavigationPage.HasNavigationBar="False"
-    BackgroundColor="{StaticResource LibrarySurface}"
+    BackgroundColor="#F4F0E5"
     Title="Añadir libro">
 
+    <ContentPage.Resources>
+        <Style x:Key="FormCardBorder" TargetType="Border">
+            <Setter Property="BackgroundColor" Value="#F8F8F4" />
+            <Setter Property="Padding" Value="10,6" />
+            <Setter Property="Stroke" Value="#D5D5D0" />
+            <Setter Property="StrokeShape" Value="RoundRectangle 9" />
+            <Setter Property="StrokeThickness" Value="1" />
+        </Style>
+    </ContentPage.Resources>
+
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="10">
+        <Border
+            Margin="14,10"
+            Padding="14,12"
+            BackgroundColor="#F7FAFC"
+            Stroke="#D5DDE1"
+            StrokeShape="RoundRectangle 10"
+            StrokeThickness="1">
+            <Grid
+                ColumnDefinitions="*,*"
+                ColumnSpacing="12"
+                RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+                RowSpacing="10">
 
-            <Label
-                Style="{StaticResource LibraryPageTitle}"
-                Text="Nuevo libro"
-                TextColor="{StaticResource LibraryGreen}" />
+                <Label
+                    Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                    FontAttributes="Bold"
+                    FontSize="30"
+                    Margin="8,0,0,2"
+                    Text="Nuevo libro"
+                    TextColor="{StaticResource LibraryGreen}" />
 
-            <Label Text="Título *" />
-            <Entry x:Name="TituloEntry" Placeholder="Ej: Don Quijote de la Mancha" />
+                <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource FormCardBorder}">
+                    <VerticalStackLayout Spacing="3">
+                        <Label Text="Título *" />
+                        <Entry x:Name="TituloEntry" Placeholder="Ej: Don Quijote de la Mancha" />
+                    </VerticalStackLayout>
+                </Border>
 
-            <Label Text="Autor *" />
-            <Entry x:Name="AutorEntry" Placeholder="Ej: Miguel de Cervantes" />
+                <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource FormCardBorder}">
+                    <VerticalStackLayout Spacing="3">
+                        <Label Text="Autor *" />
+                        <Entry x:Name="AutorEntry" Placeholder="Ej: Miguel de Cervantes" />
+                    </VerticalStackLayout>
+                </Border>
 
-            <Label Text="Categoría *" />
-            <Picker x:Name="CategoriaPicker" Title="Elige una categoría" />
+                <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource FormCardBorder}">
+                    <VerticalStackLayout Spacing="3">
+                        <Label Text="Categoría *" />
+                        <Picker x:Name="CategoriaPicker" Title="Elige una categoría" />
+                    </VerticalStackLayout>
+                </Border>
 
-            <Label Text="Ubicación *" />
-            <Entry x:Name="UbicacionEntry" Placeholder="Ej: Estantería A-03" />
+                <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource FormCardBorder}">
+                    <VerticalStackLayout Spacing="3">
+                        <Label Text="ISBN (opcional)" />
+                        <Entry x:Name="IsbnEntry" Keyboard="Numeric" Placeholder="Ej: 9788424116605" />
+                    </VerticalStackLayout>
+                </Border>
 
-            <Label Text="ISBN (opcional)" />
-            <Entry
-                x:Name="IsbnEntry"
-                Keyboard="Numeric"
-                Placeholder="Ej: 9788424116605" />
+                <Border Grid.Row="3" Grid.Column="0" Style="{StaticResource FormCardBorder}">
+                    <VerticalStackLayout Spacing="3">
+                        <Label Text="Ubicación *" />
+                        <Entry x:Name="UbicacionEntry" Placeholder="Ej: Estantería A-03" />
+                    </VerticalStackLayout>
+                </Border>
 
-            <Label Text="Fecha de publicación" />
-            <DatePicker x:Name="FechaPicker" />
+                <Border Grid.Row="4" Grid.Column="0" Style="{StaticResource FormCardBorder}">
+                    <VerticalStackLayout Spacing="3">
+                        <Label Text="Fecha de publicación" />
+                        <DatePicker x:Name="FechaPicker" />
+                    </VerticalStackLayout>
+                </Border>
 
-            <Button
-                x:Name="GuardarButton"
-                Style="{StaticResource LibraryPrimaryButton}"
-                Margin="0,10,0,0"
-                BackgroundColor="{StaticResource LibraryGreen}"
-                Clicked="GuardarClicked"
-                FontAttributes="Bold"
-                Text="Guardar libro"
-                TextColor="White" />
-
-            <Button
-                Style="{StaticResource LibrarySecondaryButton}"
-                BackgroundColor="{StaticResource LibraryTeal}"
-                Clicked="OnVolverInicioClicked"
-                CornerRadius="8"
-                FontAttributes="Bold"
-                Text="← Volver al inicio"
-                TextColor="White" />
-        </VerticalStackLayout>
+                <Grid Grid.Row="4" Grid.Column="1" ColumnDefinitions="*,*" ColumnSpacing="12" VerticalOptions="End">
+                    <Button
+                        x:Name="GuardarButton"
+                        Grid.Column="0"
+                        BackgroundColor="{StaticResource LibraryGreen}"
+                        Clicked="GuardarClicked"
+                        CornerRadius="20"
+                        FontAttributes="Bold"
+                        HeightRequest="42"
+                        Text="Guardar libro"
+                        TextColor="White" />
+                    <Button
+                        Grid.Column="1"
+                        BackgroundColor="{StaticResource LibraryTeal}"
+                        Clicked="OnVolverInicioClicked"
+                        CornerRadius="20"
+                        FontAttributes="Bold"
+                        HeightRequest="42"
+                        Text="← Volver al inicio"
+                        TextColor="White" />
+                </Grid>
+            </Grid>
+        </Border>
     </ScrollView>
 </ContentPage>

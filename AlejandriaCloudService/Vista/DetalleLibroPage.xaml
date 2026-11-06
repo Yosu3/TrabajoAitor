@@ -3,49 +3,63 @@
     x:Class="AlejandriaCloudService.Vista.DetalleLibroPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    BackgroundColor="{StaticResource LibrarySurface}"
+    BackgroundColor="#F6F0E4"
     Title="Detalle del libro"
      NavigationPage.HasNavigationBar="False">
 
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="12">
+        <Grid Padding="20,10" VerticalOptions="Center">
+            <Border
+                BackgroundColor="White"
+                Stroke="#8D8D8D"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 2"
+                Padding="14"
+                MaximumWidthRequest="380"
+                HorizontalOptions="Center">
+                <VerticalStackLayout Spacing="7">
+                    <Label
+                        x:Name="TituloLabel"
+                        FontAttributes="Bold"
+                        FontSize="20"
+                        TextColor="#174C24" />
 
-            <Label
-                x:Name="TituloLabel"
-                Style="{StaticResource LibraryPageTitle}"
-                FontAttributes="Bold"
-                FontSize="26"
-                TextColor="{StaticResource LibraryGreen}" />
+                    <Label x:Name="AutorLabel" FontSize="13" TextColor="#333333" />
+                    <Label x:Name="CategoriaLabel" FontSize="11" TextColor="#333333" />
+                    <Label x:Name="IsbnLabel" FontSize="11" TextColor="#333333" />
+                    <Label x:Name="UbicacionLabel" FontSize="11" TextColor="#333333" />
+                    <Label x:Name="PublicacionLabel" FontSize="11" TextColor="#333333" />
 
-            <Label x:Name="AutorLabel" FontSize="18" />
-            <Label x:Name="CategoriaLabel" />
-            <Label x:Name="IsbnLabel" />
-            <Label x:Name="UbicacionLabel" />
-            <Label x:Name="PublicacionLabel" />
+                    <Label
+                        x:Name="EstadoLabel"
+                        FontAttributes="Bold"
+                        FontSize="15"
+                        Margin="0,1,0,0" />
+                    <Label
+                        x:Name="DisponibilidadLabel"
+                        FontSize="11"
+                        TextColor="#333333" />
 
-            <Label
-                x:Name="EstadoLabel"
-                FontAttributes="Bold"
-                FontSize="20" />
-            <Label x:Name="DisponibilidadLabel" />
+                    <Button
+                        BackgroundColor="#1B5E20"
+                        Clicked="VolverClicked"
+                        CornerRadius="5"
+                        FontSize="11"
+                        HeightRequest="36"
+                        Margin="0,7,0,0"
+                        Text="Volver al catálogo"
+                        TextColor="White" />
 
-            <Button
-                Style="{StaticResource LibraryPrimaryButton}"
-                BackgroundColor="{StaticResource LibraryGreen}"
-                Clicked="VolverClicked"
-                FontAttributes="Bold"
-                Margin="0,15,0,0"
-                Text="Volver al catálogo"
-                TextColor="White" />
-
-            <Button
-                BackgroundColor="#C62828"
-                CornerRadius="10"
-                FontAttributes="Bold"
-                Clicked="EliminarClicked"
-                Text="Eliminar este libro"
-                TextColor="White" />
-
-        </VerticalStackLayout>
+                    <Button
+                        BackgroundColor="#C82026"
+                        Clicked="EliminarClicked"
+                        CornerRadius="5"
+                        FontSize="11"
+                        HeightRequest="36"
+                        Text="Eliminar este libro"
+                        TextColor="White" />
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
     </ScrollView>
 </ContentPage>

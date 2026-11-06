@@ -5,19 +5,23 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:models="clr-namespace:AlejandriaCloudService.Models"
     NavigationPage.HasNavigationBar="False"
-    BackgroundColor="{StaticResource LibrarySurface}"
+    BackgroundColor="#F4F7FA"
     Title="Catálogo de Libros">
 
     <Grid
-        Padding="15"
+        Padding="22,42,22,0"
         RowDefinitions="Auto, *, Auto"
-        RowSpacing="10">
+        RowSpacing="12">
 
         <SearchBar
             x:Name="BuscadorLibros"
             Grid.Row="0"
+            BackgroundColor="White"
+            CancelButtonColor="#2C5364"
+            HorizontalOptions="Center"
             Placeholder="Buscar por título, autor o categoría..."
-            TextChanged="OnBuscarTextChanged" />
+            TextChanged="OnBuscarTextChanged"
+            WidthRequest="420" />
 
         <CollectionView
             x:Name="ListaLibros"
@@ -27,11 +31,12 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Libro">
             <Border
-                        Margin="0,4"
-                        Padding="12"
+                        Margin="0,0,0,4"
+                        Padding="10,9"
                         BackgroundColor="White"
-                        Stroke="#E0E0E0"
-                        StrokeShape="RoundRectangle 10">
+                        Stroke="#D9DEE2"
+                        StrokeShape="RoundRectangle 7"
+                        StrokeThickness="1">
                         <Grid ColumnDefinitions="*, Auto, Auto" ColumnSpacing="10">
 
                             <VerticalStackLayout Grid.Column="0" Spacing="2">
@@ -41,35 +46,43 @@
 
                                 <Label
                                     FontAttributes="Bold"
-                                    FontSize="16"
-                                    Text="{Binding titulo}"
-                                    TextColor="#1B5E20" />
-                                <Label
                                     FontSize="14"
+                                    Text="{Binding titulo}"
+                                    TextColor="#111111" />
+                                <Label
+                                    FontSize="12"
                                     Text="{Binding autor}"
-                                    TextColor="Gray" />
+                                    TextColor="#333333" />
                                 <Label
                                     FontAttributes="Italic"
-                                    FontSize="12"
+                                    FontSize="11"
                                     Text="{Binding categoria}"
-                                    TextColor="DimGray" />
+                                    TextColor="#222222" />
                             </VerticalStackLayout>
 
-                            <Label
+                            <Border
                                 Grid.Column="1"
-                                FontAttributes="Bold"
-                                Text="{Binding estado}"
-                                VerticalOptions="Center" />
+                                BackgroundColor="#D8EED8"
+                                Padding="8,4"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 12"
+                                VerticalOptions="Center">
+                                <Label
+                                    FontSize="11"
+                                    Text="{Binding estado}"
+                                    TextColor="#245B2A" />
+                            </Border>
 
                             <Button
                                 Grid.Column="2"
-                                BackgroundColor="#C62828"
+                                BackgroundColor="#B71C27"
                                 Clicked="OnEliminarClicked"
                                 CommandParameter="{Binding .}"
-                                CornerRadius="8"
+                                CornerRadius="16"
                                 FontSize="12"
-                                HeightRequest="36"
-                                Padding="10,0"
+                                HeightRequest="34"
+                                MinimumWidthRequest="70"
+                                Padding="8,0"
                                 Text="Eliminar"
                                 TextColor="White"
                                 VerticalOptions="Center" />
@@ -81,11 +94,13 @@
 
         <Button
             Grid.Row="2"
-            BackgroundColor="#2C5364"
+            BackgroundColor="#214F63"
             Clicked="OnVolverInicioClicked"
-            CornerRadius="8"
+            CornerRadius="20"
             FontAttributes="Bold"
+            Margin="0,0,0,15"
             Text="← Volver al inicio"
-            TextColor="White" />
+            TextColor="White"
+            VerticalOptions="End" />
     </Grid>
 </ContentPage>
