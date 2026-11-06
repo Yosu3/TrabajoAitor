@@ -50,7 +50,7 @@ public partial class prestamosPage : ContentPage
 
         if (libroSeleccionado == null)
         {
-            // RESTAURADO: Usando tu método obligatorio del proyecto
+            
             await DisplayAlertAsync("Atención", "Por favor, selecciona un libro de la lista desplegable.", "OK");
             return;
         }
@@ -60,7 +60,7 @@ public partial class prestamosPage : ContentPage
         if (exito)
         {
             await DisplayAlertAsync("Éxito", $"Has tomado en préstamo: '{libroSeleccionado.titulo}'.", "Entendido");
-            RefrescarControlesPantalla();   // antes: RefrescarControlesPantacle()
+            RefrescarControlesPantalla();   
         }
         else
         {

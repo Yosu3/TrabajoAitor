@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     NavigationPage.HasNavigationBar="False"
     BackgroundColor="#F4F0E5"
-    Title="Añadir libro">
+    >
 
     <ContentPage.Resources>
         <Style x:Key="FormCardBorder" TargetType="Border">
@@ -17,7 +17,8 @@
         </Style>
     </ContentPage.Resources>
 
-    <ScrollView>
+    <Grid RowDefinitions="*,Auto">
+        <ScrollView Grid.Row="0">
         <Border
             Margin="14,10"
             Padding="14,12"
@@ -75,35 +76,40 @@
                     </VerticalStackLayout>
                 </Border>
 
-                <Border Grid.Row="4" Grid.Column="0" Style="{StaticResource FormCardBorder}">
+                <Border Grid.Row="3" Grid.Column="1" Style="{StaticResource FormCardBorder}">
                     <VerticalStackLayout Spacing="3">
                         <Label Text="Fecha de publicación" />
                         <DatePicker x:Name="FechaPicker" />
                     </VerticalStackLayout>
                 </Border>
-
-                <Grid Grid.Row="4" Grid.Column="1" ColumnDefinitions="*,*" ColumnSpacing="12" VerticalOptions="End">
-                    <Button
-                        x:Name="GuardarButton"
-                        Grid.Column="0"
-                        BackgroundColor="{StaticResource LibraryGreen}"
-                        Clicked="GuardarClicked"
-                        CornerRadius="20"
-                        FontAttributes="Bold"
-                        HeightRequest="42"
-                        Text="Guardar libro"
-                        TextColor="White" />
-                    <Button
-                        Grid.Column="1"
-                        BackgroundColor="{StaticResource LibraryTeal}"
-                        Clicked="OnVolverInicioClicked"
-                        CornerRadius="20"
-                        FontAttributes="Bold"
-                        HeightRequest="42"
-                        Text="← Volver al inicio"
-                        TextColor="White" />
-                </Grid>
             </Grid>
         </Border>
-    </ScrollView>
+        </ScrollView>
+
+        <Grid
+            Grid.Row="1"
+            Margin="28,8,28,18"
+            ColumnDefinitions="*,*"
+            ColumnSpacing="12">
+            <Button
+                x:Name="GuardarButton"
+                Grid.Column="0"
+                BackgroundColor="{StaticResource LibraryGreen}"
+                Clicked="GuardarClicked"
+                CornerRadius="20"
+                FontAttributes="Bold"
+                HeightRequest="42"
+                Text="Guardar libro"
+                TextColor="White" />
+            <Button
+                Grid.Column="1"
+                BackgroundColor="{StaticResource LibraryTeal}"
+                Clicked="OnVolverInicioClicked"
+                CornerRadius="20"
+                FontAttributes="Bold"
+                HeightRequest="42"
+                Text="← Volver al inicio"
+                TextColor="White" />
+        </Grid>
+    </Grid>
 </ContentPage>

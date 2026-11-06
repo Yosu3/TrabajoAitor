@@ -4,7 +4,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:AlejandriaCloudService.Models"
              x:Class="AlejandriaCloudService.Vista.UserMainPage"
-             Title="UserMainPage"
               NavigationPage.HasNavigationBar="False">
 
 

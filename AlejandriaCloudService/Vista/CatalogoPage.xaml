@@ -6,7 +6,7 @@
     xmlns:models="clr-namespace:AlejandriaCloudService.Models"
     NavigationPage.HasNavigationBar="False"
     BackgroundColor="#F4F7FA"
-    Title="Catálogo de Libros">
+    >
 
     <Grid
         Padding="22,42,22,0"
