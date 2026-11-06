@@ -65,4 +65,5 @@ public partial class DetalleLibroPage : ContentPage
     {
         await Navigation.PopAsync();
     }
+
 }

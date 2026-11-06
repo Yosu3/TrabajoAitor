@@ -161,6 +161,14 @@
                 </CollectionView>
             </VerticalStackLayout>
 
+            <Button
+                BackgroundColor="#4CA1AF"
+                Clicked="OnVolverInicioClicked"
+                CornerRadius="8"
+                FontAttributes="Bold"
+                Text="← Volver al inicio"
+                TextColor="White" />
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

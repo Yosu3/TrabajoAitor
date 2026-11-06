@@ -37,6 +37,11 @@ public partial class CatalogoPage : ContentPage
         ActualizarLista();
     }
 
+    private async void OnVolverInicioClicked(object? sender, EventArgs e)
+    {
+        await Navigation.PopToRootAsync();
+    }
+
     private async void OnVerDetalleTapped(object? sender, TappedEventArgs e)
     {
         if (e.Parameter is Libro libro)

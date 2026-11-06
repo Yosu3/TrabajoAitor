@@ -84,12 +84,14 @@ public partial class LoginPage : ContentPage
                 if (usuarioValido.IsAdmin)
                 {
                     await DisplayAlert("¡Bienvenido Panel de Control!", $"Administrador: {usuarioValido.Username}", "Ingresar");
-                    Application.Current.MainPage = new AdminMainPage();
+                    await Navigation.PushAsync(new AdminMainPage());
+                    Navigation.RemovePage(this);
                 }
                 else
                 {
                     await DisplayAlert("¡Bienvenido de vuelta!", $"Hola {usuarioValido.Username}, que pases una excelente lectura.", "Entrar");
-                    Application.Current.MainPage = new UserMainPage();
+                    await Navigation.PushAsync(new UserMainPage());
+                    Navigation.RemovePage(this);
                 }
             }
             else
@@ -111,7 +113,7 @@ public partial class LoginPage : ContentPage
 
     private async void OnRegisterTapped(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("Registro");
+        await Navigation.PushAsync(new RegistroPage());
     }
 
 

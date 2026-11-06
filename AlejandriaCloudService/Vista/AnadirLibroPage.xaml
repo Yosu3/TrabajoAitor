@@ -3,6 +3,7 @@
     x:Class="AlejandriaCloudService.Vista.AnadirLibroPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    NavigationPage.HasNavigationBar="False"
     Title="Añadir libro">
 
     <ScrollView>
@@ -42,6 +43,14 @@
                 Clicked="GuardarClicked"
                 FontAttributes="Bold"
                 Text="Guardar libro"
+                TextColor="White" />
+
+            <Button
+                BackgroundColor="#4CA1AF"
+                Clicked="OnVolverInicioClicked"
+                CornerRadius="8"
+                FontAttributes="Bold"
+                Text="← Volver al inicio"
                 TextColor="White" />
         </VerticalStackLayout>
     </ScrollView>

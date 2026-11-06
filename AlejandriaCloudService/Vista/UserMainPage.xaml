@@ -4,7 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AlejandriaCloudService.Vista.UserMainPage"
              Title="UserMainPage"
-             Shell.NavBarIsVisible="False">
+              NavigationPage.HasNavigationBar="False">
 
 
 
@@ -174,16 +174,22 @@
             <Grid ColumnDefinitions="*, *, *">
                 <!-- Botón Inicio -->
                 <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center" VerticalOptions="Center">
-                    <Label Text="🏠" FontSize="20" HorizontalOptions="Center"/>
+                    <Label Text="🏠"  FontSize="20" HorizontalOptions="Center"/>
                     <Label Text="Inicio" FontSize="11" TextColor="#2C5364" FontAttributes="Bold" HorizontalOptions="Center"/>
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center">
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnCatalogoTapped" />
+                    </VerticalStackLayout.GestureRecognizers>
                     <Label Text="📚" FontSize="20" HorizontalOptions="Center"/>
                     <Label Text="Biblioteca" FontSize="11" TextColor="#2C5364" FontAttributes="Bold" HorizontalOptions="Center"/>
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center">
+                    <VerticalStackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnPrestamosTapped" />
+                    </VerticalStackLayout.GestureRecognizers>
                     <Label Text="📁" FontSize="20" HorizontalOptions="Center"/>
                     <Label Text="Prestamos" FontSize="11" TextColor="#2C5364" FontAttributes="Bold" HorizontalOptions="Center"/>
                 </VerticalStackLayout>

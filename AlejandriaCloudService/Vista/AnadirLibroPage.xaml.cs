@@ -95,4 +95,9 @@ public partial class AnadirLibroPage : ContentPage
         CategoriaPicker.SelectedIndex = -1;
         FechaPicker.Date = DateTime.Today;
     }
+
+    private async void OnVolverInicioClicked(object? sender, EventArgs e)
+    {
+        await Navigation.PopToRootAsync();
+    }
 }
