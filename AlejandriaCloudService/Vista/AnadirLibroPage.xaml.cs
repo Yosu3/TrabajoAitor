@@ -1,5 +1,6 @@
 using AlejandriaCloudService.Funcionalidades;
 using AlejandriaCloudService.Models;
+using System.Text.RegularExpressions;
 
 namespace AlejandriaCloudService.Vista;
 
@@ -26,12 +27,24 @@ public partial class AnadirLibroPage : ContentPage
         string isbn = IsbnEntry.Text?.Trim() ?? "";
 
         // Validaciones
-        if (titulo == "")
+        if (string.IsNullOrWhiteSpace(titulo))
         {
             await DisplayAlertAsync("Error", "El título no puede estar vacío.", "OK");
             return;
         }
-        if (autor == "")
+
+        if (titulo.Length > 150 || autor.Length > 100 || ubicacion.Length > 100)
+        {
+            await DisplayAlertAsync("Error", "El título, autor o ubicación supera la longitud permitida.", "OK");
+            return;
+        }
+
+        if (isbn != "" && !Regex.IsMatch(isbn, @"^\d{10}(\d{3})?$"))
+        {
+            await DisplayAlertAsync("ISBN no válido", "El ISBN debe contener 10 o 13 dígitos, sin espacios ni guiones.", "OK");
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(autor))
         {
             await DisplayAlertAsync("Error", "El autor no puede estar vacío.", "OK");
             return;
@@ -41,7 +54,7 @@ public partial class AnadirLibroPage : ContentPage
             await DisplayAlertAsync("Error", "Selecciona una categoría.", "OK");
             return;
         }
-        if (ubicacion == "")
+        if (string.IsNullOrWhiteSpace(ubicacion))
         {
             await DisplayAlertAsync("Error", "La ubicación no puede estar vacía.", "OK");
             return;
@@ -94,5 +107,10 @@ public partial class AnadirLibroPage : ContentPage
         IsbnEntry.Text = "";
         CategoriaPicker.SelectedIndex = -1;
         FechaPicker.Date = DateTime.Today;
+    }
+
+    private async void OnVolverInicioClicked(object? sender, EventArgs e)
+    {
+        await Navigation.PopToRootAsync();
     }
 }

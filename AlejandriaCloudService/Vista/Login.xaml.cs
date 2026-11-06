@@ -1,4 +1,5 @@
 using AlejandriaCloudService.Models;
+using AlejandriaCloudService.Funcionalidades;
 using System.Text.Json;
 using System.Security.Cryptography;
 using System.Text;
@@ -81,15 +82,19 @@ public partial class LoginPage : ContentPage
 
             if (usuarioValido != null)
             {
+                UsuarioService.UsuarioActual = usuarioValido;
+
                 if (usuarioValido.IsAdmin)
                 {
                     await DisplayAlert("¡Bienvenido Panel de Control!", $"Administrador: {usuarioValido.Username}", "Ingresar");
-                    Application.Current.MainPage = new AdminMainPage();
+                    await Navigation.PushAsync(new AdminMainPage(usuarioValido.Username));
+                    Navigation.RemovePage(this);
                 }
                 else
                 {
                     await DisplayAlert("¡Bienvenido de vuelta!", $"Hola {usuarioValido.Username}, que pases una excelente lectura.", "Entrar");
-                    Application.Current.MainPage = new UserMainPage();
+                    await Navigation.PushAsync(new UserMainPage(usuarioValido.Username));
+                    Navigation.RemovePage(this);
                 }
             }
             else
@@ -111,7 +116,7 @@ public partial class LoginPage : ContentPage
 
     private async void OnRegisterTapped(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync("Registro");
+        await Navigation.PushAsync(new RegistroPage());
     }
 
 

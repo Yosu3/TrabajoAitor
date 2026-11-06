@@ -92,4 +92,9 @@ public partial class prestamosPage : ContentPage
             }
         }
     }
-}
+
+    private async void OnVolverInicioClicked(object? sender, EventArgs e)
+    {
+        await Navigation.PopToRootAsync();
+    }
+    }
