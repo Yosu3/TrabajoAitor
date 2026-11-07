@@ -1,115 +1,64 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
-    x:Class="AlejandriaCloudService.Vista.AnadirLibroPage"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    NavigationPage.HasNavigationBar="False"
-    BackgroundColor="#F4F0E5"
-    >
-
-    <ContentPage.Resources>
-        <Style x:Key="FormCardBorder" TargetType="Border">
-            <Setter Property="BackgroundColor" Value="#F8F8F4" />
-            <Setter Property="Padding" Value="10,6" />
-            <Setter Property="Stroke" Value="#D5D5D0" />
-            <Setter Property="StrokeShape" Value="RoundRectangle 9" />
-            <Setter Property="StrokeThickness" Value="1" />
-        </Style>
-    </ContentPage.Resources>
-
-    <Grid RowDefinitions="*,Auto">
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AlejandriaCloudService.Vista.AnadirLibroPage"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="#F4F7FA">
+    <Grid RowDefinitions="*,Auto" Padding="18" RowSpacing="10">
         <ScrollView Grid.Row="0">
-        <Border
-            Margin="14,10"
-            Padding="14,12"
-            BackgroundColor="#F7FAFC"
-            Stroke="#D5DDE1"
-            StrokeShape="RoundRectangle 10"
-            StrokeThickness="1">
-            <Grid
-                ColumnDefinitions="*,*"
-                ColumnSpacing="12"
-                RowDefinitions="Auto,Auto,Auto,Auto,Auto"
-                RowSpacing="10">
-
-                <Label
-                    Grid.Row="0"
-                    Grid.ColumnSpan="2"
-                    FontAttributes="Bold"
-                    FontSize="30"
-                    Margin="8,0,0,2"
-                    Text="Nuevo libro"
-                    TextColor="{StaticResource LibraryGreen}" />
-
-                <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource FormCardBorder}">
-                    <VerticalStackLayout Spacing="3">
-                        <Label Text="Título *" />
-                        <Entry x:Name="TituloEntry" Placeholder="Ej: Don Quijote de la Mancha" />
-                    </VerticalStackLayout>
-                </Border>
-
-                <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource FormCardBorder}">
-                    <VerticalStackLayout Spacing="3">
-                        <Label Text="Autor *" />
-                        <Entry x:Name="AutorEntry" Placeholder="Ej: Miguel de Cervantes" />
-                    </VerticalStackLayout>
-                </Border>
-
-                <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource FormCardBorder}">
-                    <VerticalStackLayout Spacing="3">
-                        <Label Text="Categoría *" />
-                        <Picker x:Name="CategoriaPicker" Title="Elige una categoría" />
-                    </VerticalStackLayout>
-                </Border>
-
-                <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource FormCardBorder}">
-                    <VerticalStackLayout Spacing="3">
-                        <Label Text="ISBN (opcional)" />
-                        <Entry x:Name="IsbnEntry" Keyboard="Numeric" Placeholder="Ej: 9788424116605" />
-                    </VerticalStackLayout>
-                </Border>
-
-                <Border Grid.Row="3" Grid.Column="0" Style="{StaticResource FormCardBorder}">
-                    <VerticalStackLayout Spacing="3">
-                        <Label Text="Ubicación *" />
-                        <Entry x:Name="UbicacionEntry" Placeholder="Ej: Estantería A-03" />
-                    </VerticalStackLayout>
-                </Border>
-
-                <Border Grid.Row="3" Grid.Column="1" Style="{StaticResource FormCardBorder}">
-                    <VerticalStackLayout Spacing="3">
-                        <Label Text="Fecha de publicación" />
-                        <DatePicker x:Name="FechaPicker" />
-                    </VerticalStackLayout>
-                </Border>
-            </Grid>
-        </Border>
+            <VerticalStackLayout Spacing="12">
+                <Label Text="Añadir libro" FontAttributes="Bold" FontSize="26" TextColor="#1B4F5F" />
+                <Label Text="Título" TextColor="#1B4F5F" />
+                <Entry x:Name="TituloEntry" Placeholder="Título único" BackgroundColor="White" />
+                <Label Text="Autor" TextColor="#1B4F5F" />
+                <Entry x:Name="AutorEntry" Placeholder="Autor" BackgroundColor="White" />
+                <Label Text="Categoría" TextColor="#1B4F5F" />
+                <Picker x:Name="CategoriaPicker" Title="Selecciona la categoría" BackgroundColor="White" />
+                <Label Text="ISBN opcional" TextColor="#1B4F5F" />
+                <Entry x:Name="IsbnEntry" Keyboard="Numeric" Placeholder="10 o 13 dígitos" BackgroundColor="White" />
+                <Label Text="Ubicación" TextColor="#1B4F5F" />
+                <Entry x:Name="UbicacionEntry" Placeholder="Estantería" BackgroundColor="White" />
+                <Label Text="Fecha de publicación" TextColor="#1B4F5F" />
+                <DatePicker x:Name="FechaPicker" BackgroundColor="White" />
+                <HorizontalStackLayout Spacing="12" VerticalOptions="Center">
+                    <CheckBox x:Name="PortadaCheckBox"
+                              IsChecked="False"
+                              CheckedChanged="OnPortadaCheckedChanged" />
+                    <Label Text="Añadir imagen de portada"
+                           VerticalOptions="Center"
+                           TextColor="#1B4F5F" />
+                </HorizontalStackLayout>
+                <Button x:Name="SeleccionarPortadaButton"
+                        IsVisible="False"
+                        Text="Seleccionar JPG, PNG u otra imagen"
+                        Clicked="OnSeleccionarPortadaClicked"
+                        BackgroundColor="#326F85"
+                        TextColor="White" />
+                <Label x:Name="NombrePortadaLabel"
+                       Text="Se utilizará la portada predeterminada"
+                       TextColor="#52666D"
+                       FontSize="12" />
+                <Image x:Name="VistaPreviaPortada"
+                       Source="libro_imagen.png"
+                       HeightRequest="170"
+                       WidthRequest="125"
+                       HorizontalOptions="Start"
+                       BackgroundColor="#E6ECEF"
+                       Aspect="AspectFit" />
+            </VerticalStackLayout>
         </ScrollView>
-
-        <Grid
-            Grid.Row="1"
-            Margin="28,8,28,18"
-            ColumnDefinitions="*,*"
-            ColumnSpacing="12">
-            <Button
-                x:Name="GuardarButton"
-                Grid.Column="0"
-                BackgroundColor="{StaticResource LibraryGreen}"
-                Clicked="GuardarClicked"
-                CornerRadius="20"
-                FontAttributes="Bold"
-                HeightRequest="42"
-                Text="Guardar libro"
-                TextColor="White" />
-            <Button
-                Grid.Column="1"
-                BackgroundColor="{StaticResource LibraryTeal}"
-                Clicked="OnVolverInicioClicked"
-                CornerRadius="20"
-                FontAttributes="Bold"
-                HeightRequest="42"
-                Text="← Volver al inicio"
-                TextColor="White" />
+        <Grid Grid.Row="1" ColumnDefinitions="*,*" ColumnSpacing="12">
+            <Button x:Name="GuardarButton"
+                    Grid.Column="0"
+                    Text="Guardar libro"
+                    Clicked="GuardarClicked"
+                    BackgroundColor="#187A62"
+                    TextColor="White" />
+            <Button Grid.Column="1"
+                    Text="Volver"
+                    Clicked="OnVolverInicioClicked"
+                    BackgroundColor="#326F85"
+                    TextColor="White" />
         </Grid>
     </Grid>
 </ContentPage>

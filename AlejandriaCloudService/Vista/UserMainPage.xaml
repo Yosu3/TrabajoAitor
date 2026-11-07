@@ -1,216 +1,58 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:AlejandriaCloudService.Models"
              x:Class="AlejandriaCloudService.Vista.UserMainPage"
-              NavigationPage.HasNavigationBar="False">
-
-
-
-
-    <ContentPage.Background>
-        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-            <GradientStop Offset="0.0" Color="#0F2027" />
-            <GradientStop Offset="0.5" Color="#203A43" />
-            <GradientStop Offset="1.0" Color="#2C5364" />
-        </LinearGradientBrush>
-    </ContentPage.Background>
-
-    <Grid RowDefinitions="Auto, *, Auto">
-
-        <!-- 1. BARRA SUPERIOR: Perfil y Bienvenida -->
-        <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Padding="20,15" VerticalOptions="Start">
-            <VerticalStackLayout Grid.Column="0" Spacing="2">
-                <Label x:Name="TxtBienvenida" Text="Hola, lector 👋" 
-                       TextColor="White" 
-                       FontSize="22" 
-                       FontAttributes="Bold" />
-                <Label Text="¿Qué vas a leer hoy?" 
-                       TextColor="#A0AAB2" 
-                       FontSize="14" />
-            </VerticalStackLayout>
-
-            <Image Grid.Column="1" 
-                   Source="library_logo.png" 
-                   HeightRequest="45" 
-                   WidthRequest="45" 
-                   VerticalOptions="Center" />
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="#102D38">
+    <Grid Padding="18,25" RowDefinitions="Auto,Auto,*,Auto" RowSpacing="15">
+        <VerticalStackLayout Grid.Row="0" Spacing="4">
+            <Label x:Name="TxtBienvenida"
+                   FontAttributes="Bold" FontSize="25" TextColor="White" />
+            <Label Text="Descubre libros y solicita el que quieras leer."
+                   FontSize="13" TextColor="#BCD6DF" />
+        </VerticalStackLayout>
+        <Button Grid.Row="1" Text="Abrir catálogo completo"
+                Clicked="OnCatalogoClicked"
+                BackgroundColor="#326F85" TextColor="White" />
+        <Grid Grid.Row="2" RowDefinitions="Auto,*" RowSpacing="10">
+            <Label Grid.Row="0" Text="Libros del catálogo"
+                   FontAttributes="Bold" FontSize="19" TextColor="White" />
+            <CollectionView x:Name="LibrosRecomendados"
+                            Grid.Row="1" EmptyView="No hay libros visibles."
+                            SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Libro">
+                        <Border Padding="10" Margin="0,0,0,10"
+                                BackgroundColor="White"
+                                StrokeShape="RoundRectangle 12">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer CommandParameter="{Binding .}"
+                                                      Tapped="OnDetalleLibroTapped" />
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="76,*" ColumnSpacing="12">
+                                <Image Source="{Binding PortadaSource}"
+                                       WidthRequest="76" HeightRequest="108"
+                                       Aspect="AspectFit" BackgroundColor="#E6ECEF" />
+                                <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                    <Label Text="{Binding titulo}" FontAttributes="Bold"
+                                           TextColor="#203A43" />
+                                    <Label Text="{Binding autor}" FontSize="12" TextColor="#52646B" />
+                                    <Label Text="{Binding estado}" FontSize="12" TextColor="#187A62" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </Grid>
-
-        <!-- 2. CONTENIDO PRINCIPAL SCROLLABLE -->
-        <ScrollView Grid.Row="1" Padding="20,0,20,10">
-            <VerticalStackLayout Spacing="18">
-
-                <!-- Buscador de Libros -->
-                <Border Padding="10,2" BackgroundColor="#496B74" Stroke="#6E929A" StrokeShape="RoundRectangle 12">
-                    <Border.Shadow>
-                        <Shadow Brush="Black" Opacity="0.15" Radius="10" Offset="0,4" />
-                    </Border.Shadow>
-                    <Grid ColumnDefinitions="Auto, *">
-                        <Label Grid.Column="0" Text="🔍" FontSize="18" VerticalOptions="Center" Margin="5,0,10,0" />
-                        <Entry Grid.Column="1" 
-                               Placeholder="Buscar libros, autores, géneros..." 
-                               PlaceholderColor="#C8D9DD" 
-                               TextColor="White" 
-                               FontSize="15" />
-                    </Grid>
-                </Border>
-
-                <!-- Tarjeta de Resumen: Préstamos Activos -->
-                <Border Padding="20" Style="{StaticResource LibraryCard}">
-                    <Border.Shadow>
-                        <Shadow Brush="Black" Opacity="0.2" Radius="12" Offset="0,6" />
-                    </Border.Shadow>
-                    <Grid ColumnDefinitions="*, Auto">
-                        <VerticalStackLayout Grid.Column="0" Spacing="5">
-                            <Label Text="Tienes 2 libros pendientes" 
-                                   TextColor="#2C5364" 
-                                   FontSize="16" 
-                                   FontAttributes="Bold" />
-                            <Label Text="Próxima devolución: 12 de Nov" 
-                                   TextColor="#A0AAB2" 
-                                   FontSize="13" />
-                        </VerticalStackLayout>
-                        <Button Grid.Column="1" 
-                                Text="Ver mis libros" 
-                                Clicked="OnVerMisLibrosClicked"
-                                 BackgroundColor="{StaticResource LibraryTeal}" 
-                                TextColor="White" 
-                                FontSize="12" 
-                                FontAttributes="Bold"
-                                CornerRadius="8" 
-                                HeightRequest="38" />
-                    </Grid>
-                </Border>
-
-                <!-- Sección: Libros Recomendados -->
-                <VerticalStackLayout Spacing="12">
-                     <Label Style="{StaticResource LibrarySectionTitle}" Text="Recomendados para ti" />
-
-                    <!-- Carrusel Horizontal de Libros -->
-                    <CollectionView
-                        x:Name="LibrosRecomendados"
-                        HeightRequest="142"
-                        ItemsLayout="HorizontalList"
-                        SelectionMode="None">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="models:Libro">
-                                <Border
-                                    Margin="0,0,25,0"
-                                    Padding="10"
-                                    BackgroundColor="#46616A"
-                                    Stroke="#5E7E85"
-                                    StrokeShape="RoundRectangle 10"
-                                    WidthRequest="185"
-                                    HeightRequest="128">
-                                    <Border.GestureRecognizers>
-                                        <TapGestureRecognizer
-                                            CommandParameter="{Binding .}"
-                                            Tapped="OnDetalleLibroTapped" />
-                                    </Border.GestureRecognizers>
-                                    <Grid ColumnDefinitions="70,*" ColumnSpacing="8">
-                                        <Image Grid.Column="0"
-                                               Source="book_cover_placeholder.png"
-                                               Aspect="AspectFill"
-                                               BackgroundColor="#2C5364"
-                                               HeightRequest="112"
-                                               WidthRequest="70" />
-                                        <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
-                                            <Label Text="{Binding titulo}" TextColor="White" FontSize="13" FontAttributes="Bold" LineBreakMode="TailTruncation" />
-                                            <Label Text="{Binding autor}" TextColor="#C8D9DD" FontSize="11" LineBreakMode="TailTruncation" MaxLines="2" />
-                                            <Label Text="★★★★★" TextColor="#FFD166" FontSize="14" />
-                                        </VerticalStackLayout>
-                                    </Grid>
-                                </Border>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </VerticalStackLayout>
-
-                <!-- Sección: Categorías Populares -->
-                <VerticalStackLayout Spacing="12">
-                     <Label Style="{StaticResource LibrarySectionTitle}" Text="Explorar Categorías" />
-
-                    <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*, *" RowSpacing="10" ColumnSpacing="10">
-                        <!-- Categoría Ficcion -->
-                        <Border Grid.Row="0" Grid.Column="0" Padding="15" BackgroundColor="#CDECF5" StrokeShape="RoundRectangle 12" StrokeThickness="0">
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="OnCatalogoTapped" />
-                            </Border.GestureRecognizers>
-                            <VerticalStackLayout Spacing="6"><Label Text="📘" FontSize="28" HorizontalOptions="Center"/><Label Text="Ficción" TextColor="#203A43" FontAttributes="Bold" HorizontalOptions="Center" /></VerticalStackLayout>
-                        </Border>
-                        <!-- Categoría Ciencia -->
-                        <Border Grid.Row="0" Grid.Column="1" Padding="15" BackgroundColor="#D8F3DC" StrokeShape="RoundRectangle 12" StrokeThickness="0">
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="OnCatalogoTapped" />
-                            </Border.GestureRecognizers>
-                            <VerticalStackLayout Spacing="6"><Label Text="🔬" FontSize="28" HorizontalOptions="Center"/><Label Text="Ciencia" TextColor="#203A43" FontAttributes="Bold" HorizontalOptions="Center" /></VerticalStackLayout>
-                        </Border>
-                        <!-- Categoría Historia -->
-                        <Border Grid.Row="1" Grid.Column="0" Padding="15" BackgroundColor="#FFF0C2" StrokeShape="RoundRectangle 12" StrokeThickness="0">
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="OnCatalogoTapped" />
-                            </Border.GestureRecognizers>
-                            <VerticalStackLayout Spacing="6"><Label Text="📜" FontSize="28" HorizontalOptions="Center"/><Label Text="Historia" TextColor="#203A43" FontAttributes="Bold" HorizontalOptions="Center" /></VerticalStackLayout>
-                        </Border>
-                        <!-- Categoría Tecnología -->
-                        <Border Grid.Row="1" Grid.Column="1" Padding="15" BackgroundColor="#EBD9F7" StrokeShape="RoundRectangle 12" StrokeThickness="0">
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="OnCatalogoTapped" />
-                            </Border.GestureRecognizers>
-                            <VerticalStackLayout Spacing="6"><Label Text="💻" FontSize="28" HorizontalOptions="Center"/><Label Text="Tecnología" TextColor="#203A43" FontAttributes="Bold" HorizontalOptions="Center" /></VerticalStackLayout>
-                        </Border>
-                    </Grid>
-                </VerticalStackLayout>
-
-            </VerticalStackLayout>
-        </ScrollView>
-
-        <!-- 3. BARRA DE NAVEGACIÓN INFERIOR (Tab-bar simulado para consistencia de diseño) -->
-        <Border Grid.Row="2" 
-                Padding="10,5" 
-                Background="White" 
-                StrokeShape="RoundRectangle 24,24,0,0" 
-                StrokeThickness="0"
-                Stroke="#DCE8EC"
-                HeightRequest="65">
-            <Border.Shadow>
-                <Shadow Brush="Black" Opacity="0.2" Radius="10" Offset="0,-4" />
-            </Border.Shadow>
-            <Grid ColumnDefinitions="*, *, *, *">
-                <!-- Botón Inicio -->
-                <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center" VerticalOptions="Center">
-                    <Label Text="🏠"  FontSize="20" HorizontalOptions="Center"/>
-                    <Label Text="Inicio" FontSize="11" TextColor="#2C5364" FontAttributes="Bold" HorizontalOptions="Center"/>
-                </VerticalStackLayout>
-
-                <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center">
-                    <VerticalStackLayout.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnCatalogoTapped" />
-                    </VerticalStackLayout.GestureRecognizers>
-                    <Label Text="📚" FontSize="20" HorizontalOptions="Center"/>
-                    <Label Text="Biblioteca" FontSize="11" TextColor="#2C5364" FontAttributes="Bold" HorizontalOptions="Center"/>
-                </VerticalStackLayout>
-
-                <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center">
-                    <VerticalStackLayout.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnPrestamosTapped" />
-                    </VerticalStackLayout.GestureRecognizers>
-                    <Label Text="📁" FontSize="20" HorizontalOptions="Center"/>
-                    <Label Text="Prestamos" FontSize="11" TextColor="#2C5364" FontAttributes="Bold" HorizontalOptions="Center"/>
-                </VerticalStackLayout>
-
-                <VerticalStackLayout Grid.Column="3" HorizontalOptions="Center" VerticalOptions="Center">
-                    <VerticalStackLayout.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OnCambiarAreaTapped" />
-                    </VerticalStackLayout.GestureRecognizers>
-                    <Label Text="↪" FontSize="20" HorizontalOptions="Center"/>
-                    <Label Text="Cambiar área" FontSize="11" TextColor="#2C5364" FontAttributes="Bold" HorizontalOptions="Center"/>
-                </VerticalStackLayout>
-
-                
-            </Grid>
-        </Border>
+        <Grid Grid.Row="3" ColumnDefinitions="*,*" ColumnSpacing="10">
+            <Button Grid.Column="0" Text="Mis solicitudes"
+                    Clicked="OnPrestamosClicked"
+                    BackgroundColor="#187A62" TextColor="White" />
+            <Button Grid.Column="1" Text="Salir"
+                    Clicked="OnSalirClicked"
+                    BackgroundColor="#5B6970" TextColor="White" />
         </Grid>
+    </Grid>
 </ContentPage>

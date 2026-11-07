@@ -2,79 +2,56 @@ using System.Text.Json;
 using AlejandriaCloudService.Models;
 using Microsoft.Maui.Storage;
 
-namespace AlejandriaCloudService.Funcionalidades
+namespace AlejandriaCloudService.Funcionalidades;
+
+public static class CatalogoService
 {
-    public static class CatalogoService
+    public static List<Libro> Libros { get; private set; } = new();
+
+    private static readonly string ruta =
+        Path.Combine(FileSystem.Current.AppDataDirectory, "Libros.json");
+
+    private static bool cargado;
+
+    public static async Task CargarLibrosAsync()
     {
-        public static List<Libro> Libros { get; private set; } = new List<Libro>();
+        if (cargado)
+            return;
 
-        private static readonly string ruta =
-            Path.Combine(FileSystem.AppDataDirectory, "Libros.json");
-
-        private static bool cargado = false;
-
-        public static async Task CargarLibrosAsync()
+        if (!File.Exists(ruta))
         {
-            if (cargado)
-            {
-                return; 
-            }
-
-            if (!File.Exists(ruta))
-            {
-                try
-                {
-                    using Stream stream = await FileSystem.OpenAppPackageFileAsync("Ficheros/Libros.json");
-                    using StreamReader reader = new StreamReader(stream);
-                    string inicial = await reader.ReadToEndAsync();
-                    await File.WriteAllTextAsync(ruta, inicial);
-                }
-                catch
-                {
-                    Libros = new List<Libro>();
-                    cargado = true;
-                    return;
-                }
-            }
-
-            string json = await File.ReadAllTextAsync(ruta);
-            JsonSerializerOptions opciones = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-            Libros = JsonSerializer.Deserialize<List<Libro>>(json, opciones) ?? new List<Libro>();
-            cargado = true;
+            using Stream stream = await FileSystem.Current.OpenAppPackageFileAsync("Ficheros/Libros.json");
+            using StreamReader reader = new(stream);
+            await File.WriteAllTextAsync(ruta, await reader.ReadToEndAsync());
         }
 
-        public static async Task GuardarLibrosAsync()
-        {
-            await CargarLibrosAsync(); 
+        string json = await File.ReadAllTextAsync(ruta);
+        Libros = JsonSerializer.Deserialize<List<Libro>>(json,
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new();
+        cargado = true;
+    }
 
-            JsonSerializerOptions opciones = new JsonSerializerOptions { WriteIndented = true };
-            string json = JsonSerializer.Serialize(Libros, opciones);
-            await File.WriteAllTextAsync(ruta, json);
-        }
+    public static async Task GuardarLibrosAsync()
+    {
+        await CargarLibrosAsync();
+        string json = JsonSerializer.Serialize(Libros,
+            new JsonSerializerOptions { WriteIndented = true });
+        await File.WriteAllTextAsync(ruta, json);
+    }
 
-        public static List<Libro> ObtenerLibros()
-        {
-            return new List<Libro>(Libros);
-        }
+    public static List<Libro> ObtenerLibros(bool incluirNoDisponibles = false)
+    {
+        return Libros.Where(l => incluirNoDisponibles ||
+            !l.estado.Equals("No disponible", StringComparison.OrdinalIgnoreCase)).ToList();
+    }
 
-        public static List<Libro> BuscarLibros(string texto)
-        {
-            texto = (texto ?? "").Trim();
-            List<Libro> resultado = new List<Libro>();
+    public static List<Libro> BuscarLibros(string texto, bool incluirNoDisponibles = false)
+    {
+        texto = (texto ?? "").Trim();
 
-            foreach (Libro libro in Libros)
-            {
-                bool coincide = texto == ""
-                    || libro.titulo.Contains(texto, StringComparison.OrdinalIgnoreCase)
-                    || libro.autor.Contains(texto, StringComparison.OrdinalIgnoreCase)
-                    || libro.categoria.Contains(texto, StringComparison.OrdinalIgnoreCase);
-
-                if (coincide)
-                {
-                    resultado.Add(libro);
-                }
-            }
-            return resultado;
-        }
+        return ObtenerLibros(incluirNoDisponibles).Where(l =>
+            l.titulo.Contains(texto, StringComparison.OrdinalIgnoreCase) ||
+            l.autor.Contains(texto, StringComparison.OrdinalIgnoreCase) ||
+            l.categoria.Contains(texto, StringComparison.OrdinalIgnoreCase)).ToList();
     }
 }

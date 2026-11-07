@@ -1,61 +1,49 @@
 using AlejandriaCloudService.Funcionalidades;
-using AlejandriaCloudService.Models;
-using System.Linq;
 
 namespace AlejandriaCloudService.Vista;
 
 public partial class AdminMainPage : ContentPage
 {
-	public AdminMainPage(string username)
-	{
-		InitializeComponent();
-		TxtBienvenida.Text = $"Hola, {username} 👋";
-	}
-
-	protected override async void OnAppearing()
-	{
-		base.OnAppearing();
-
-		try
-		{
-			await CatalogoService.CargarLibrosAsync();
-			LibrosRecomendados.ItemsSource = CatalogoService.ObtenerLibros().Take(3).ToList();
-		}
-		catch (Exception ex)
-		{
-			await DisplayAlertAsync("Error de carga", $"No se pudo leer el catálogo: {ex.Message}", "OK");
-		}
-	}
-
-	private async void OnCatalogoTapped(object? sender, TappedEventArgs e)
-	{
-		await Navigation.PushAsync(new CatalogoPage());
-	}
-
-	private async void OnAnadirLibroTapped(object? sender, TappedEventArgs e)
-	{
-		await Navigation.PushAsync(new AnadirLibroPage());
-	}
-
-	private async void OnPrestamosTapped(object? sender, TappedEventArgs e)
-	{
-		await Navigation.PushAsync(new prestamosPage());
-	}
-
-	private async void OnVerMisLibrosClicked(object? sender, EventArgs e)
-	{
-		await Navigation.PushAsync(new prestamosPage());
-	}
-
-	private void OnCambiarAreaTapped(object? sender, TappedEventArgs e)
-	{
-		Application.Current!.MainPage = new NavigationPage(new LoginPage());
-	}
-	private async void OnDetalleLibroTapped(object? sender, TappedEventArgs e)
+    public AdminMainPage(string username)
     {
-		if (e.Parameter is Libro libro)
-		{
-			await Navigation.PushAsync(new DetalleLibroPage(libro));
-		}
+        InitializeComponent();
+        TxtBienvenida.Text = $"Hola, {username}";
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        try
+        {
+            await UsuarioService.CargarDatosDesdeJsonAsync();
+            SolicitudesLabel.Text = $"Solicitudes pendientes: {UsuarioService.ObtenerSolicitudesPendientes().Count}";
+            PrestadosLabel.Text = $"Libros prestados: {UsuarioService.ObtenerPrestamosEntregados().Count}";
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync("Error", ex.Message, "Aceptar");
+        }
+    }
+
+    private async void OnCatalogoClicked(object? sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new CatalogoPage());
+    }
+
+    private async void OnAnadirLibroClicked(object? sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new AnadirLibroPage());
+    }
+
+    private async void OnPrestamosClicked(object? sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new AdminPrestamosPage());
+    }
+
+    private void OnSalirClicked(object? sender, EventArgs e)
+    {
+        UsuarioService.UsuarioActual = null;
+        Application.Current!.MainPage = new NavigationPage(new LoginPage());
     }
 }

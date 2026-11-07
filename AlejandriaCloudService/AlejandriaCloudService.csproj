@@ -76,12 +76,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Compile Update="Vista\AdminPrestamosPage.xaml.cs">
+		  <DependentUpon>AdminPrestamosPage.xaml</DependentUpon>
+		</Compile>
 		<Compile Update="Vista\Login.xaml.cs">
 			<DependentUpon>Login.xaml</DependentUpon>
 		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
+		<MauiXaml Update="Vista\AdminPrestamosPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="Vista\CatalogoPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>

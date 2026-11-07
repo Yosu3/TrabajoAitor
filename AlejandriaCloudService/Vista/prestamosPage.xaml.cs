@@ -1,3 +1,4 @@
+
 using AlejandriaCloudService.Funcionalidades;
 using AlejandriaCloudService.Models;
 
@@ -17,84 +18,107 @@ public partial class prestamosPage : ContentPage
         try
         {
             await UsuarioService.CargarDatosDesdeJsonAsync();
+
+            if (UsuarioService.UsuarioActual?.IsAdmin != false)
+            {
+                await DisplayAlertAsync("Acceso denegado", "Solo los lectores pueden solicitar libros.", "Aceptar");
+                await Navigation.PopAsync();
+                return;
+            }
+
+            ActualizarLista();
         }
         catch (Exception ex)
         {
-            await DisplayAlertAsync("Error de carga", $"No se pudo leer Libros.json: {ex.Message}", "OK");
-            return;
+            await DisplayAlertAsync("Error", ex.Message, "Aceptar");
         }
-
-        if (UsuarioService.UsuarioActual != null)
-            TxtBienvenida.Text = $"¡Hola, {UsuarioService.UsuarioActual.Username}!";
-
-        RefrescarControlesPantalla();
     }
 
-    private void RefrescarControlesPantalla()
+    private void ActualizarLista()
     {
+        List<Prestamo> misPrestamos = UsuarioService.ObtenerMisSolicitudesYPrestamos();
+
+        int cantidadLibros = UsuarioService.ObtenerCantidadLibrosActivos();
+
+        bool limiteAlcanzado = cantidadLibros >= UsuarioService.MaximoLibrosPorUsuario;
+
+        TxtBienvenida.Text = $"Hola, {UsuarioService.UsuarioActual?.Username} | Libros: {cantidadLibros}/3";
+
         PkrLibrosDisponibles.ItemsSource = null;
         ListadoPrestamos.ItemsSource = null;
 
         PkrLibrosDisponibles.ItemsSource = UsuarioService.ObtenerLibrosDisponibles();
         PkrLibrosDisponibles.SelectedIndex = -1;
 
-        if (UsuarioService.UsuarioActual != null)
-        {
-            ListadoPrestamos.ItemsSource = UsuarioService.UsuarioActual.Prestamos;
-        }
+        ListadoPrestamos.ItemsSource = misPrestamos;
+
+        PkrLibrosDisponibles.IsEnabled = !limiteAlcanzado;
+        SolicitarButton.IsEnabled = !limiteAlcanzado;
+
+        SolicitarButton.Text = limiteAlcanzado
+            ? "Límite de 3 libros alcanzado"
+            : "Enviar solicitud";
     }
 
-    private async void OnSolicitarPrestamoClicked(object sender, EventArgs e)
+    private async void OnSolicitarPrestamoClicked(object? sender, EventArgs e)
     {
-        var libroSeleccionado = PkrLibrosDisponibles.SelectedItem as Libro;
+        int cantidadLibros = UsuarioService.ObtenerCantidadLibrosActivos();
 
-        if (libroSeleccionado == null)
+        if (cantidadLibros >= UsuarioService.MaximoLibrosPorUsuario)
         {
-            
-            await DisplayAlertAsync("Atención", "Por favor, selecciona un libro de la lista desplegable.", "OK");
+            await DisplayAlertAsync(
+                "Límite alcanzado",
+                "Solo puedes tener un máximo de 3 libros entre solicitudes y préstamos. Debes devolver un libro antes de solicitar otro.",
+                "Aceptar");
             return;
         }
 
-         bool exito = await UsuarioService.SolicitarPrestamoAsync(libroSeleccionado.idLibro);
-
-        if (exito)
+        if (PkrLibrosDisponibles.SelectedItem is not Libro libro)
         {
-            await DisplayAlertAsync("Éxito", $"Has tomado en préstamo: '{libroSeleccionado.titulo}'.", "Entendido");
-            RefrescarControlesPantalla();   
+            await DisplayAlertAsync("Falta información", "Selecciona un libro.", "Aceptar");
+            return;
         }
-        else
+
+        SolicitarButton.IsEnabled = false;
+
+        try
         {
-            await DisplayAlertAsync("Error", "No se pudo procesar el préstamo.", "Cerrar");
-        }
-    }
+            bool solicitado = await UsuarioService.SolicitarPrestamoAsync(libro.idLibro);
 
-    private async void OnDevolverLibroClicked(object sender, EventArgs e)
-    {
-        var boton = sender as Button;
-
-        if (boton?.CommandParameter is int idLibro)
-        {
-            
-            bool confirmar = await DisplayAlertAsync("Devolución", "¿Deseas devolver este ejemplar a la colección?", "Sí, Confirmar", "Cancelar");
-
-            if (!confirmar) return;
-
-             bool exito = await UsuarioService.DevolverLibroAsync(idLibro);
-
-            if (exito)
+            if (solicitado)
             {
-                await DisplayAlertAsync("Completado", "El libro ha sido entregado correctamente.", "OK");
-                RefrescarControlesPantalla();
+                await DisplayAlertAsync(
+                    "Solicitud enviada",
+                    "El libro queda En solicitud hasta que el administrador lo entregue.",
+                    "Aceptar");
+            }
+            else if (UsuarioService.ObtenerCantidadLibrosActivos() >= UsuarioService.MaximoLibrosPorUsuario)
+            {
+                await DisplayAlertAsync(
+                    "Límite alcanzado",
+                    "Ya tienes 3 libros entre solicitudes y préstamos. No puedes solicitar más.",
+                    "Aceptar");
             }
             else
             {
-                await DisplayAlertAsync("Error", "No se pudo procesar la entrega.", "Cerrar");
+                await DisplayAlertAsync(
+                    "No disponible",
+                    "Este libro ya no se puede solicitar.",
+                    "Aceptar");
             }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlertAsync("Error", ex.Message, "Aceptar");
+        }
+        finally
+        {
+            ActualizarLista();
         }
     }
 
     private async void OnVolverInicioClicked(object? sender, EventArgs e)
     {
-        await Navigation.PopToRootAsync();
+        await Navigation.PopAsync();
     }
-    }
+}

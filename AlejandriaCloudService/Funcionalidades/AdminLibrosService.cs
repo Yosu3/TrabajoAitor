@@ -1,56 +1,67 @@
 using AlejandriaCloudService.Models;
 
-namespace AlejandriaCloudService.Funcionalidades
+namespace AlejandriaCloudService.Funcionalidades;
+
+public static class AdminLibrosService
 {
-    public static class AdminLibrosService
+    public static int SiguienteId()
     {
-        // idLibro único: siempre el más alto + 1
-        public static int SiguienteId()
-        {
-            int max = 0;
-            foreach (Libro libro in CatalogoService.Libros)
-            {
-                if (libro.idLibro > max)
-                {
-                    max = libro.idLibro;
-                }
-            }
-            return max + 1;
-        }
+        return CatalogoService.Libros.Select(l => l.idLibro).DefaultIfEmpty(0).Max() + 1;
+    }
 
-        public static bool ExisteIsbn(string isbn)
-        {
-            foreach (Libro libro in CatalogoService.Libros)
-            {
-                if (libro.isbn == isbn)
-                {
-                    return true;
-                }
-            }
+    public static bool ExisteTitulo(string titulo)
+    {
+        return CatalogoService.Libros.Any(l =>
+            string.Equals(l.titulo.Trim(), titulo.Trim(), StringComparison.OrdinalIgnoreCase));
+    }
+
+    public static async Task AnadirLibroAsync(Libro libro)
+    {
+        await CatalogoService.CargarLibrosAsync();
+
+        if (UsuarioService.UsuarioActual?.IsAdmin != true)
+            throw new InvalidOperationException("Solo un administrador puede añadir libros.");
+
+        if (string.IsNullOrWhiteSpace(libro.titulo) || ExisteTitulo(libro.titulo))
+            throw new InvalidOperationException("Ya existe un libro con ese título o el título está vacío.");
+
+        libro.idLibro = SiguienteId();
+        libro.estado = "Disponible";
+        CatalogoService.Libros.Add(libro);
+        await CatalogoService.GuardarLibrosAsync();
+    }
+
+    public static async Task<bool> EliminarLibroAsync(Libro libro)
+    {
+        await UsuarioService.CargarDatosDesdeJsonAsync();
+
+        if (UsuarioService.UsuarioActual?.IsAdmin != true)
             return false;
-        }
 
-        public static async Task AnadirLibroAsync(Libro libro)
-        {
-            await CatalogoService.CargarLibrosAsync();
-            libro.idLibro = SiguienteId();
-            CatalogoService.Libros.Add(libro);
-            await CatalogoService.GuardarLibrosAsync(); // Persistencia como los apuntes de Aitor con misioens
-        }
+        Libro? existente = CatalogoService.Libros.FirstOrDefault(l => l.idLibro == libro.idLibro);
+        if (existente == null || existente.estado == "No disponible" ||
+            UsuarioService.TieneRelacionActiva(existente.idLibro))
+            return false;
 
-        public static async Task<bool> EliminarLibroAsync(Libro libro)
-        {
-            await CatalogoService.CargarLibrosAsync();
+        existente.estado = "No disponible";
+        await CatalogoService.GuardarLibrosAsync();
+        return true;
+    }
 
-            Libro? aBorrar = CatalogoService.Libros.FirstOrDefault(l => l.idLibro == libro.idLibro) ?? libro;
-            bool eliminado = CatalogoService.Libros.Remove(aBorrar);
+    public static async Task<bool> ReactivarLibroAsync(Libro libro)
+    {
+        await UsuarioService.CargarDatosDesdeJsonAsync();
 
-            if (eliminado)
-            {
-                await CatalogoService.GuardarLibrosAsync(); 
-            }
+        if (UsuarioService.UsuarioActual?.IsAdmin != true)
+            return false;
 
-            return eliminado;
-        }
+        Libro? existente = CatalogoService.Libros.FirstOrDefault(l => l.idLibro == libro.idLibro);
+        if (existente?.estado != "No disponible" ||
+            UsuarioService.TieneRelacionActiva(existente.idLibro))
+            return false;
+
+        existente.estado = "Disponible";
+        await CatalogoService.GuardarLibrosAsync();
+        return true;
     }
 }

@@ -5,65 +5,68 @@ namespace AlejandriaCloudService.Vista;
 
 public partial class DetalleLibroPage : ContentPage
 {
-    private readonly Libro _libro;
+    private readonly Libro libro;
 
-    public DetalleLibroPage(Libro libro)
+    public DetalleLibroPage(Libro libroSeleccionado)
     {
         InitializeComponent();
-        _libro = libro;
+        libro = libroSeleccionado;
+        MostrarLibro();
+    }
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        MostrarLibro();
+    }
+
+    private void MostrarLibro()
+    {
+        PortadaImagen.Source = libro.PortadaSource;
         TituloLabel.Text = libro.titulo;
         AutorLabel.Text = $"Autor: {libro.autor}";
         CategoriaLabel.Text = $"Categoría: {libro.categoria}";
         IsbnLabel.Text = $"ISBN: {libro.isbn}";
         UbicacionLabel.Text = $"Ubicación: {libro.ubicacion}";
-        PublicacionLabel.Text = $"Publicado en: {libro.fechaPublicacion.Year}";
+        PublicacionLabel.Text = $"Año: {libro.fechaPublicacion.Year}";
         EstadoLabel.Text = $"Estado: {libro.estado}";
+        DisponibilidadLabel.Text = libro.estado switch
+        {
+            "Disponible" => "Se puede solicitar el libro.",
+            "En solicitud" => "Esperando a que el administrador entregue el libro.",
+            "Prestado" => "El libro está asignado a un lector.",
+            "No disponible" => "Este libro está oculto para los lectores.",
+            _ => "Consulta con el administrador."
+        };
 
-        if (libro.estado == "Disponible")
-        {
-            EstadoLabel.TextColor = Colors.Green;
-            DisponibilidadLabel.Text = "Este libro está disponible para pedirlo prestado.";
-        }
-        else if (libro.estado == "Prestado")
-        {
-            EstadoLabel.TextColor = Colors.Red;
-            DisponibilidadLabel.Text = "Este libro está prestado ahora mismo.";
-        }
-        else
-        {
-            EstadoLabel.TextColor = Colors.Orange;
-            DisponibilidadLabel.Text = "Este libro está reservado.";
-        }
+        GestionarLibroButton.IsVisible = UsuarioService.UsuarioActual?.IsAdmin == true;
+        GestionarLibroButton.Text = libro.estado == "No disponible" ? "Reactivar libro" : "Retirar libro";
     }
 
-    private async void EliminarClicked(object? sender, EventArgs e)
+    private async void OnGestionarLibroClicked(object? sender, EventArgs e)
     {
-        bool confirmar = await DisplayAlertAsync(
-            "Eliminar libro",
-            $"¿Seguro que deseas eliminar el libro \"{_libro.titulo}\"?",
-            "Eliminar", "Cancelar");
-
-        if (!confirmar)
-        {
+        if (UsuarioService.UsuarioActual?.IsAdmin != true)
             return;
-        }
 
-        bool eliminado = await AdminLibrosService.EliminarLibroAsync(_libro);
-        if (eliminado)
-        {
-            await DisplayAlertAsync("Eliminado", $"\"{_libro.titulo}\" ha sido eliminado del catálogo.", "OK");
-            await Navigation.PopAsync();
-        }
-        else
-        {
-            await DisplayAlertAsync("Error", "No se pudo eliminar el libro.", "OK");
-        }
+        bool reactivar = libro.estado == "No disponible";
+        bool confirmar = await DisplayAlertAsync("Confirmar",
+            $"¿Quieres {(reactivar ? "reactivar" : "retirar")} '{libro.titulo}'?",
+            "Confirmar", "Cancelar");
+        if (!confirmar)
+            return;
+
+        bool realizado = reactivar ?
+            await AdminLibrosService.ReactivarLibroAsync(libro) :
+            await AdminLibrosService.EliminarLibroAsync(libro);
+
+        await DisplayAlertAsync(realizado ? "Actualizado" : "No permitido",
+            realizado ? "La disponibilidad del libro se ha actualizado." :
+            "No se puede retirar un libro con una solicitud o préstamo activo.", "Aceptar");
+        MostrarLibro();
     }
 
     private async void VolverClicked(object? sender, EventArgs e)
     {
         await Navigation.PopAsync();
     }
-
 }

@@ -1,64 +1,33 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
-    x:Class="AlejandriaCloudService.Vista.DetalleLibroPage"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    BackgroundColor="#F6F0E4"
-     NavigationPage.HasNavigationBar="False">
-
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AlejandriaCloudService.Vista.DetalleLibroPage"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="#F4F7FA">
     <ScrollView>
-        <Grid Padding="20,10" VerticalOptions="Center">
-            <Border
-                BackgroundColor="White"
-                Stroke="#8D8D8D"
-                StrokeThickness="1"
-                StrokeShape="RoundRectangle 2"
-                Padding="14"
-                MaximumWidthRequest="380"
-                HorizontalOptions="Center">
-                <VerticalStackLayout Spacing="7">
-                    <Label
-                        x:Name="TituloLabel"
-                        FontAttributes="Bold"
-                        FontSize="20"
-                        TextColor="#174C24" />
-
-                    <Label x:Name="AutorLabel" FontSize="13" TextColor="#333333" />
-                    <Label x:Name="CategoriaLabel" FontSize="11" TextColor="#333333" />
-                    <Label x:Name="IsbnLabel" FontSize="11" TextColor="#333333" />
-                    <Label x:Name="UbicacionLabel" FontSize="11" TextColor="#333333" />
-                    <Label x:Name="PublicacionLabel" FontSize="11" TextColor="#333333" />
-
-                    <Label
-                        x:Name="EstadoLabel"
-                        FontAttributes="Bold"
-                        FontSize="15"
-                        Margin="0,1,0,0" />
-                    <Label
-                        x:Name="DisponibilidadLabel"
-                        FontSize="11"
-                        TextColor="#333333" />
-
-                    <Button
-                        BackgroundColor="#1B5E20"
-                        Clicked="VolverClicked"
-                        CornerRadius="5"
-                        FontSize="11"
-                        HeightRequest="36"
-                        Margin="0,7,0,0"
-                        Text="Volver al catálogo"
-                        TextColor="White" />
-
-                    <Button
-                        BackgroundColor="#C82026"
-                        Clicked="EliminarClicked"
-                        CornerRadius="5"
-                        FontSize="11"
-                        HeightRequest="36"
-                        Text="Eliminar este libro"
-                        TextColor="White" />
-                </VerticalStackLayout>
-            </Border>
-        </Grid>
+        <VerticalStackLayout Padding="22" Spacing="12">
+            <Image x:Name="PortadaImagen"
+                   WidthRequest="165" HeightRequest="230"
+                   Aspect="AspectFit"
+                   BackgroundColor="#E6ECEF"
+                   HorizontalOptions="Center" />
+            <Label x:Name="TituloLabel" FontSize="24" FontAttributes="Bold" TextColor="#1B4F5F" />
+            <Label x:Name="AutorLabel" TextColor="#263B43" />
+            <Label x:Name="CategoriaLabel" TextColor="#263B43" />
+            <Label x:Name="IsbnLabel" TextColor="#263B43" />
+            <Label x:Name="UbicacionLabel" TextColor="#263B43" />
+            <Label x:Name="PublicacionLabel" TextColor="#263B43" />
+            <Label x:Name="EstadoLabel" FontAttributes="Bold" TextColor="#176B77" />
+            <Label x:Name="DisponibilidadLabel" TextColor="#52646B" />
+            <Button x:Name="GestionarLibroButton"
+                    IsVisible="False"
+                    Clicked="OnGestionarLibroClicked"
+                    BackgroundColor="#B34040"
+                    TextColor="White" />
+            <Button Text="Volver al catálogo"
+                    Clicked="VolverClicked"
+                    BackgroundColor="#326F85"
+                    TextColor="White" />
+        </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

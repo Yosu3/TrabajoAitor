@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text.Json.Serialization;
 
-namespace AlejandriaCloudService.Models
+namespace AlejandriaCloudService.Models;
+
+public class Prestamo
 {
-    public class Prestamo
-    {
-        public int Id { get; set; }
-        public int LibroId { get; set; }
-        public Libro Libro { get; set; } = null!;
-        public string Username { get; set; } = string.Empty;
+    public int Id { get; set; }
+    public int LibroId { get; set; }
+    public string Username { get; set; } = "";
+    public DateTime FechaSolicitud { get; set; } = DateTime.Now;
+    public DateTime FechaSalida { get; set; }
+    public DateTime FechaLimite { get; set; }
+    public bool EstabaDevuelto { get; set; }
 
-        public DateTime FechaSalida { get; set; } = DateTime.Now;
-        public DateTime FechaLimite { get; set; } = DateTime.Now.AddDays(14);
-        public bool EstabaDevuelto { get; set; } = false;
-    }
+    [JsonIgnore]
+    public Libro? Libro { get; set; }
 }
