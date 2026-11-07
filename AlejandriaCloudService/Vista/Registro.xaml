@@ -30,7 +30,7 @@
                     FontSize="16"
                     HorizontalOptions="Center"
                     Text="Únete a Alejandría Cloud"
-                    TextColor="#A0AAB2" />
+                    TextColor="#DDE9EE" />
             </VerticalStackLayout>
 
             <Border
@@ -64,7 +64,7 @@
                             <Entry
                                 x:Name="txtUsername"
                                 Placeholder="ej. jdoe"
-                                PlaceholderColor="#99AAB5"
+                                PlaceholderColor="#617783"
                                 TextColor="#203A43" />
                         </Border>
                     </VerticalStackLayout>
@@ -82,7 +82,7 @@
                             <Entry
                                 x:Name="txtApellido"
                                 Placeholder="ej. Perez"
-                                PlaceholderColor="#99AAB5"
+                                PlaceholderColor="#617783"
                                 TextColor="#203A43" />
                         </Border>
                     </VerticalStackLayout>
@@ -101,7 +101,7 @@
                                 x:Name="txtDni"
                                 Keyboard="Text"
                                 Placeholder="ej. 12345678Z"
-                                PlaceholderColor="#99AAB5"
+                                PlaceholderColor="#617783"
                                 TextColor="#203A43" />
                         </Border>
                     </VerticalStackLayout>
@@ -120,7 +120,7 @@
                                 x:Name="txtEmail"
                                 Keyboard="Email"
                                 Placeholder="ej. usuario@correo.com"
-                                PlaceholderColor="#99AAB5"
+                                PlaceholderColor="#617783"
                                 TextColor="#203A43" />
                         </Border>
                     </VerticalStackLayout>
@@ -139,7 +139,7 @@
                                 x:Name="txtPassword"
                                 IsPassword="True"
                                 Placeholder="********"
-                                PlaceholderColor="#99AAB5"
+                                PlaceholderColor="#617783"
                                 TextColor="#203A43" />
                         </Border>
                     </VerticalStackLayout>
@@ -160,7 +160,7 @@
                         <Label Text="¿Ya tienes cuenta?" TextColor="#707070" />
                         <Label
                             FontAttributes="Bold"
-                            Text="Inicia sesión"
+                            Text="Iniciar sesión"
                             TextColor="#2C5364">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="OnLoginTapped" />

@@ -80,23 +80,23 @@ public partial class LoginPage : ContentPage
                 u.Username.Equals(usernameInput, StringComparison.OrdinalIgnoreCase) &&
                 u.Password == passwordEncriptada);
 
+
             if (usuarioValido != null)
             {
                 UsuarioService.UsuarioActual = usuarioValido;
 
                 if (usuarioValido.IsAdmin)
                 {
-                    await DisplayAlert("¡Bienvenido Panel de Control!", $"Administrador: {usuarioValido.Username}", "Ingresar");
                     await Navigation.PushAsync(new AdminMainPage(usuarioValido.Username));
                     Navigation.RemovePage(this);
                 }
                 else
                 {
-                    await DisplayAlert("¡Bienvenido de vuelta!", $"Hola {usuarioValido.Username}, que pases una excelente lectura.", "Entrar");
                     await Navigation.PushAsync(new UserMainPage(usuarioValido.Username));
                     Navigation.RemovePage(this);
                 }
             }
+
             else
             {
                 await DisplayAlert("Error", "Usuario o contraseña incorrectos.", "OK");
@@ -108,10 +108,14 @@ public partial class LoginPage : ContentPage
         }
     }
 
-    private void OnTogglePasswordClicked(object sender, EventArgs e)
+    private void OnTogglePasswordClicked(object? sender, EventArgs e)
     {
         txtPassword.IsPassword = !txtPassword.IsPassword;
-        btnTogglePassword.Text = txtPassword.IsPassword ? "👁️" : "🙈";
+        btnTogglePassword.Source = txtPassword.IsPassword
+            ? "mostrar_contrasena.png"
+            : "ocultar_contrasena.png";
+        SemanticProperties.SetDescription(btnTogglePassword,
+            txtPassword.IsPassword ? "Mostrar contraseña" : "Ocultar contraseña");
     }
 
     private async void OnRegisterTapped(object sender, EventArgs e)

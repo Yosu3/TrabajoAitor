@@ -16,8 +16,13 @@
                        PlaceholderColor="#52646B" />
         </VerticalStackLayout>
         <CollectionView x:Name="ListaUsuarios" Grid.Row="1"
-                        EmptyView="No hay libros visibles."
                         SelectionMode="None">
+            <CollectionView.EmptyView>
+                <Label Text="No hay libros visibles."
+                       TextColor="#52646B"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center" />
+            </CollectionView.EmptyView>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Libro">
                     <Border Padding="10"
@@ -43,8 +48,13 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
         <CollectionView x:Name="ListaAdmin" Grid.Row="1"
-                        EmptyView="No se encontraron libros."
                         SelectionMode="None" IsVisible="False">
+            <CollectionView.EmptyView>
+                <Label Text="No se encontraron libros."
+                       TextColor="#52646B"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center" />
+            </CollectionView.EmptyView>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Libro">
                     <Border Padding="10"
@@ -78,7 +88,7 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
         <Button Grid.Row="2"
-                Text="Volver al inicio"
+                Text="Volver"
                 Clicked="OnVolverInicioClicked"
                 BackgroundColor="#326F85"
                 TextColor="White" />

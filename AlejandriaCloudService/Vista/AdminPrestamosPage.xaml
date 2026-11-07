@@ -95,7 +95,7 @@
                                     <Label Text="{Binding FechaLimite, StringFormat='Límite: {0:dd/MM/yyyy}'}"
                                            FontSize="10"
                                            TextColor="#606C70" />
-                                    <Button Text="Devolver libro"
+                                    <Button Text="Devuelto"
                                             Clicked="OnDevolverClicked"
                                             CommandParameter="{Binding .}"
                                             BackgroundColor="#B34040"
@@ -109,7 +109,7 @@
             </Grid>
         </Grid>
         <Button Grid.Row="2"
-                Text="Volver al panel"
+                Text="Volver"
                 Clicked="OnVolverClicked"
                 BackgroundColor="#326F85"
                 TextColor="White" />

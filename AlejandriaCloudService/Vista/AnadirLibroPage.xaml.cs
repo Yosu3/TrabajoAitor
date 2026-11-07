@@ -12,14 +12,37 @@ public partial class AnadirLibroPage : ContentPage
     public AnadirLibroPage()
     {
         InitializeComponent();
-        CategoriaPicker.ItemsSource = new List<string>
-        {
-            "Clásicos", "Novela", "Ciencia ficción", "Fantasía",
-            "Historia", "Infantil", "Distopía", "Realismo Mágico"
-        };
+
+        CategoriaPicker.ItemsSource = OpcionesBiblioteca.Categorias.OrderBy(c=>c).ToList();
+
+        UbicacionPicker.ItemsSource = new List<string>
+    {
+        "Estantería 1",
+        "Estantería 2",
+        "Estantería 3",
+        "Estantería 4",
+        "Estantería 5",
+        "Estantería 6",
+        "Estantería 7",
+        "Estantería 8",
+        "Estantería 9",
+        "Estantería 10",
+        "Estantería 11",
+        "Estantería 12",
+        "Estantería 13",
+        "Estantería 14",
+        "Estantería 15",
+        "Estantería 16",
+        "Estantería 17",
+        "Estantería 18",
+        "Estantería 19",
+        "Estantería 20"
+    };
+
         FechaPicker.MaximumDate = DateTime.Today;
         FechaPicker.Date = DateTime.Today;
     }
+
 
     private void OnPortadaCheckedChanged(object? sender, CheckedChangedEventArgs e)
     {
@@ -70,7 +93,7 @@ public partial class AnadirLibroPage : ContentPage
     {
         string titulo = TituloEntry.Text?.Trim() ?? "";
         string autor = AutorEntry.Text?.Trim() ?? "";
-        string ubicacion = UbicacionEntry.Text?.Trim() ?? "";
+        string ubicacion = UbicacionPicker.SelectedItem?.ToString() ?? "";
         string isbn = IsbnEntry.Text?.Trim() ?? "";
 
         if (string.IsNullOrWhiteSpace(titulo) || string.IsNullOrWhiteSpace(autor) ||
@@ -145,11 +168,12 @@ public partial class AnadirLibroPage : ContentPage
         }
     }
 
+
     private void LimpiarFormulario()
     {
         TituloEntry.Text = "";
         AutorEntry.Text = "";
-        UbicacionEntry.Text = "";
+        UbicacionPicker.SelectedIndex = -1;
         IsbnEntry.Text = "";
         CategoriaPicker.SelectedIndex = -1;
         FechaPicker.Date = DateTime.Today;
@@ -158,6 +182,7 @@ public partial class AnadirLibroPage : ContentPage
         VistaPreviaPortada.Source = "libro_imagen.png";
         NombrePortadaLabel.Text = "Se utilizará la portada predeterminada";
     }
+
 
     private async void OnVolverInicioClicked(object? sender, EventArgs e)
     {

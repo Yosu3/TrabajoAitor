@@ -20,21 +20,22 @@ public partial class UserMainPage : ContentPage
         try
         {
             await UsuarioService.CargarDatosDesdeJsonAsync();
+            await CatalogoService.CargarLibrosAsync();
+
             _librosVisibles = CatalogoService.ObtenerLibros();
 
-            List<string> categorias = _librosVisibles
-                .Select(libro => libro.categoria.Trim())
-                .Where(categoria => !string.IsNullOrWhiteSpace(categoria))
+            List<string> categorias = OpcionesBiblioteca.Categorias
                 .Distinct(StringComparer.OrdinalIgnoreCase)
-                .OrderBy(categoria => categoria)
-                .ToList()!;
+                .OrderBy(c => c)
+                .ToList();
 
             categorias.Insert(0, "Todas");
+
             CategoriaPicker.ItemsSource = categorias;
             CategoriaPicker.SelectedIndex = 0;
+
             AplicarFiltroCategoria();
         }
-
         catch (Exception ex)
         {
             await DisplayAlertAsync("Error", ex.Message, "Aceptar");
@@ -50,11 +51,19 @@ public partial class UserMainPage : ContentPage
     {
         string? categoriaSeleccionada = CategoriaPicker.SelectedItem as string;
 
-        LibrosRecomendados.ItemsSource = string.IsNullOrWhiteSpace(categoriaSeleccionada) ||
-            categoriaSeleccionada.Equals("Todas", StringComparison.OrdinalIgnoreCase)
-            ? _librosVisibles
-            : _librosVisibles.Where(libro => libro.categoria.Equals(
-                categoriaSeleccionada, StringComparison.OrdinalIgnoreCase)).ToList();
+        if (string.IsNullOrWhiteSpace(categoriaSeleccionada) ||
+            categoriaSeleccionada.Equals("Todas", StringComparison.OrdinalIgnoreCase))
+        {
+            LibrosRecomendados.ItemsSource = _librosVisibles;
+            return;
+        }
+
+        LibrosRecomendados.ItemsSource = _librosVisibles
+            .Where(libro => string.Equals(
+                libro.categoria,
+                categoriaSeleccionada,
+                StringComparison.OrdinalIgnoreCase))
+            .ToList();
     }
 
     private async void OnCatalogoClicked(object? sender, EventArgs e)

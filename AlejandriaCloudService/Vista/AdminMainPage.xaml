@@ -39,7 +39,7 @@
                     BackgroundColor="#326F85"
                     TextColor="White"
                     HeightRequest="55" />
-            <Button Text="Cambiar de cuenta"
+            <Button Text="Salir"
                     Clicked="OnSalirClicked"
                     BackgroundColor="#5B6970"
                     TextColor="White" />

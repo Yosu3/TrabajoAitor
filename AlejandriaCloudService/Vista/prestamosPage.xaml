@@ -25,7 +25,10 @@
                        TextColor="#203A43" />
                 <Picker x:Name="PkrLibrosDisponibles"
                         ItemDisplayBinding="{Binding titulo}"
-                        Title="Selecciona un libro" />
+                        Title="Selecciona un libro"
+                        BackgroundColor="#F4F7FA"
+                        TextColor="#203A43"
+                        TitleColor="#52646B" />
                 <Button Text="Enviar solicitud"
                         x:Name="SolicitarButton"
                         Clicked="OnSolicitarPrestamoClicked"
@@ -79,7 +82,7 @@
             </CollectionView>
         </Grid>
         <Button Grid.Row="3"
-                Text="Volver al inicio"
+                Text="Volver"
                 Clicked="OnVolverInicioClicked"
                 BackgroundColor="#326F85"
                 TextColor="White" />

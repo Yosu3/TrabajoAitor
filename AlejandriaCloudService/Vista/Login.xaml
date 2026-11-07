@@ -34,7 +34,7 @@
                     FontSize="16"
                     HorizontalOptions="Center"
                     Text="Gestión de Biblioteca"
-                    TextColor="#A0AAB2" />
+                    TextColor="#DDE9EE" />
             </VerticalStackLayout>
 
             <Border
@@ -69,7 +69,7 @@
                                 x:Name="txtUsername"
                                 Keyboard="Text"
                                 Placeholder="ej. jdoe"
-                                PlaceholderColor="#99AAB5"
+                                PlaceholderColor="#617783"
                                 TextColor="#203A43" />
                         </Border>
                     </VerticalStackLayout>
@@ -90,21 +90,23 @@
                                     Grid.Column="0"
                                     IsPassword="True"
                                     Placeholder="••••••••"
-                                    PlaceholderColor="#99AAB5"
+                                    PlaceholderColor="#617783"
                                     TextColor="#203A43"
                                     VerticalOptions="Center" />
 
-                                <Button
+                                <ImageButton
                                     x:Name="btnTogglePassword"
                                     Grid.Column="1"
-                                    Padding="0"
+                                    Source="mostrar_contrasena.png"
+                                    Aspect="AspectFit"
                                     BackgroundColor="Transparent"
+                                    BorderColor="Transparent"
+                                    BorderWidth="0"
                                     Clicked="OnTogglePasswordClicked"
-                                    HeightRequest="40"
-                                    Text="👁️"
-                                    TextColor="#2C5364"
+                                    SemanticProperties.Description="Mostrar contraseña"
+                                    HeightRequest="44"
                                     VerticalOptions="Center"
-                                    WidthRequest="40" />
+                                    WidthRequest="44" />
                             </Grid>
                         </Border>
                     </VerticalStackLayout>
@@ -126,12 +128,12 @@
                 <Label
                     FontSize="14"
                     Text="¿No tienes cuenta?"
-                    TextColor="#A0AAB2" />
+                    TextColor="#DDE9EE" />
                 <Label
                     FontAttributes="Bold"
                     FontSize="14"
                     Text="Regístrate aquí"
-                    TextColor="#4CA1AF">
+                    TextColor="#A3E5ED">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnRegisterTapped" />
                     </Label.GestureRecognizers>
