@@ -9,17 +9,17 @@
             <VerticalStackLayout Spacing="12">
                 <Label Text="Añadir libro" FontAttributes="Bold" FontSize="26" TextColor="#1B4F5F" />
                 <Label Text="Título" TextColor="#1B4F5F" />
-                <Entry x:Name="TituloEntry" Placeholder="Título único" BackgroundColor="White" />
+                <Entry x:Name="TituloEntry" Placeholder="Título único" BackgroundColor="White" TextColor="Black" />
                 <Label Text="Autor" TextColor="#1B4F5F" />
-                <Entry x:Name="AutorEntry" Placeholder="Autor" BackgroundColor="White" />
+                <Entry x:Name="AutorEntry" Placeholder="Autor" BackgroundColor="White" TextColor="Black" />
                 <Label Text="Categoría" TextColor="#1B4F5F" />
-                <Picker x:Name="CategoriaPicker" Title="Selecciona la categoría" BackgroundColor="White" />
+                <Picker x:Name="CategoriaPicker" Title="Selecciona la categoría" BackgroundColor="White" TextColor="Black" />
                 <Label Text="ISBN opcional" TextColor="#1B4F5F" />
-                <Entry x:Name="IsbnEntry" Keyboard="Numeric" Placeholder="10 o 13 dígitos" BackgroundColor="White" />
+                <Entry x:Name="IsbnEntry" Keyboard="Numeric" Placeholder="10 o 13 dígitos" BackgroundColor="White" TextColor="Black" />
                 <Label Text="Ubicación" TextColor="#1B4F5F" />
-                <Entry x:Name="UbicacionEntry" Placeholder="Estantería" BackgroundColor="White" />
+                <Entry x:Name="UbicacionEntry" Placeholder="Estantería" BackgroundColor="White" TextColor="Black" />
                 <Label Text="Fecha de publicación" TextColor="#1B4F5F" />
-                <DatePicker x:Name="FechaPicker" BackgroundColor="White" />
+                <DatePicker x:Name="FechaPicker" BackgroundColor="White" TextColor="Black" />
                 <HorizontalStackLayout Spacing="12" VerticalOptions="Center">
                     <CheckBox x:Name="PortadaCheckBox"
                               IsChecked="False"

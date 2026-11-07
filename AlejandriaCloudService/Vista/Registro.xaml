@@ -13,8 +13,8 @@
         </LinearGradientBrush>
     </ContentPage.Background>
 
-    <ScrollView Padding="20" VerticalOptions="Center">
-        <VerticalStackLayout HorizontalOptions="Center" Spacing="25">
+    <ScrollView Padding="16,24" HorizontalOptions="Fill" VerticalOptions="Fill">
+        <VerticalStackLayout HorizontalOptions="Fill" Spacing="20">
 
             <VerticalStackLayout
                 Margin="0,10,0,0"
@@ -35,11 +35,12 @@
 
             <Border
                 Margin="0,10"
-                Padding="24"
+                Padding="20"
                 Background="White"
+                HorizontalOptions="Fill"
+                MaximumWidthRequest="360"
                 StrokeShape="RoundRectangle 16"
-                StrokeThickness="0"
-                WidthRequest="360">
+                StrokeThickness="0">
                 <Border.Shadow>
                     <Shadow
                         Brush="Black"

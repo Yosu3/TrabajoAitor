@@ -119,24 +119,6 @@ public partial class LoginPage : ContentPage
         await Navigation.PushAsync(new RegistroPage());
     }
 
-
-    private async void OnVerJsonClicked(object sender, EventArgs e)
-    {
-        string filePath = Path.Combine(FileSystem.AppDataDirectory, "Usuarios.json");
-
-        if (File.Exists(filePath))
-        {
-            await Launcher.Default.OpenAsync(new OpenFileRequest
-            {
-                File = new ReadOnlyFile(filePath)
-            });
-        }
-        else
-        {
-            await DisplayAlert("Error", "El archivo de usuarios modificado aún no se ha creado.", "OK");
-        }
-    }
-
     public static string EncriptarContrasena(string contrasena)
     {
         using SHA256 sha256 = SHA256.Create();

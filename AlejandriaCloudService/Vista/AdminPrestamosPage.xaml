@@ -24,8 +24,14 @@
                        FontSize="18" />
                 <CollectionView x:Name="ListaSolicitudes"
                                 Grid.Row="1"
-                                EmptyView="No hay solicitudes pendientes."
                                 SelectionMode="None">
+                    <CollectionView.EmptyView>
+                        <Label Text="No hay solicitudes pendientes."
+                               TextColor="White"
+                               HorizontalOptions="Fill"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center" />
+                    </CollectionView.EmptyView>
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Border BackgroundColor="White"
@@ -64,8 +70,14 @@
                        FontSize="18" />
                 <CollectionView x:Name="ListaEntregados"
                                 Grid.Row="1"
-                                EmptyView="No hay préstamos entregados."
                                 SelectionMode="None">
+                    <CollectionView.EmptyView>
+                        <Label Text="No hay préstamos entregados."
+                               TextColor="White"
+                               HorizontalOptions="Fill"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center" />
+                    </CollectionView.EmptyView>
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Border BackgroundColor="White"

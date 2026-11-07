@@ -41,8 +41,13 @@
                    TextColor="White" />
             <CollectionView x:Name="ListadoPrestamos"
                             Grid.Row="1"
-                            EmptyView="Todavía no tienes solicitudes ni préstamos."
                             SelectionMode="None">
+                <CollectionView.EmptyView>
+                    <Label Text="Todavía no tienes solicitudes ni préstamos."
+                           TextColor="White"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center" />
+                </CollectionView.EmptyView>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Border BackgroundColor="White"

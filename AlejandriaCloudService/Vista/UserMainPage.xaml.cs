@@ -5,6 +5,8 @@ namespace AlejandriaCloudService.Vista;
 
 public partial class UserMainPage : ContentPage
 {
+    private List<Libro> _librosVisibles = new();
+
     public UserMainPage(string username)
     {
         InitializeComponent();
@@ -18,12 +20,41 @@ public partial class UserMainPage : ContentPage
         try
         {
             await UsuarioService.CargarDatosDesdeJsonAsync();
-            LibrosRecomendados.ItemsSource = CatalogoService.ObtenerLibros();
+            _librosVisibles = CatalogoService.ObtenerLibros();
+
+            List<string> categorias = _librosVisibles
+                .Select(libro => libro.categoria.Trim())
+                .Where(categoria => !string.IsNullOrWhiteSpace(categoria))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .OrderBy(categoria => categoria)
+                .ToList()!;
+
+            categorias.Insert(0, "Todas");
+            CategoriaPicker.ItemsSource = categorias;
+            CategoriaPicker.SelectedIndex = 0;
+            AplicarFiltroCategoria();
         }
+
         catch (Exception ex)
         {
             await DisplayAlertAsync("Error", ex.Message, "Aceptar");
         }
+    }
+
+    private void OnCategoriaChanged(object? sender, EventArgs e)
+    {
+        AplicarFiltroCategoria();
+    }
+
+    private void AplicarFiltroCategoria()
+    {
+        string? categoriaSeleccionada = CategoriaPicker.SelectedItem as string;
+
+        LibrosRecomendados.ItemsSource = string.IsNullOrWhiteSpace(categoriaSeleccionada) ||
+            categoriaSeleccionada.Equals("Todas", StringComparison.OrdinalIgnoreCase)
+            ? _librosVisibles
+            : _librosVisibles.Where(libro => libro.categoria.Equals(
+                categoriaSeleccionada, StringComparison.OrdinalIgnoreCase)).ToList();
     }
 
     private async void OnCatalogoClicked(object? sender, EventArgs e)

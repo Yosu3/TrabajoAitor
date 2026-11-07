@@ -15,12 +15,26 @@
         <Button Grid.Row="1" Text="Abrir catálogo completo"
                 Clicked="OnCatalogoClicked"
                 BackgroundColor="#326F85" TextColor="White" />
-        <Grid Grid.Row="2" RowDefinitions="Auto,*" RowSpacing="10">
+        <Grid Grid.Row="2" RowDefinitions="Auto,Auto,*" RowSpacing="10">
             <Label Grid.Row="0" Text="Libros del catálogo"
                    FontAttributes="Bold" FontSize="19" TextColor="White" />
+            <Picker x:Name="CategoriaPicker"
+                    Grid.Row="1"
+                    Title="Filtrar por categoría"
+                    SelectedIndexChanged="OnCategoriaChanged"
+                    BackgroundColor="White"
+                    TextColor="Black"
+                    TitleColor="#52646B" />
             <CollectionView x:Name="LibrosRecomendados"
-                            Grid.Row="1" EmptyView="No hay libros visibles."
+                            Grid.Row="2"
                             SelectionMode="None">
+                <CollectionView.EmptyView>
+                    <Label Text="No hay libros visibles."
+                           TextColor="White"
+                           HorizontalOptions="Fill"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center" />
+                </CollectionView.EmptyView>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Libro">
                         <Border Padding="10" Margin="0,0,0,10"

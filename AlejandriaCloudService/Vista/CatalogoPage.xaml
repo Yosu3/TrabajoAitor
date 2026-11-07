@@ -11,7 +11,9 @@
             <SearchBar x:Name="BuscadorLibros"
                        Placeholder="Buscar título, autor o categoría"
                        TextChanged="OnBuscarTextChanged"
-                       BackgroundColor="White" />
+                       BackgroundColor="White"
+                       TextColor="Black"
+                       PlaceholderColor="#52646B" />
         </VerticalStackLayout>
         <CollectionView x:Name="ListaUsuarios" Grid.Row="1"
                         EmptyView="No hay libros visibles."
