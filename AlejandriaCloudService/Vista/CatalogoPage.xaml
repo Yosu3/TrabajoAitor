@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:AlejandriaCloudService.Models"
+             x:Class="AlejandriaCloudService.Vista.CatalogoPage"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="#F4F7FA">
+    <Grid Padding="16,25" RowDefinitions="Auto,*,Auto" RowSpacing="12">
+        <VerticalStackLayout Grid.Row="0" Spacing="9">
+            <Label Text="Catálogo de libros" FontSize="24" FontAttributes="Bold" TextColor="#203A43" />
+            <SearchBar x:Name="BuscadorLibros"
+                       Placeholder="Buscar título, autor o categoría"
+                       TextChanged="OnBuscarTextChanged"
+                       BackgroundColor="White"
+                       TextColor="Black"
+                       PlaceholderColor="#52646B" />
+        </VerticalStackLayout>
+        <CollectionView x:Name="ListaUsuarios" Grid.Row="1"
+                        SelectionMode="None">
+            <CollectionView.EmptyView>
+                <Label Text="No hay libros visibles."
+                       TextColor="#52646B"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center" />
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Libro">
+                    <Border Padding="10"
+                            Margin="0,0,0,10"
+                            BackgroundColor="White"
+                            StrokeShape="RoundRectangle 10">
+                        <Grid ColumnDefinitions="78,*" ColumnSpacing="12">
+                            <Image Source="{Binding PortadaSource}"
+                                   WidthRequest="78" HeightRequest="112"
+                                   Aspect="AspectFit" BackgroundColor="#E6ECEF" />
+                            <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                <VerticalStackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnVerDetalleTapped" CommandParameter="{Binding .}" />
+                                </VerticalStackLayout.GestureRecognizers>
+                                <Label Text="{Binding titulo}" FontAttributes="Bold" FontSize="15" TextColor="#203A43" />
+                                <Label Text="{Binding autor}" FontSize="12" TextColor="#52646B" />
+                                <Label Text="{Binding categoria}" FontSize="12" TextColor="#52646B" />
+                                <Label Text="{Binding estado, StringFormat='Estado: {0}'}" FontSize="12" TextColor="#187A62" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <CollectionView x:Name="ListaAdmin" Grid.Row="1"
+                        SelectionMode="None" IsVisible="False">
+            <CollectionView.EmptyView>
+                <Label Text="No se encontraron libros."
+                       TextColor="#52646B"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center" />
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Libro">
+                    <Border Padding="10"
+                            Margin="0,0,0,10"
+                            BackgroundColor="White"
+                            StrokeShape="RoundRectangle 10">
+                        <Grid ColumnDefinitions="75,*,Auto" ColumnSpacing="9">
+                            <Image Source="{Binding PortadaSource}"
+                                   WidthRequest="75" HeightRequest="105"
+                                   Aspect="AspectFit" BackgroundColor="#E6ECEF" />
+                            <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                <VerticalStackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnVerDetalleTapped" CommandParameter="{Binding .}" />
+                                </VerticalStackLayout.GestureRecognizers>
+                                <Label Text="{Binding titulo}" FontAttributes="Bold" FontSize="14" TextColor="#203A43" />
+                                <Label Text="{Binding autor}" FontSize="12" TextColor="#52646B" />
+                                <Label Text="{Binding estado}" FontSize="12" TextColor="#187A62" />
+                            </VerticalStackLayout>
+                            <Button Grid.Column="2"
+                                    Text="{Binding AccionCatalogo}"
+                                    FontSize="10"
+                                    Padding="7,5"
+                                    Clicked="OnCambiarDisponibilidadClicked"
+                                    CommandParameter="{Binding .}"
+                                    BackgroundColor="#326F85"
+                                    TextColor="White"
+                                    VerticalOptions="Center" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button Grid.Row="2"
+                Text="Volver"
+                Clicked="OnVolverInicioClicked"
+                BackgroundColor="#326F85"
+                TextColor="White" />
+    </Grid>
+</ContentPage>

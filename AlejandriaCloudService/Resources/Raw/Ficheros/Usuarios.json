@@ -1,0 +1,94 @@
+[
+  {
+    "Username": "admin",
+    "IsAdmin": true,
+    "Apellido": "DOOR",
+    "Email": "admin@alejandria.com",
+    "Password": "1234",
+    "Dni": "12345678A"
+  },
+  {
+    "Username": "mgarcia",
+    "IsAdmin": false,
+    "Apellido": "García",
+    "Email": "m.garcia@mail.com",
+    "Password": "UserPass456!",
+    "Dni": "87654321B"
+  },
+  {
+    "Username": "alopez",
+    "IsAdmin": false,
+    "Apellido": "López",
+    "Email": "alopez@biblioteca.net",
+    "Password": "SecurePass789!",
+    "Dni": "45678912C"
+  },
+  {
+    "Username": "crodriguez",
+    "IsAdmin": false,
+    "Apellido": "Rodríguez",
+    "Email": "carlos.rod@mail.com",
+    "Password": "Carlos2026*",
+    "Dni": "23456789D"
+  },
+  {
+    "Username": "smartinez",
+    "IsAdmin": false,
+    "Apellido": "Martínez",
+    "Email": "sofia.m@alejandria.es",
+    "Password": "SofiaPass!1",
+    "Dni": "34567890E"
+  },
+  {
+    "Username": "jfernandez",
+    "IsAdmin": false,
+    "Apellido": "Fernández",
+    "Email": "jfer@outlook.com",
+    "Password": "JuanFer_2026",
+    "Dni": "56789012F"
+  },
+  {
+    "Username": "esanchez",
+    "IsAdmin": true,
+    "Apellido": "Sánchez",
+    "Email": "elena.admin@alejandria.com",
+    "Password": "ElenaSecure!",
+    "Dni": "67890123G"
+  },
+  {
+    "Username": "agomez",
+    "IsAdmin": false,
+    "Apellido": "Gómez",
+    "Email": "agomez@gmail.com",
+    "Password": "AgomezPass99*",
+    "Dni": "78901234H"
+  },
+  {
+    "Username": "idiaz",
+    "IsAdmin": false,
+    "Apellido": "Díaz",
+    "Email": "isabel.diaz@mail.com",
+    "Password": "IsaDiaz#2026",
+    "Dni": "89012345I"
+  },
+  {
+    "Username": "vtorres",
+    "IsAdmin": false,
+    "Apellido": "Torres",
+    "Email": "vtorres@biblioteca.net",
+    "Password": "VictorT_123!",
+    "Dni": "90123456J"
+  },
+
+  {
+    "Username": "diego",
+    "IsAdmin": false,
+    "Apellido": "patiño",
+    "Email": "digpatino@gmail.com",
+    "Password": "mondongo",
+    "Dni": "90123456J"
+  }
+
+
+
+]

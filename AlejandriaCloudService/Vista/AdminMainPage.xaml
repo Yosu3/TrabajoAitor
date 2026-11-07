@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AlejandriaCloudService.Vista.AdminMainPage"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="#102D38">
+    <ScrollView>
+        <VerticalStackLayout Padding="24,35" Spacing="22">
+            <Label x:Name="TxtBienvenida"
+                   FontSize="25"
+                   FontAttributes="Bold"
+                   TextColor="White" />
+            <Label Text="Panel de administración de la biblioteca"
+                   TextColor="#BCD6DF"
+                   FontSize="15" />
+            <Border BackgroundColor="#F6FAFC"
+                    StrokeShape="RoundRectangle 14"
+                    Padding="18">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Resumen de préstamos"
+                           FontSize="19"
+                           FontAttributes="Bold"
+                           TextColor="#203A43" />
+                    <Label x:Name="SolicitudesLabel" TextColor="#203A43" />
+                    <Label x:Name="PrestadosLabel" TextColor="#203A43" />
+                    <Button Text="Gestionar solicitudes y devoluciones"
+                            Clicked="OnPrestamosClicked"
+                            BackgroundColor="#176B77"
+                            TextColor="White" />
+                </VerticalStackLayout>
+            </Border>
+            <Button Text="Ver catálogo y gestionar disponibilidad"
+                    Clicked="OnCatalogoClicked"
+                    BackgroundColor="#326F85"
+                    TextColor="White"
+                    HeightRequest="55" />
+            <Button Text="Añadir libro"
+                    Clicked="OnAnadirLibroClicked"
+                    BackgroundColor="#326F85"
+                    TextColor="White"
+                    HeightRequest="55" />
+            <Button Text="Salir"
+                    Clicked="OnSalirClicked"
+                    BackgroundColor="#5B6970"
+                    TextColor="White" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

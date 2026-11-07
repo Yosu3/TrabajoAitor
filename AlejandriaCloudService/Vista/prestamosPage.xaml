@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AlejandriaCloudService.Vista.prestamosPage"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="#102D38">
+    <Grid Padding="20,25" RowDefinitions="Auto,Auto,*,Auto" RowSpacing="15">
+        <VerticalStackLayout Grid.Row="0" Spacing="5">
+            <Label x:Name="TxtBienvenida"
+                   FontAttributes="Bold"
+                   FontSize="24"
+                   TextColor="White" />
+            <Label Text="Puedes solicitar libros; la entrega y la devolución las registra el administrador."
+                   TextColor="#BED5DD"
+                   FontSize="13" />
+        </VerticalStackLayout>
+        <Border Grid.Row="1"
+                Padding="16"
+                BackgroundColor="White"
+                StrokeShape="RoundRectangle 12">
+            <VerticalStackLayout Spacing="10">
+                <Label Text="Solicitar un libro disponible"
+                       FontSize="17"
+                       FontAttributes="Bold"
+                       TextColor="#203A43" />
+                <Picker x:Name="PkrLibrosDisponibles"
+                        ItemDisplayBinding="{Binding titulo}"
+                        Title="Selecciona un libro"
+                        BackgroundColor="#F4F7FA"
+                        TextColor="#203A43"
+                        TitleColor="#52646B" />
+                <Button Text="Enviar solicitud"
+                        x:Name="SolicitarButton"
+                        Clicked="OnSolicitarPrestamoClicked"
+                        BackgroundColor="#187A62"
+                        TextColor="White" />
+            </VerticalStackLayout>
+        </Border>
+        <Grid Grid.Row="2" RowDefinitions="Auto,*" RowSpacing="9">
+            <Label Grid.Row="0"
+                   Text="Mis solicitudes y libros prestados"
+                   FontAttributes="Bold"
+                   FontSize="17"
+                   TextColor="White" />
+            <CollectionView x:Name="ListadoPrestamos"
+                            Grid.Row="1"
+                            SelectionMode="None">
+                <CollectionView.EmptyView>
+                    <Label Text="Todavía no tienes solicitudes ni préstamos."
+                           TextColor="White"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center" />
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border BackgroundColor="White"
+                                StrokeShape="RoundRectangle 12"
+                                Padding="12"
+                                Margin="0,0,0,10">
+                            <Grid ColumnDefinitions="70,*" ColumnSpacing="12">
+                                <Image Grid.Column="0"
+                                       Source="{Binding Libro.PortadaSource}"
+                                       WidthRequest="70"
+                                       HeightRequest="98"
+                                       Aspect="AspectFit"
+                                       BackgroundColor="#E6ECEF" />
+                                <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                    <Label Text="{Binding Libro.titulo}"
+                                           FontAttributes="Bold"
+                                           FontSize="15"
+                                           TextColor="#203A43" />
+                                    <Label Text="{Binding Libro.estado, StringFormat='Estado: {0}'}"
+                                           TextColor="#336D79" />
+                                    <Label Text="{Binding Username, StringFormat='Usuario: {0}'}"
+                                           FontSize="12"
+                                           TextColor="#555555" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+        <Button Grid.Row="3"
+                Text="Volver"
+                Clicked="OnVolverInicioClicked"
+                BackgroundColor="#326F85"
+                TextColor="White" />
+    </Grid>
+</ContentPage>

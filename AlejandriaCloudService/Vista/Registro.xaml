@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="AlejandriaCloudService.Vista.RegistroPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Offset="0.0" Color="#0F2027" />
+            <GradientStop Offset="0.5" Color="#203A43" />
+            <GradientStop Offset="1.0" Color="#2C5364" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <ScrollView Padding="16,24" HorizontalOptions="Fill" VerticalOptions="Fill">
+        <VerticalStackLayout HorizontalOptions="Fill" Spacing="20">
+
+            <VerticalStackLayout
+                Margin="0,10,0,0"
+                HorizontalOptions="Center"
+                Spacing="5">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="32"
+                    HorizontalOptions="Center"
+                    Text="Crear Cuenta"
+                    TextColor="White" />
+                <Label
+                    FontSize="16"
+                    HorizontalOptions="Center"
+                    Text="Únete a Alejandría Cloud"
+                    TextColor="#DDE9EE" />
+            </VerticalStackLayout>
+
+            <Border
+                Margin="0,10"
+                Padding="20"
+                Background="White"
+                HorizontalOptions="Fill"
+                MaximumWidthRequest="360"
+                StrokeShape="RoundRectangle 16"
+                StrokeThickness="0">
+                <Border.Shadow>
+                    <Shadow
+                        Brush="Black"
+                        Opacity="0.3"
+                        Radius="15"
+                        Offset="0,10" />
+                </Border.Shadow>
+
+                <VerticalStackLayout Spacing="15">
+
+                    <VerticalStackLayout Spacing="5">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Text="Nombre de Usuario"
+                            TextColor="#2C5364" />
+                        <Border
+                            Padding="10,2"
+                            Stroke="#E0E6ED"
+                            StrokeShape="RoundRectangle 8">
+                            <Entry
+                                x:Name="txtUsername"
+                                Placeholder="ej. jdoe"
+                                PlaceholderColor="#617783"
+                                TextColor="#203A43" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="5">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Text="Apellido"
+                            TextColor="#2C5364" />
+                        <Border
+                            Padding="10,2"
+                            Stroke="#E0E6ED"
+                            StrokeShape="RoundRectangle 8">
+                            <Entry
+                                x:Name="txtApellido"
+                                Placeholder="ej. Perez"
+                                PlaceholderColor="#617783"
+                                TextColor="#203A43" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="5">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Text="DNI / NIE"
+                            TextColor="#2C5364" />
+                        <Border
+                            Padding="10,2"
+                            Stroke="#E0E6ED"
+                            StrokeShape="RoundRectangle 8">
+                            <Entry
+                                x:Name="txtDni"
+                                Keyboard="Text"
+                                Placeholder="ej. 12345678Z"
+                                PlaceholderColor="#617783"
+                                TextColor="#203A43" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="5">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Text="Correo Electrónico"
+                            TextColor="#2C5364" />
+                        <Border
+                            Padding="10,2"
+                            Stroke="#E0E6ED"
+                            StrokeShape="RoundRectangle 8">
+                            <Entry
+                                x:Name="txtEmail"
+                                Keyboard="Email"
+                                Placeholder="ej. usuario@correo.com"
+                                PlaceholderColor="#617783"
+                                TextColor="#203A43" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="5">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Text="Contraseña"
+                            TextColor="#2C5364" />
+                        <Border
+                            Padding="10,2"
+                            Stroke="#E0E6ED"
+                            StrokeShape="RoundRectangle 8">
+                            <Entry
+                                x:Name="txtPassword"
+                                IsPassword="True"
+                                Placeholder="********"
+                                PlaceholderColor="#617783"
+                                TextColor="#203A43" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <Button
+                        Margin="0,10,0,0"
+                        BackgroundColor="#203A43"
+                        Clicked="OnRegisterClicked"
+                        CornerRadius="8"
+                        FontAttributes="Bold"
+                        Text="Registrarse"
+                        TextColor="White" />
+
+                    <HorizontalStackLayout
+                        Margin="0,5,0,0"
+                        HorizontalOptions="Center"
+                        Spacing="5">
+                        <Label Text="¿Ya tienes cuenta?" TextColor="#707070" />
+                        <Label
+                            FontAttributes="Bold"
+                            Text="Iniciar sesión"
+                            TextColor="#2C5364">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnLoginTapped" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </HorizontalStackLayout>
+
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

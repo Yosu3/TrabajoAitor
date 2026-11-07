@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:AlejandriaCloudService.Models"
+             x:Class="AlejandriaCloudService.Vista.UserMainPage"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="#102D38">
+    <Grid Padding="18,25" RowDefinitions="Auto,Auto,*,Auto" RowSpacing="15">
+        <VerticalStackLayout Grid.Row="0" Spacing="4">
+            <Label x:Name="TxtBienvenida"
+                   FontAttributes="Bold" FontSize="25" TextColor="White" />
+            <Label Text="Descubre libros y solicita el que quieras leer."
+                   FontSize="13" TextColor="#BCD6DF" />
+        </VerticalStackLayout>
+        <Button Grid.Row="1" Text="Abrir catálogo completo"
+                Clicked="OnCatalogoClicked"
+                BackgroundColor="#326F85" TextColor="White" />
+        <Grid Grid.Row="2" RowDefinitions="Auto,Auto,*" RowSpacing="10">
+            <Label Grid.Row="0" Text="Libros del catálogo"
+                   FontAttributes="Bold" FontSize="19" TextColor="White" />
+            <Picker x:Name="CategoriaPicker"
+                    Grid.Row="1"
+                    Title="Filtrar por categoría"
+                    SelectedIndexChanged="OnCategoriaChanged"
+                    BackgroundColor="White"
+                    TextColor="Black"
+                    TitleColor="#52646B" />
+            <CollectionView x:Name="LibrosRecomendados"
+                            Grid.Row="2"
+                            SelectionMode="None">
+                <CollectionView.EmptyView>
+                    <Label Text="No hay libros visibles."
+                           TextColor="White"
+                           HorizontalOptions="Fill"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center" />
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Libro">
+                        <Border Padding="10" Margin="0,0,0,10"
+                                BackgroundColor="White"
+                                StrokeShape="RoundRectangle 12">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer CommandParameter="{Binding .}"
+                                                      Tapped="OnDetalleLibroTapped" />
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="76,*" ColumnSpacing="12">
+                                <Image Source="{Binding PortadaSource}"
+                                       WidthRequest="76" HeightRequest="108"
+                                       Aspect="AspectFit" BackgroundColor="#E6ECEF" />
+                                <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                    <Label Text="{Binding titulo}" FontAttributes="Bold"
+                                           TextColor="#203A43" />
+                                    <Label Text="{Binding autor}" FontSize="12" TextColor="#52646B" />
+                                    <Label Text="{Binding estado}" FontSize="12" TextColor="#187A62" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+        <Grid Grid.Row="3" ColumnDefinitions="*,*" ColumnSpacing="10">
+            <Button Grid.Column="0" Text="Mis solicitudes"
+                    Clicked="OnPrestamosClicked"
+                    BackgroundColor="#187A62" TextColor="White" />
+            <Button Grid.Column="1" Text="Salir"
+                    Clicked="OnSalirClicked"
+                    BackgroundColor="#5B6970" TextColor="White" />
+        </Grid>
+    </Grid>
+</ContentPage>

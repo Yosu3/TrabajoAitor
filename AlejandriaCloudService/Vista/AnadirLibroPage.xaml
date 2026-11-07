@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AlejandriaCloudService.Vista.AnadirLibroPage"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="#F4F7FA">
+    <Grid RowDefinitions="*,Auto" Padding="18" RowSpacing="10">
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Spacing="12">
+                <Label Text="Añadir libro" FontAttributes="Bold" FontSize="26" TextColor="#1B4F5F" />
+                <Label Text="Título" TextColor="#1B4F5F" />
+                <Entry x:Name="TituloEntry" Placeholder="Título único" BackgroundColor="White" TextColor="Black" />
+                <Label Text="Autor" TextColor="#1B4F5F" />
+                <Entry x:Name="AutorEntry" Placeholder="Autor" BackgroundColor="White" TextColor="Black" />
+                <Label Text="Categoría" TextColor="#1B4F5F" />
+                <Picker x:Name="CategoriaPicker" Title="Selecciona la categoría" BackgroundColor="White" TextColor="#203A43" TitleColor="#52646B" />
+                <Label Text="ISBN opcional" TextColor="#1B4F5F" />
+                <Entry x:Name="IsbnEntry" Keyboard="Numeric" Placeholder="10 o 13 dígitos" BackgroundColor="White" TextColor="Black" />
+                <Label Text="Ubicación" TextColor="#1B4F5F" />
+                <Picker x:Name="UbicacionPicker" Title="Selecciona una estantería" BackgroundColor="White" TextColor="#203A43" TitleColor="#52646B" />
+                <Label Text="Fecha de publicación" TextColor="#1B4F5F" />
+                <DatePicker x:Name="FechaPicker" BackgroundColor="White" TextColor="Black" />
+                <HorizontalStackLayout Spacing="12" VerticalOptions="Center">
+                    <CheckBox x:Name="PortadaCheckBox"
+                              Color="#187A62"
+                              IsChecked="False"
+                              CheckedChanged="OnPortadaCheckedChanged" />
+                    <Label Text="Añadir imagen de portada"
+                           VerticalOptions="Center"
+                           TextColor="#1B4F5F" />
+                </HorizontalStackLayout>
+                <Button x:Name="SeleccionarPortadaButton"
+                        IsVisible="False"
+                        Text="Seleccionar JPG, PNG u otra imagen"
+                        Clicked="OnSeleccionarPortadaClicked"
+                        BackgroundColor="#326F85"
+                        TextColor="White" />
+                <Label x:Name="NombrePortadaLabel"
+                       Text="Se utilizará la portada predeterminada"
+                       TextColor="#52666D"
+                       FontSize="12" />
+                <Image x:Name="VistaPreviaPortada"
+                       Source="libro_imagen.png"
+                       HeightRequest="170"
+                       WidthRequest="125"
+                       HorizontalOptions="Start"
+                       BackgroundColor="#E6ECEF"
+                       Aspect="AspectFit" />
+            </VerticalStackLayout>
+        </ScrollView>
+        <Grid Grid.Row="1" ColumnDefinitions="*,*" ColumnSpacing="12">
+            <Button x:Name="GuardarButton"
+                    Grid.Column="0"
+                    Text="Guardar"
+                    Clicked="GuardarClicked"
+                    BackgroundColor="#187A62"
+                    TextColor="White" />
+            <Button Grid.Column="1"
+                    Text="Volver"
+                    Clicked="OnVolverInicioClicked"
+                    BackgroundColor="#326F85"
+                    TextColor="White" />
+        </Grid>
+    </Grid>
+</ContentPage>

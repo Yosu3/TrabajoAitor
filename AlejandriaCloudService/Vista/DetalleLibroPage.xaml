@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AlejandriaCloudService.Vista.DetalleLibroPage"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="#F4F7FA">
+    <ScrollView>
+        <VerticalStackLayout Padding="22" Spacing="12">
+            <Image x:Name="PortadaImagen"
+                   WidthRequest="165"
+                   HeightRequest="230"
+                   Aspect="AspectFit"
+                   BackgroundColor="#E6ECEF"
+                   HorizontalOptions="Center" />
+
+            <VerticalStackLayout x:Name="PanelDetalles" Spacing="12">
+                <Label x:Name="TituloLabel"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="#1B4F5F" />
+                <Label x:Name="AutorLabel" TextColor="#263B43" />
+                <Label x:Name="CategoriaLabel" TextColor="#263B43" />
+                <Label x:Name="IsbnLabel" TextColor="#263B43" />
+                <Label x:Name="UbicacionLabel" TextColor="#263B43" />
+                <Label x:Name="PublicacionLabel" TextColor="#263B43" />
+                <Label x:Name="EstadoLabel"
+                       FontAttributes="Bold"
+                       TextColor="#176B77" />
+                <Label x:Name="DisponibilidadLabel" TextColor="#52646B" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout x:Name="PanelEdicion"
+                                 IsVisible="False"
+                                 Spacing="10">
+                <Label Text="Editar información del libro"
+                       FontSize="21"
+                       FontAttributes="Bold"
+                       TextColor="#1B4F5F" />
+
+                <Label Text="Título" TextColor="#1B4F5F" />
+                <Entry x:Name="EditarTituloEntry"
+                       BackgroundColor="White"
+                       TextColor="#203A43"
+                       PlaceholderColor="#52646B" />
+
+                <Label Text="Autor" TextColor="#1B4F5F" />
+                <Entry x:Name="EditarAutorEntry"
+                       BackgroundColor="White"
+                       TextColor="#203A43"
+                       PlaceholderColor="#52646B" />
+
+                <Label Text="Categoría" TextColor="#1B4F5F" />
+                <Picker x:Name="EditarCategoriaPicker"
+                        Title="Selecciona la categoría"
+                        BackgroundColor="White"
+                        TextColor="#203A43"
+                        TitleColor="#52646B" />
+
+                <Label Text="ISBN opcional" TextColor="#1B4F5F" />
+                <Entry x:Name="EditarIsbnEntry"
+                       Keyboard="Numeric"
+                       BackgroundColor="White"
+                       TextColor="#203A43"
+                       PlaceholderColor="#52646B" />
+
+                <Label Text="Ubicación" TextColor="#1B4F5F" />
+                <Picker x:Name="EditarUbicacionPicker"
+                        Title="Selecciona una estantería"
+                        BackgroundColor="White"
+                        TextColor="#203A43"
+                        TitleColor="#52646B" />
+
+                <Label Text="Fecha de publicación" TextColor="#1B4F5F" />
+                <DatePicker x:Name="EditarFechaPicker"
+                            BackgroundColor="White"
+                            TextColor="#203A43" />
+
+                <Label Text="Portada" TextColor="#1B4F5F" />
+                <Image x:Name="VistaPreviaPortada"
+                       WidthRequest="125"
+                       HeightRequest="175"
+                       HorizontalOptions="Start"
+                       BackgroundColor="#E6ECEF"
+                       Aspect="AspectFit" />
+                <Label x:Name="NombrePortadaLabel"
+                       TextColor="#52646B"
+                       FontSize="12" />
+                <Button Text="Cambiar imagen de portada"
+                        Clicked="OnCambiarPortadaClicked"
+                        BackgroundColor="#326F85"
+                        TextColor="White" />
+                <Button Text="Usar portada predeterminada"
+                        Clicked="OnPortadaPredeterminadaClicked"
+                        BackgroundColor="#52646B"
+                        TextColor="White" />
+
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                    <Button x:Name="GuardarEdicionButton"
+                            Grid.Column="0"
+                            Text="Guardar"
+                            Clicked="OnGuardarEdicionClicked"
+                            BackgroundColor="#187A62"
+                            TextColor="White" />
+                    <Button Grid.Column="1"
+                            Text="Cancelar"
+                            Clicked="OnCancelarEdicionClicked"
+                            BackgroundColor="#B34040"
+                            TextColor="White" />
+                </Grid>
+            </VerticalStackLayout>
+
+
+            <Button x:Name="SolicitarLibroButton"
+                    Text="Solicitar libro"
+                    IsVisible="False"
+                    Clicked="OnSolicitarLibroClicked"
+                    BackgroundColor="#187A62"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="10"
+                    HeightRequest="50" />
+
+            <Button x:Name="EditarLibroButton"
+                    Text="Editar"
+                    IsVisible="False"
+                    Clicked="OnEditarLibroClicked"
+                    BackgroundColor="#187A62"
+                    TextColor="White" />
+
+            <Button x:Name="GestionarLibroButton"
+                    IsVisible="False"
+                    Clicked="OnGestionarLibroClicked"
+                    BackgroundColor="#B34040"
+                    TextColor="White" />
+
+            <Button Text="Volver"
+                    Clicked="VolverClicked"
+                    BackgroundColor="#326F85"
+                    TextColor="White" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
